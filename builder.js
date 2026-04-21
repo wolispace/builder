@@ -3,8 +3,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   console.log('Loading data...');
 });
 
-function editSection(page, key) {
-  console.log(`Editing section ${key} on page ${page}`);
+function editSection(element) {
+  const raw = JSON.parse(element.getAttribute('data-raw'));
+  let html = `
+  <label>Date</label>
+  <input type="text" name="date" value="${raw.date || ''}">
+  <label>Content</label>
+  <textarea name="content">${raw.content || ''}</textarea>
+  <input type="hidden" name="key" value="${raw.key}">
+  <input type="hidden" name="page" value="${raw.page}">`;
+
+  showDialog(html);
+}
+
+function saveForm() {
+    const formData = new FormData(document.querySelector('.dialog form'));
 }
 
 function showDialog(html) {

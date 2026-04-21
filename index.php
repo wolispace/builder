@@ -39,15 +39,24 @@ function outputPage($data, $templates, $page) {
 
     $content = "";
     foreach ($thisPage['section'] as $key => $section) {
-        $onClick = $hasCode ? "onClick=\"editSection('${page}', '${key}');\"" : '';
+        $raw = htmlspecialchars(json_encode(
+            [
+                "key" => $key,
+                "page" => $page,
+                "date" => $section['date'],
+                "content" => $section['content'],
+                "template" => $section['template'] ?? 'section'
+            ]
+        , true));
+        $onClick = $hasCode ? "onClick=\"editSection(this);\"" : 'NOT';
         $thisTemplate = empty($section['template']) ? $templates['section'] : $templates['special'];
         $content .= str_replace([
-            "{{key}}",
+            "{{raw}}",
             "{{date}}",
             "{{content}}",
             "{{onClick}}"
         ], [
-            $key,
+            $raw,
             $section['date'],
             $Parsedown->text($section['content']),
             $onClick
