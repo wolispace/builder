@@ -7,9 +7,6 @@ $urlKeys = array_keys($_GET);
 $page = $urlKeys[0] ?? 'home';
 
 $data = json_decode(file_get_contents("_data.json"), true);
-$pageTemplate = file_get_contents("${templateFolder}page.html");
-$sectionTemplate = file_get_contents("${templateFolder}section.html");
-$specialTemplate = file_get_contents("${templateFolder}special.html");
 
 $templates = loadTemplates("template");
 
@@ -18,6 +15,7 @@ outputPage($data, $templates, $page);
 function outputPage($data, $templates, $page) {
     require_once 'Parsedown.php';
     $Parsedown = new Parsedown();
+    $hasCode = isset($_GET['code']) && $_GET['code'] == file_get_contents("_code");
     
     $thisPage = $data['page'][$page];
     if (!isset($thisPage)) {
@@ -25,20 +23,34 @@ function outputPage($data, $templates, $page) {
     }
 
     $pageContent = $templates['page'];
-    $pageContent = str_replace("{{siteName}}", $data['site-name'], $pageContent);
-    $pageContent = str_replace("{{pageName}}", $data['page'][$page]['title'], $pageContent);
+    $pageContent = str_replace(
+        [
+        "{{siteName}}", 
+        "{{pageName}}",
+        "{{footer}}"
+        ],
+        [
+        $data['site-name'],
+        $data['page'][$page]['title'],
+        $data['footer']
+        ], 
+        $pageContent);
+
 
     $content = "";
     foreach ($thisPage['section'] as $key => $section) {
+        $onClick = $hasCode ? "onClick=\"editSection('${page}', '${key}');\"" : '';
         $thisTemplate = empty($section['template']) ? $templates['section'] : $templates['special'];
         $content .= str_replace([
             "{{key}}",
             "{{date}}",
-            "{{content}}"
+            "{{content}}",
+            "{{onClick}}"
         ], [
             $key,
             $section['date'],
-            $Parsedown->text($section['content'])
+            $Parsedown->text($section['content']),
+            $onClick
         ], $thisTemplate);
     }
 
