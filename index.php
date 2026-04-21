@@ -18,23 +18,15 @@ outputPage($data, $templates, $page);
 function outputPage($data, $templates, $page) {
     require_once 'Parsedown.php';
     $Parsedown = new Parsedown();
-   $html = $Parsedown->text($markdownContent);
-
+    
     $thisPage = $data['page'][$page];
     if (!isset($thisPage)) {
-        $thisPage = [
-            "title" => "Page Not Found",
-            "section" => [
-                "001" => [
-                    "content" => "I can't find **${page}**."
-                ]
-            ]
-        ];
+        $thisPage = errorPage($page);
     }
 
-    $pageTemplate = $templates['page'];
-    $pageTemplate = str_replace("{{siteName}}", $data['site-name'], $pageTemplate);
-    $pageTemplate = str_replace("{{pageName}}", $data['page'][$page]['title'], $pageTemplate);
+    $pageContent = $templates['page'];
+    $pageContent = str_replace("{{siteName}}", $data['site-name'], $pageContent);
+    $pageContent = str_replace("{{pageName}}", $data['page'][$page]['title'], $pageContent);
 
     $content = "";
     foreach ($thisPage['section'] as $key => $section) {
@@ -50,9 +42,9 @@ function outputPage($data, $templates, $page) {
         ], $thisTemplate);
     }
 
-    $pageTemplate = str_replace("{{content}}", $content, $pageTemplate);
+    $pageContent = str_replace("{{content}}", $content, $pageContent);
 
-    echo $pageTemplate;
+    echo $pageContent;
 }
 
 function loadTemplates($folder) {
@@ -66,4 +58,16 @@ function loadTemplates($folder) {
         $templates[$fileName] = file_get_contents("${folder}/${file}");
     }
     return $templates;
+}
+
+function errorPage($page) {
+    return [
+        "title" => "Page Not Found",
+        "section" => [
+            "001" => [
+                "date" => "",
+                "content" => "The page '${page}' does not exist.\n\nReturn to the home page: <a href='?'>Home</a>"
+            ]
+        ]
+    ];
 }
