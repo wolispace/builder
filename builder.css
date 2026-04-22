@@ -4,16 +4,14 @@
     --background-color: #1a1621;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+
 html,
 body {
     background-color:  var(--background-color);
     color: var(--font-color);
     font-family: Tahoma, Verdana, Geneva, sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 body {
@@ -28,9 +26,9 @@ body {
     min-height: 100vh;
 }
 
-.header  { grid-area: header; }
-.nav     { grid-area: nav; }
-.content { grid-area: content;}
+.header  { grid-area: header; padding: 0 1rem;}
+.nav     { grid-area: nav;  padding: 0 1rem;}
+.content { grid-area: content; padding: 0 1rem; }
 .footer  { grid-area: footer; height: 3rem; }
 
 .standard {
