@@ -20,10 +20,13 @@ body {
 }
 
 .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background-color: rgb(13, 11, 17);
     text-align: center;
     padding: 1rem 0;
-    width: 100%;
 }
 
 
@@ -119,4 +122,33 @@ body {
 
 .add-section {
     display: none;
+}
+
+input, select, textarea{
+    background-color: rgb(251, 245, 161);
+    color: rgb(0, 0, 0, .85);
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    width: 95%;
+    font-size: 110%;
+}
+select{
+     width: 99%;
+}
+
+textarea {
+    height: 5rem;
+    resize: vertical;
+}
+
+a {
+    color: cornflowerblue;
+    text-decoration: none;
+}
+a:hover {
+    color: white;
+}
+
+.rounded {
+    border-radius: 1rem;
 }
