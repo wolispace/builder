@@ -107,10 +107,12 @@ function emptyPage() {
 function handleData($data) {
     logIt("handling data: " . json_encode($data));
     $json = array();
-    if (isset($data['content']) || isset($data['title'])) {
+    if (isset($data['content']) || isset($data['title']) || isset($data['nav'])) {
         $json = saveContent($data);
     } elseif (isset($data['code'])) {
         $json = setEditor($data['code']);
+    } elseif (isset($data['edit'])) {
+        $json = editSite();        
     } else {
         $json = loadContent($data['page'], $data['section']);
     }
@@ -120,6 +122,15 @@ function handleData($data) {
 function validEditor() {
     $valid = loadJson("_editors.json") ?? [];
     return isset($valid[$_SERVER['REMOTE_ADDR']]);
+}
+
+function editSite() {
+    $data = loadJson();
+    return [
+        "siteName" => $data['site-name'],
+        "nav" => implode("\n", $data['nav']),
+        "footer" => $data['footer']
+    ];
 }
 
 // read either a page or a pages section (even the whole site?) and fed the data to the front end as json

@@ -29,6 +29,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       title: pageTitle.innerText
     }
     pageTitle.addEventListener('click', () => editPage(params));
+
+    const siteName = document.querySelector('.site-name');
+    siteName.addEventListener('click', () => editSite());
   }
 });
 
@@ -83,19 +86,50 @@ function editPage(page) {
 
   showDialog(html);
 }
+
+async function editSite() {
+  const params = {edit: 'site'};
+  const json = JSON.stringify(params);
+  console.log({json})
+  const result = await fetch(`?j=${json}`);
+  console.log({result})
+  const site = await result.json();
+
+  let html = `<div class="form">
+  <label for="site-name">Site name</label>
+  <input type="text" id="site-name" value="${site.siteName || ''}">
+  <label for="nav">Menu</label>
+  <textarea id="nav">${site.nav || ''}</textarea>
+  <label for="footer">Footer</label>
+  <textarea id="footer">${site.footer || ''}</textarea>
+  </div>`;
+  showDialog(html);
+}
+
+
 async function saveForm() {
   // TODO: need to work out why foem we are saving, currently its assuming section
   const formData = {};
-  formData.page = document.querySelector('#page').value;
+  if (document.querySelector('#page')) {
+    formData.page = document.querySelector('#page').value;
+  }
 
   if (document.querySelector('#title')) {
     formData.title = document.querySelector('#title').value;
-  } else {
+  } 
+
+  if (formData.content = document.querySelector('#content')) {
     formData.date = document.querySelector('#date').value;
     formData.content = document.querySelector('#content').value;
     formData.section = document.querySelector('#section').value;
   }
 
+  if (document.querySelector('#nav')) {
+    formData.siteName = document.querySelector('#site-name').value;
+    formData.nav = document.querySelector('#nav').value;
+    formData.footer = document.querySelector('#footer').value;
+  } 
+  
   const json = JSON.stringify(formData);
   const response = await fetch(`?j=${json}`);
   const result = await response.json();
