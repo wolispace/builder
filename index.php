@@ -1,12 +1,21 @@
 <?php
 
-$templateFolder = "template/";
-$section = $_GET['section'] ?? '001';
+// if saving content
 
+$jsonData = $_REQUEST['j'] ?? '';
+if (!empty($jsonData)) {
+    $data = json_decode($jsonData, true);
+    outputJson(handleData($data));
+    exit;
+}
+
+
+$templateFolder = "template/";
 $urlKeys = array_keys($_GET);
+$section = $_GET['section'] ?? '001';
 $page = $urlKeys[0] ?? 'home';
 
-$data = json_decode(file_get_contents("_data.json"), true);
+$data = loadData();
 
 $templates = loadTemplates("template");
 
@@ -27,11 +36,13 @@ function outputPage($data, $templates, $page) {
         [
         "{{siteName}}", 
         "{{pageName}}",
+        "{{page}}",
         "{{footer}}"
         ],
         [
         $data['site-name'],
-        $data['page'][$page]['title'],
+        $thisPage['title'],
+        $page,
         $data['footer']
         ], 
         $pageContent);
@@ -48,18 +59,16 @@ function outputPage($data, $templates, $page) {
                 "template" => $section['template'] ?? 'section'
             ]
         , true));
-        $onClick = $hasCode ? "onClick=\"editSection(this);\"" : 'NOT';
+        $onClick = ''; //$hasCode ? "onClick=\"editSection(this);\"" : 'NOT';
         $thisTemplate = empty($section['template']) ? $templates['section'] : $templates['special'];
         $content .= str_replace([
-            "{{raw}}",
+            "{{key}}",
             "{{date}}",
-            "{{content}}",
-            "{{onClick}}"
+            "{{content}}"
         ], [
-            $raw,
+            $key,
             $section['date'],
-            $Parsedown->text($section['content']),
-            $onClick
+            $Parsedown->text($section['content'])
         ], $thisTemplate);
     }
 
@@ -81,14 +90,94 @@ function loadTemplates($folder) {
     return $templates;
 }
 
+// TODO: thiss should just be another page in json like login and other hidden but editable using a sspecific template if needed
 function errorPage($page) {
     return [
         "title" => "Page Not Found",
         "section" => [
             "001" => [
-                "date" => "",
                 "content" => "The page '${page}' does not exist.\n\nReturn to the home page: <a href='?'>Home</a>"
             ]
         ]
     ];
+}
+
+function emptyPage() {
+    return [
+        "title" => "New Page",
+        "section" => [
+            "001" => [
+                "content" => "This is a new page. Edit this content and save to create a new page."
+            ]
+        ]
+    ];
+}
+
+// $data is a json object with enough info so we know if its loading or saving
+// this always returns a json object
+function handleData($data) {
+    $json = array();
+    if (isset($data['content'])) {
+        $json = saveContent($data);
+    } else {
+        $json = loadContent($data['page'], $data['section']);
+    }
+    return $json;
+}
+
+function loadContent($page, $section) {
+    $data = loadData();
+    if (empty($data['page'][$page])) {
+        return emptyPage();
+    }
+    return $data['page'][$page]['section'][$section] ?? null;
+}
+
+function loadData() {
+    return json_decode(file_get_contents("_data.json"), true);
+}
+
+function saveContent($new) {
+    $json = array();
+    $page = cleanString($new['page']);
+    $section = cleanString($new['section']);
+    $template = cleanString($new['template']);
+    $date = $new['date'] ?? '';
+    $content = $new['content'] ?? '';
+
+    // saving a page and a section
+    if (!empty($page)) {
+        if (!empty($section)) {
+            $data = loadData();
+            $data['page'][$page]['section'][$section] = [
+                "date" => $date,
+                "template" => $template,
+                "content" => $content
+            ];
+        } else {
+          // TODO: adding/editing a page heading
+        }
+    }
+    
+    // file_put_contents("_data.json", json_encode($data, JSON_PRETTY_PRINT));
+
+
+    return $json;
+}
+
+// ------------------------
+
+function logIt($str) {
+  $dateTime = date('Ymd H:i:s');
+  file_put_contents('_log.txt', "{$dateTime},{$_SERVER['REMOTE_ADDR']},{$str}\n", FILE_APPEND | LOCK_EX);
+}
+
+function cleanString($str) {
+  $str = preg_replace('/[^a-z0-9]/i', '', $str);
+  return substr($str, 0, 30);
+}
+
+function outputJson($data) {
+    header('Content-Type: application/json');
+    echo json_encode($data);
 }

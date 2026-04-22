@@ -1,17 +1,36 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log('Loading data...');
+  $editor = true;
+  if ($editor) {
+    // find all sections and attach a click handler to editSection(this)
+    document.querySelectorAll('section').forEach(section => {
+      section.addEventListener('click', () => editContent(section));
+    });
+  }
 });
 
-function editSection(element) {
-  const raw = JSON.parse(element.getAttribute('data-raw'));
+async function editContent(element) {
+
+  const params = {
+    page: document.querySelector('.header').dataset.page,
+    section: element.getAttribute('data-section')
+  };
+
+  const jsonData = encodeURIComponent(JSON.stringify(params));
+  const response = await fetch(`?j=${jsonData}`);
+  const result = await response.json();
+  editSection(result);
+}
+
+function editSection(result) {
+  console.log('Editing section', result);
   let html = `
   <label>Date</label>
-  <input type="text" name="date" value="${raw.date || ''}">
+  <input type="text" name="date" value="${result.date || ''}">
   <label>Content</label>
-  <textarea name="content">${raw.content || ''}</textarea>
-  <input type="hidden" name="key" value="${raw.key}">
-  <input type="hidden" name="page" value="${raw.page}">`;
+  <textarea name="content">${result.content || ''}</textarea>
+  <input type="hidden" name="key" value="${result.key}">
+  <input type="hidden" name="page" value="${result.page}">`;
 
   showDialog(html);
 }

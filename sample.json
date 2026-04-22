@@ -1,0 +1,32 @@
+{
+    "site-name": "Sample site",
+    "footer": "Something interesting here",
+    "page": {
+        "home": {
+            "section": {
+                "001": {
+                    "content": "This is a sample page"
+                }
+            }
+        },
+        "about-us": {
+            "section": {
+                "001": {
+                    "content": "Everything you want to know about is"
+                }
+            }
+        },
+        "blog": {
+            "section": {
+                "001": {
+                    "date": "12 Feb 2026",
+                    "content": "Something interesting happened"
+                },
+                "002": {
+                    "date": "12 Feb 2026",
+                    "content": "Something interesting happened"
+                }
+            }
+        }
+    }
+}
