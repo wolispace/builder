@@ -1,7 +1,6 @@
 <?php
 
-// if saving content
-
+// send recieve json data
 $jsonData = $_REQUEST['j'] ?? '';
 if (!empty($jsonData)) {
     $data = json_decode($jsonData, true);
@@ -9,17 +8,18 @@ if (!empty($jsonData)) {
     exit;
 }
 
-
+// outputting html
 $templateFolder = "template/";
 $urlKeys = array_keys($_GET);
 $section = $_GET['section'] ?? '001';
 $page = $urlKeys[0] ?? 'home';
 
 $data = loadData();
-
 $templates = loadTemplates("template");
 
 outputPage($data, $templates, $page);
+
+// end of request handler -----
 
 function outputPage($data, $templates, $page) {
     require_once 'Parsedown.php';
@@ -37,13 +37,15 @@ function outputPage($data, $templates, $page) {
         "{{siteName}}", 
         "{{pageName}}",
         "{{page}}",
-        "{{footer}}"
+        "{{footer}}",
+        "{{nav}}"
         ],
         [
         $data['site-name'],
         $thisPage['title'],
         $page,
-        $data['footer']
+        $data['footer'],
+        buildNav($data['nav'])
         ], 
         $pageContent);
 
@@ -67,18 +69,6 @@ function outputPage($data, $templates, $page) {
     echo $pageContent;
 }
 
-function loadTemplates($folder) {
-    $files = scandir($folder);
-    $templates = [];
-    foreach ($files as $file) {
-        if (in_array($file, [".", ".."])) {
-            continue;
-        }
-        $fileName = str_replace(".html", "", $file);
-        $templates[$fileName] = file_get_contents("${folder}/${file}");
-    }
-    return $templates;
-}
 
 // TODO: thiss should just be another page in json like login and other hidden but editable using a sspecific template if needed
 function errorPage($page) {
@@ -115,6 +105,7 @@ function handleData($data) {
     return $json;
 }
 
+// read either a page or a pages section (even the whole site?) and fed the data to the front end as json
 function loadContent($page, $section) {
     $data = loadData();
     $content = array();
@@ -126,6 +117,8 @@ function loadContent($page, $section) {
     $content['section'] = $section;
     return $content;
 }
+
+// manipulating files on disk ----
 
 function loadData() {
     return json_decode(file_get_contents("_data.json"), true);
@@ -155,12 +148,40 @@ function saveContent($new) {
     }
     
     file_put_contents("_data.json", json_encode($data, JSON_PRETTY_PRINT));
-
-
     return $json;
 }
 
-// ------------------------
+function loadTemplates($folder) {
+    $files = scandir($folder);
+    $templates = [];
+    foreach ($files as $file) {
+        if (in_array($file, [".", ".."])) {
+            continue;
+        }
+        $fileName = str_replace(".html", "", $file);
+        $templates[$fileName] = file_get_contents("${folder}/${file}");
+    }
+    return $templates;
+}
+
+// manipulate data ---
+
+function buildNav($navItems) {
+    $html = '<div class="nav">';
+    foreach($navItems as $item ) {
+        $caption = prettyText($item);
+        $html .= "<div class='nav-item'><a href='?{$item}'>{$caption}</a></div>";
+    }
+    $html .= "</div>";
+
+    return $html;
+}
+
+// utilities ------------------------
+
+function prettyText ($snakeCase) {
+    return $snakeCase;
+}
 
 function logIt($str) {
   $dateTime = date('Ymd H:i:s');

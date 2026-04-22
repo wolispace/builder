@@ -1,6 +1,7 @@
 {
     "site-name": "Sample site",
     "footer": "Something interesting here",
+    "nav": ["home", "about-us", "blog"],
     "page": {
         "home": {
             "section": {
