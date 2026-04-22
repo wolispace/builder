@@ -15,7 +15,7 @@ $urlKeys = array_keys($_GET);
 $section = $_GET['section'] ?? '001';
 $page = $urlKeys[0] ?? 'home';
 
-$data = loadData();
+$data = loadJson();
 $templates = loadTemplates("template");
 
 outputPage($data, $templates, $page);
@@ -117,9 +117,17 @@ function handleData($data) {
     return $json;
 }
 
+function validEditor() {
+    $valid = loadJson("_editors.json") ?? [];
+    return isset($valid[$_SERVER['REMOTE_ADDR']]);
+}
+
 // read either a page or a pages section (even the whole site?) and fed the data to the front end as json
 function loadContent($page, $section) {
-    $data = loadData();
+    if (!validEditor()) {
+        return ["error" => "Unauthorized"];
+    }
+    $data = loadJson();
     $content = array();
     if (empty($data['page'][$page])) {
         $content = emptyPage();
@@ -132,11 +140,18 @@ function loadContent($page, $section) {
 
 // manipulating files on disk ----
 
-function loadData() {
-    return json_decode(file_get_contents("_data.json"), true);
+function loadJson($file = "_data.json") {
+    return json_decode(file_get_contents($file), true);
+}
+
+function saveJson($data, $file = "_data.json") {
+    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
 }
 
 function saveContent($new) {
+    if (!validEditor()) {
+        return ["error" => "Unauthorized"];
+    }
     $json = array();
     $page = cleanString($new['page']);
     $section = cleanString($new['section'] ?? '');
@@ -148,7 +163,7 @@ function saveContent($new) {
     // saving a page and a section
     if (!empty($page)) {
         if (!empty($section)) {
-            $data = loadData();
+            $data = loadJson();
             $data['page'][$page]['section'][$section] = [
                 "date" => $date,
                 "template" => $template,
@@ -158,9 +173,9 @@ function saveContent($new) {
           // TODO: adding/editing a page heading
         }
     }
-    
-    file_put_contents("_data.json", json_encode($data, JSON_PRETTY_PRINT));
-    return $json;
+
+    saveJson($data);
+    return array("status" => "success");
 }
 
 function loadTemplates($folder) {
@@ -191,15 +206,19 @@ function buildNav($navItems) {
 
 function setEditor($newCode) {
     $code = file_get_contents("_code");
-    if ($newCode == $code) {  
+    if ($newCode == $code) {
+        $valid = loadJson("_editors.json") ?? [];
+        $valid[$_SERVER['REMOTE_ADDR']] = true;
+        saveJson($valid, "_editors.json");
         return ["code" => $code];
-    } 
+    }
 }
+
 
 // utilities ------------------------
 
 function prettyText ($snakeCase) {
-    return $snakeCase;
+    return ucfirst(str_replace('-', ' ', $snakeCase));
 }
 
 function logIt($str) {

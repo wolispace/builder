@@ -107,7 +107,7 @@ async function setEditor() {
   if (result.code == params.code) {
     window.localStorage.setItem('code', params.code);
   }
-  window.location.reload();
+  window.location.replace('/');
 }
 
 function isEditor() {
