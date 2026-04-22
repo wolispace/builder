@@ -4,6 +4,7 @@
     "nav": ["home", "about-us", "blog"],
     "page": {
         "home": {
+            "title": "",
             "section": {
                 "001": {
                     "content": "This is a sample page"
@@ -11,6 +12,7 @@
             }
         },
         "about-us": {
+            "title": "About us",
             "section": {
                 "001": {
                     "content": "Everything you want to know about is"
@@ -18,6 +20,7 @@
             }
         },
         "blog": {
+            "title": "Blog",
             "section": {
                 "001": {
                     "date": "12 Feb 2026",
@@ -25,7 +28,8 @@
                 },
                 "002": {
                     "date": "12 Feb 2026",
-                    "content": "Something interesting happened"
+                    "template": "",
+                    "content": "Something interesting happened\n\nAnd __this__ is another *line*\n\nAnd this is **more** content"
                 }
             }
         }

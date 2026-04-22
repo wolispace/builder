@@ -6,6 +6,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelectorAll('section').forEach(section => {
       section.addEventListener('click', () => editContent(section));
     });
+    const addNewButton = document.querySelector('.add-section');
+    if (addNewButton) {
+      const page = document.querySelector('.header').dataset.page;
+      const newSection = addNewButton.innerHTML;
+      
+      addNewButton.addEventListener('click', () => addSection(page, newSection));
+      addNewButton.style.display = 'block';
+      addNewButton.innerHTML = "+ Add a new section";
+    }
   }
 });
 
@@ -22,15 +31,17 @@ async function editContent(element) {
   editSection(result);
 }
 
-function editSection(result) {
-  console.log('Editing section', result);
+function editSection(section) {
+  console.log('Editing section', section);
   let html = `<div class="form">
+  <label for="section">Section</label>
+  <input type="text" id="section" value="${section.section || ''}">
   <label for="date">Date</label>
-  <input type="text" id="date" value="${result.date || ''}">
+  <input type="text" id="date" value="${section.date || ''}">
   <label for="content">Content</label>
-  <textarea id="content">${result.content || ''}</textarea>
-  <input type="hidden" id="section" value="${result.section}">
-  <input type="hidden" id="page" value="${result.page}">
+  <textarea id="content">${section.content || ''}</textarea>
+  <input type="hidden" id="section" value="${section.section}">
+  <input type="hidden" id="page" value="${section.page}">
   </div>`;
 
   showDialog(html);
@@ -47,6 +58,17 @@ async function saveForm() {
   const response = await fetch(`?j=${json}`);
   const result = await response.json();
   window.location.reload();
+}
+
+function addSection(page, section) {
+  const newSection = {
+    page: page,
+    section: section,
+    date: '',
+    content: '',
+    template: '',
+  }
+  editSection(newSection);
 }
 
 function showDialog(html) {

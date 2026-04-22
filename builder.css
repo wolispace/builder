@@ -116,3 +116,7 @@ body {
 .nav-item a:hover {
     opacity: 0.5;
 }
+
+.add-section {
+    display: none;
+}

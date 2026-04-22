@@ -30,28 +30,15 @@ function outputPage($data, $templates, $page) {
     if (!isset($thisPage)) {
         $thisPage = errorPage($page);
     }
+    $thisPage['title'] = empty($thisPage['title']) ? "&nbsp;" : $thisPage['title'];
 
     $pageContent = $templates['page'];
-    $pageContent = str_replace(
-        [
-        "{{siteName}}", 
-        "{{pageName}}",
-        "{{page}}",
-        "{{footer}}",
-        "{{nav}}"
-        ],
-        [
-        $data['site-name'],
-        $thisPage['title'],
-        $page,
-        $data['footer'],
-        buildNav($data['nav'])
-        ], 
-        $pageContent);
-
-
+   
+    $nextSection = 0;
     $content = "";
     foreach ($thisPage['section'] as $section => $sectionData) {
+ 
+        $nextSection++;
         $thisTemplate = empty($section['template']) ? $templates['section'] : $templates['special'];
         $content .= str_replace([
             "{{section}}",
@@ -63,8 +50,28 @@ function outputPage($data, $templates, $page) {
             $Parsedown->text($sectionData['content'])
         ], $thisTemplate);
     }
+    $nextSection = sprintf("%03d", ++$nextSection);
 
-    $pageContent = str_replace("{{content}}", $content, $pageContent);
+    $pageContent = str_replace(
+        [
+            "{{siteName}}", 
+            "{{pageName}}",
+            "{{page}}",
+            "{{footer}}",
+            "{{nav}}",
+            "{{content}}",
+            "{{nextSection}}"
+        ],
+        [
+            $data['site-name'],
+            $thisPage['title'],
+            $page,
+            $data['footer'],
+            buildNav($data['nav']),
+            $content,
+            $nextSection
+        ], 
+        $pageContent);
 
     echo $pageContent;
 }
