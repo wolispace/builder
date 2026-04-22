@@ -227,7 +227,7 @@ function logIt($str) {
 }
 
 function cleanString($str) {
-  $str = preg_replace('/[^a-z0-9]/i', '', $str);
+  $str = preg_replace('/[^a-z0-9-_]/i', '', $str);
   return substr($str, 0, 30);
 }
 
