@@ -174,12 +174,12 @@ function loadTemplates($folder) {
 // manipulate data ---
 
 function buildNav($navItems) {
-    $html = '<div class="nav">';
+    $html = '';
     foreach($navItems as $item ) {
         $caption = prettyText($item);
         $html .= "<div class='nav-item'><a href='?{$item}'>{$caption}</a></div>";
     }
-    $html .= "</div>";
+    $html .= "";
 
     return $html;
 }

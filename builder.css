@@ -1,16 +1,37 @@
 :root {
-    --font-color: rgba(200, 192, 229, 0.5);
+    --font-color: rgba(200, 255, 255, 0.85);
     --font-color-bold: rgba(200, 192, 229, 1);
     --background-color: #1a1621;
 }
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 html,
 body {
     background-color:  var(--background-color);
     color: var(--font-color);
     font-family: Tahoma, Verdana, Geneva, sans-serif;
-    padding: 0;
 }
+
+body {
+    display: grid;
+    grid-template-areas:
+        "header"
+        "nav"
+        "content"
+        "footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    min-height: 100vh;
+}
+
+.header  { grid-area: header; }
+.nav     { grid-area: nav; }
+.content { grid-area: content;}
+.footer  { grid-area: footer; height: 3rem; }
 
 .standard {
     background-color: rgba(0, 0, 0, 0.25);
@@ -20,15 +41,10 @@ body {
 }
 
 .footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     background-color: rgb(13, 11, 17);
     text-align: center;
     padding: 1rem 0;
 }
-
 
 .dialog {
     display: none;
@@ -36,7 +52,6 @@ body {
     top: 0;
     left: 0;
     width: 80%;
-
     background-color: rgb(53 51 64);
     border-radius: 1rem;
     box-shadow: 1rem 1rem 2rem rgba(0,0,0,0.5);
@@ -152,3 +167,21 @@ a:hover {
 .rounded {
     border-radius: 1rem;
 }
+
+
+/* Tablet and up */
+@media (min-width: 768px) {
+    body {
+        grid-template-areas:
+            "header  header"
+            "nav     content"
+            "footer  footer";
+        grid-template-columns: 200px 1fr;
+        grid-template-rows: auto 1fr auto; /* header, content, footer */
+    }
+    .nav {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
