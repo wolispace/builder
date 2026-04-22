@@ -29,21 +29,24 @@ function editSection(result) {
   <input type="text" id="date" value="${result.date || ''}">
   <label for="content">Content</label>
   <textarea id="content">${result.content || ''}</textarea>
-  <input type="hidden" id="key" value="${result.key}">
+  <input type="hidden" id="section" value="${result.section}">
   <input type="hidden" id="page" value="${result.page}">
   </div>`;
 
   showDialog(html);
 }
 
-function saveForm() {
+async function saveForm() {
   const formData = {
     date: document.querySelector('#date').value,
     content:  document.querySelector('#content').value,
     page: document.querySelector('#page').value,
-    key: document.querySelector('#key').value
+    section: document.querySelector('#section').value
   }
-  console.log(formData);
+  const json = JSON.stringify(formData);
+  const response = await fetch(`?j=${json}`);
+  const result = await response.json();
+  window.location.reload();
 }
 
 function showDialog(html) {

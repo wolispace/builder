@@ -49,16 +49,16 @@ function outputPage($data, $templates, $page) {
 
 
     $content = "";
-    foreach ($thisPage['section'] as $key => $section) {
+    foreach ($thisPage['section'] as $section => $sectionData) {
         $thisTemplate = empty($section['template']) ? $templates['section'] : $templates['special'];
         $content .= str_replace([
-            "{{key}}",
+            "{{section}}",
             "{{date}}",
             "{{content}}"
         ], [
-            $key,
-            $section['date'],
-            $Parsedown->text($section['content'])
+            $section,
+            $sectionData['date'],
+            $Parsedown->text($sectionData['content'])
         ], $thisTemplate);
     }
 
@@ -122,8 +122,8 @@ function loadContent($page, $section) {
         $content = emptyPage();
     }
     $content = $data['page'][$page]['section'][$section] ?? null;
- $content['page'] = $page;
- $content['key'] = $section;
+    $content['page'] = $page;
+    $content['section'] = $section;
     return $content;
 }
 
@@ -134,11 +134,12 @@ function loadData() {
 function saveContent($new) {
     $json = array();
     $page = cleanString($new['page']);
-    $section = cleanString($new['section']);
-    $template = cleanString($new['template']);
+    $section = cleanString($new['section'] ?? '');
+    $template = cleanString($new['template'] ?? '');
     $date = $new['date'] ?? '';
     $content = $new['content'] ?? '';
 
+    logIt("saving {$page}:{$section} with {$date}, {$content}");
     // saving a page and a section
     if (!empty($page)) {
         if (!empty($section)) {
@@ -153,7 +154,7 @@ function saveContent($new) {
         }
     }
     
-    // file_put_contents("_data.json", json_encode($data, JSON_PRETTY_PRINT));
+    file_put_contents("_data.json", json_encode($data, JSON_PRETTY_PRINT));
 
 
     return $json;
