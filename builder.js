@@ -1,19 +1,26 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
-  $editor = true;
+  $editor = isEditor();
   if ($editor) {
     // find all sections and attach a click handler to editSection(this)
     document.querySelectorAll('section').forEach(section => {
       section.addEventListener('click', () => editContent(section));
     });
-    const addNewButton = document.querySelector('.add-section');
-    if (addNewButton) {
+    const addSectionButton = document.querySelector('.add-section');
+    if (addSectionButton) {
       const page = document.querySelector('.header').dataset.page;
-      const newSection = addNewButton.innerHTML;
+      const newSection = addSectionButton.innerHTML;
       
-      addNewButton.addEventListener('click', () => addSection(page, newSection));
-      addNewButton.style.display = 'block';
-      addNewButton.innerHTML = "+ Add a new section";
+      addSectionButton.addEventListener('click', () => addSection(page, newSection));
+      addSectionButton.style.display = 'block';
+      addSectionButton.innerHTML = "+ Add a new section";
+      
+    }
+    const addPageButton = document.querySelector('.add-page');
+    if (addPageButton) {
+      addPageButton.addEventListener('click', () => addPage());
+      addPageButton.style.display = 'block';
+      addPageButton.innerHTML = "+ Add a new page";
     }
   }
 });
@@ -25,14 +32,12 @@ async function editContent(element) {
   };
 
   const jsonData = encodeURIComponent(JSON.stringify(params));
-  console.log({jsonData});
   const response = await fetch(`?j=${jsonData}`);
   const result = await response.json();
   editSection(result);
 }
 
 function editSection(section) {
-  console.log('Editing section', section);
   let html = `<div class="form">
   <label for="section">Section</label>
   <input type="text" id="section" value="${section.section || ''}">
@@ -90,4 +95,22 @@ function showDialog(html) {
 function closeDialog() {
   document.querySelector('.overlay').classList.remove('visible');
   document.querySelector('.dialog').classList.remove('visible');
+}
+
+async function setEditor() {
+ const params = {
+    code: prompt("Enter your code")
+  }
+  const json = JSON.stringify(params);
+  const response = await fetch(`?j=${json}`);
+  const result = await response.json();
+  if (result.code == params.code) {
+    window.localStorage.setItem('code', params.code);
+  }
+  window.location.reload();
+}
+
+function isEditor() {
+  const code = window.localStorage.getItem('code');
+  return code !== null && code.length > 0;
 }

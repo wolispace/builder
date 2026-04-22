@@ -135,6 +135,10 @@ body {
     opacity: 0.5;
 }
 
+.add-page {
+    display: none;
+}
+
 .add-section {
     display: none;
 }

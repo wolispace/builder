@@ -11,6 +11,7 @@ if (!empty($jsonData)) {
 // outputting html
 $templateFolder = "template/";
 $urlKeys = array_keys($_GET);
+// TODO: this is probably redundant
 $section = $_GET['section'] ?? '001';
 $page = $urlKeys[0] ?? 'home';
 
@@ -39,7 +40,8 @@ function outputPage($data, $templates, $page) {
     foreach ($thisPage['section'] as $section => $sectionData) {
  
         $nextSection++;
-        $thisTemplate = empty($section['template']) ? $templates['section'] : $templates['special'];
+        $thisTemplate = empty($sectionData['template']) ? $templates['section'] : $templates[$sectionData['template']];
+
         $content .= str_replace([
             "{{section}}",
             "{{date}}",
@@ -103,9 +105,12 @@ function emptyPage() {
 // $data is a json object with enough info so we know if its loading or saving
 // this always returns a json object
 function handleData($data) {
+    logIt("handling data: " . json_encode($data));
     $json = array();
     if (isset($data['content'])) {
         $json = saveContent($data);
+    } elseif (isset($data['code'])) {
+        $json = setEditor($data['code']);
     } else {
         $json = loadContent($data['page'], $data['section']);
     }
@@ -182,6 +187,13 @@ function buildNav($navItems) {
     $html .= "";
 
     return $html;
+}
+
+function setEditor($newCode) {
+    $code = file_get_contents("_code");
+    if ($newCode == $code) {  
+        return ["code" => $code];
+    } 
 }
 
 // utilities ------------------------
