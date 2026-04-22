@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelectorAll('section').forEach(section => {
       section.addEventListener('click', () => editContent(section));
     });
+    const page = document.querySelector('.header').dataset.page;
     const addSectionButton = document.querySelector('.add-section');
     if (addSectionButton) {
-      const page = document.querySelector('.header').dataset.page;
       const newSection = addSectionButton.innerHTML;
       
       addSectionButton.addEventListener('click', () => addSection(page, newSection));
@@ -22,6 +22,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       addPageButton.style.display = 'block';
       addPageButton.innerHTML = "+ Add a new page";
     }
+
+    const pageTitle = document.querySelector('.page-name');
+    const params = {
+      page: document.querySelector('.header').dataset.page,
+      title: pageTitle.innerText
+    }
+    pageTitle.addEventListener('click', () => editPage(params));
   }
 });
 
@@ -52,13 +59,43 @@ function editSection(section) {
   showDialog(html);
 }
 
+function editPage(params) {
+  console.log(params);
+  editPage(parma);
+}
+
+function addPage() {
+  const newPage = {
+    page: '',
+    title: ''
+  };
+  editPage(newPage);
+}
+
+
+function editPage(page) {
+  let html = `<div class="form">
+  <label for="page">Page</label>
+  <input type="text" id="page" value="${page.page || ''}">
+  <label for="title">Title</label>
+  <input type="text" id="title" value="${page.title || ''}">
+  </div>`;
+
+  showDialog(html);
+}
 async function saveForm() {
-  const formData = {
-    date: document.querySelector('#date').value,
-    content:  document.querySelector('#content').value,
-    page: document.querySelector('#page').value,
-    section: document.querySelector('#section').value
+  // TODO: need to work out why foem we are saving, currently its assuming section
+  const formData = {};
+  formData.page = document.querySelector('#page').value;
+
+  if (document.querySelector('#title')) {
+    formData.title = document.querySelector('#title').value;
+  } else {
+    formData.date = document.querySelector('#date').value;
+    formData.content = document.querySelector('#content').value;
+    formData.section = document.querySelector('#section').value;
   }
+
   const json = JSON.stringify(formData);
   const response = await fetch(`?j=${json}`);
   const result = await response.json();

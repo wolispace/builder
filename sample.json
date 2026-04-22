@@ -1,26 +1,59 @@
 {
     "site-name": "Sample site",
     "footer": "Something interesting here",
-    "nav": ["home", "about-us", "blog"],
+    "nav": [
+        "home",
+        "about",
+        "blog"
+    ],
     "page": {
+        "login": {
+            "title": "Login",
+            "section": {
+                "001": {
+                    "content": "For access",
+                    "template": "login"
+                }
+            }
+        },
+        "error": {
+            "title": "Page not found",
+            "section": {
+                "001": {
+                    "content": ""
+                }
+            }
+        },
         "home": {
             "title": "",
             "section": {
                 "001": {
                     "content": "This is a sample page"
+                },
+                "fish": {
+                    "date": "",
+                    "template": "",
+                    "content": "This is some fishy content\n\n"
+                },
+                "003": {
+                    "date": "",
+                    "template": "",
+                    "content": "This is some basic content.\n\nJust press enter for a new paragraph\n\nUse double asterisks around text to bold \\*\\*This\\*\\*\n"
                 }
             }
         },
-        "about-us": {
-            "title": "About us",
+        "about": {
+            "title": "About Me",
             "section": {
                 "001": {
-                    "content": "Everything you want to know about is"
+                    "date": "",
+                    "template": "",
+                    "content": "Everything you want to know about us..."
                 }
             }
         },
         "blog": {
-            "title": "Blog",
+            "title": "News and events",
             "section": {
                 "001": {
                     "date": "12 Feb 2026",
@@ -30,8 +63,35 @@
                     "date": "12 Feb 2026",
                     "template": "",
                     "content": "Something interesting happened\n\nAnd __this__ is another *line*\n\nAnd this is **more** content"
+                },
+                "003": {
+                    "date": "",
+                    "template": "",
+                    "content": "This is not a pipe"
+                },
+                "004": {
+                    "date": "17 Sep 2026",
+                    "template": "",
+                    "content": "Something"
+                },
+                "005": {
+                    "date": "02 Aug 2026",
+                    "template": "",
+                    "content": "aaaa"
                 }
             }
+        },
+        "com-eng": {
+            "section": {
+                "001": {
+                    "date": "",
+                    "template": "",
+                    "content": "Everything you want to know about us"
+                }
+            }
+        },
+        "thing": {
+            "title": "THing"
         }
     }
 }

@@ -107,7 +107,7 @@ function emptyPage() {
 function handleData($data) {
     logIt("handling data: " . json_encode($data));
     $json = array();
-    if (isset($data['content'])) {
+    if (isset($data['content']) || isset($data['title'])) {
         $json = saveContent($data);
     } elseif (isset($data['code'])) {
         $json = setEditor($data['code']);
@@ -154,15 +154,16 @@ function saveContent($new) {
     }
     $json = array();
     $page = cleanString($new['page']);
+    $title = $new['title'] ?? '';
     $section = cleanString($new['section'] ?? '');
     $template = cleanString($new['template'] ?? '');
     $date = $new['date'] ?? '';
     $content = $new['content'] ?? '';
-
-    logIt("saving {$page}:{$section} with {$date}, {$content}");
+    logIt("saving {$page}, {$title}, {$section}, {$template}, {$date}, {$content}");
     // saving a page and a section
     if (!empty($page)) {
         if (!empty($section)) {
+            logIt("saving {$page}:{$section} with {$date}, {$content}");
             $data = loadJson();
             $data['page'][$page]['section'][$section] = [
                 "date" => $date,
@@ -170,7 +171,9 @@ function saveContent($new) {
                 "content" => $content
             ];
         } else {
-          // TODO: adding/editing a page heading
+          logIt("saving {$page} {$title}");
+          $data = loadJson();
+          $data['page'][$page]['title'] = $title;
         }
     }
 
