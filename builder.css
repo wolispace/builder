@@ -87,3 +87,12 @@ body {
     background-color: rgb(119, 142, 189);
 }
 
+.form {
+    display:flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.form textarea {
+    height: 10rem;
+}

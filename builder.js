@@ -10,13 +10,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function editContent(element) {
-
   const params = {
     page: document.querySelector('.header').dataset.page,
     section: element.getAttribute('data-section')
   };
 
   const jsonData = encodeURIComponent(JSON.stringify(params));
+  console.log({jsonData});
   const response = await fetch(`?j=${jsonData}`);
   const result = await response.json();
   editSection(result);
@@ -24,19 +24,26 @@ async function editContent(element) {
 
 function editSection(result) {
   console.log('Editing section', result);
-  let html = `
-  <label>Date</label>
-  <input type="text" name="date" value="${result.date || ''}">
-  <label>Content</label>
-  <textarea name="content">${result.content || ''}</textarea>
-  <input type="hidden" name="key" value="${result.key}">
-  <input type="hidden" name="page" value="${result.page}">`;
+  let html = `<div class="form">
+  <label for="date">Date</label>
+  <input type="text" id="date" value="${result.date || ''}">
+  <label for="content">Content</label>
+  <textarea id="content">${result.content || ''}</textarea>
+  <input type="hidden" id="key" value="${result.key}">
+  <input type="hidden" id="page" value="${result.page}">
+  </div>`;
 
   showDialog(html);
 }
 
 function saveForm() {
-    const formData = new FormData(document.querySelector('.dialog form'));
+  const formData = {
+    date: document.querySelector('#date').value,
+    content:  document.querySelector('#content').value,
+    page: document.querySelector('#page').value,
+    key: document.querySelector('#key').value
+  }
+  console.log(formData);
 }
 
 function showDialog(html) {

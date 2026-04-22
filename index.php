@@ -50,16 +50,6 @@ function outputPage($data, $templates, $page) {
 
     $content = "";
     foreach ($thisPage['section'] as $key => $section) {
-        $raw = htmlspecialchars(json_encode(
-            [
-                "key" => $key,
-                "page" => $page,
-                "date" => $section['date'],
-                "content" => $section['content'],
-                "template" => $section['template'] ?? 'section'
-            ]
-        , true));
-        $onClick = ''; //$hasCode ? "onClick=\"editSection(this);\"" : 'NOT';
         $thisTemplate = empty($section['template']) ? $templates['section'] : $templates['special'];
         $content .= str_replace([
             "{{key}}",
@@ -127,10 +117,14 @@ function handleData($data) {
 
 function loadContent($page, $section) {
     $data = loadData();
+    $content = array();
     if (empty($data['page'][$page])) {
-        return emptyPage();
+        $content = emptyPage();
     }
-    return $data['page'][$page]['section'][$section] ?? null;
+    $content = $data['page'][$page]['section'][$section] ?? null;
+ $content['page'] = $page;
+ $content['key'] = $section;
+    return $content;
 }
 
 function loadData() {
