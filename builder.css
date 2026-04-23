@@ -31,11 +31,22 @@ body {
 .content { grid-area: content; padding: 0 1rem 5rem 1rem; }
 .footer  { grid-area: footer; height: 3rem; }
 
-.standard {
+.section {
     background-color: rgba(0, 0, 0, 0.25);
     padding: 1rem;
     border-radius: 1rem;
     margin: 1rem 0;
+    display: flex;
+}
+
+.section-image {
+  width: 7rem;
+}
+
+.section-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .footer {

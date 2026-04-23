@@ -1,7 +1,8 @@
 <?php
+logIt("GET: " . json_encode($_GET));
+logIt("_REQUEST: " . json_encode($_REQUEST));
 
-// send recieve json data
-if (!empty($_REQUEST)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = $_REQUEST;
     if (!empty($_REQUEST['j'])) {
         $data = json_decode($_REQUEST['j'], true);
@@ -11,19 +12,19 @@ if (!empty($_REQUEST)) {
     }
     outputJson(handleData($data));
     exit;
+} elseif (isset($_GET['j'])) {
+    $data = json_decode($_REQUEST['j'], true);
+    outputJson(handleData($data));
+    exit;
+} else {
+    // regular page load, e.g. /?about-us
+    $urlKeys = array_keys($_GET);
+    $page = $urlKeys[0] ?? 'home';
+    $templateFolder = "template/";
+    $data = loadJson();
+    $templates = loadTemplates("template");
+    outputPage($data, $templates, $page);
 }
-
-// outputting html
-$templateFolder = "template/";
-$urlKeys = array_keys($_GET);
-// TODO: this is probably redundant
-$section = $_GET['section'] ?? '001';
-$page = $urlKeys[0] ?? 'home';
-
-$data = loadJson();
-$templates = loadTemplates("template");
-
-outputPage($data, $templates, $page);
 
 // end of request handler -----
 
@@ -47,14 +48,22 @@ function outputPage($data, $templates, $page) {
         $nextSection++;
         $thisTemplate = empty($sectionData['template']) ? $templates['section'] : $templates[$sectionData['template']];
 
+        $imageHtml = "";
+        if (file_exists("image/_{$page}_{$section}.jpg")) {
+            $imageHtml = "<img class='section-image' src='image/_{$page}_{$section}.jpg' />";
+        } elseif (file_exists("image/_{$page}_{$section}.png")) {
+            $imageHtml = "<img class='section-image' src='image/_{$page}_{$section}.png' />";
+        }
         $content .= str_replace([
             "{{section}}",
             "{{date}}",
-            "{{content}}"
+            "{{content}}",
+            "{{image}}"
         ], [
             $section,
             $sectionData['date'] ?? '',
-            $Parsedown->text($sectionData['content'])
+            $Parsedown->text($sectionData['content']),
+            $imageHtml
         ], $thisTemplate);
     }
     $nextSection = sprintf("%03d", ++$nextSection);
