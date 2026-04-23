@@ -170,12 +170,15 @@ function saveContent($new) {
     $template = cleanString($new['template'] ?? '');
     $date = $new['date'] ?? '';
     $content = $new['content'] ?? '';
-    logIt("saving {$page}, {$title}, {$section}, {$template}, {$date}, {$content}");
+    $siteName = $new['siteName'] ?? '';
+        $nav = $new['nav'] ?? '';
+            $footer = $new['footer'] ?? '';
+    logIt("saving {$siteName}, {$nav}, {$footer}, {$page}, {$title}, {$section}, {$template}, {$date}, {$content}");
     // saving a page and a section
+    $data = loadJson();
     if (!empty($page)) {
         if (!empty($section)) {
             logIt("saving {$page}:{$section} with {$date}, {$content}");
-            $data = loadJson();
             $data['page'][$page]['section'][$section] = [
                 "date" => $date,
                 "template" => $template,
@@ -186,6 +189,10 @@ function saveContent($new) {
           $data = loadJson();
           $data['page'][$page]['title'] = $title;
         }
+    } elseif (!empty($siteName)) {
+        $data['site-name'] = $siteName;
+        $data['nav'] = explode("\n", trim($nav));
+        $data['footer'] = $footer;
     }
 
     saveJson($data);
