@@ -1,9 +1,12 @@
 {
-    "site-name": "Sample site",
-    "footer": "Something interesting here",
+    "site-name": "Edit site",
+    "footer": "Something interesting here.",
     "nav": [
-        "home",
-        "about",
+        "home\r",
+        "about\r",
+        "community\r",
+        "green\r",
+        "development\r",
         "blog"
     ],
     "page": {
@@ -25,10 +28,12 @@
             }
         },
         "home": {
-            "title": "",
+            "title": "Home",
             "section": {
                 "001": {
-                    "content": "This is a sample page"
+                    "date": "",
+                    "template": "",
+                    "content": "This is a home page"
                 },
                 "fish": {
                     "date": "",
@@ -43,20 +48,27 @@
             }
         },
         "about": {
-            "title": "About Me",
+            "title": "About",
             "section": {
                 "001": {
                     "date": "",
                     "template": "",
-                    "content": "Everything you want to know about us..."
+                    "content": "Everything you want to know about me"
+                },
+                "green": {
+                    "date": "",
+                    "template": "",
+                    "content": "More interesting facts"
                 }
             }
         },
         "blog": {
-            "title": "News and events",
+            "title": "Blog",
+            "sort": "desc",
             "section": {
                 "001": {
                     "date": "12 Feb 2026",
+                    "template": "",
                     "content": "Something interesting happened"
                 },
                 "002": {
@@ -77,7 +89,7 @@
                 "005": {
                     "date": "02 Aug 2026",
                     "template": "",
-                    "content": "aaaa"
+                    "content": "This is some content...."
                 }
             }
         },
@@ -91,7 +103,50 @@
             }
         },
         "thing": {
-            "title": "THing"
+            "title": "Community engagement",
+            "section": {
+                "001": {
+                    "date": "",
+                    "template": "",
+                    "content": "Once upon a time\n\nThere once lived\n\nHappily ever after."
+                }
+            }
+        },
+        "green": {
+            "title": "City greening",
+            "section": {
+                "001": {
+                    "date": "",
+                    "template": "",
+                    "content": "Cities should be green. Full stop."
+                }
+            }
+        },
+        "development": {
+            "title": "Modelling and Development",
+            "sort": "desc",
+            "section": {
+                "001": {
+                    "date": "",
+                    "template": "",
+                    "content": "A fine balsa wood model of a vilage"
+                },
+                "002": {
+                    "date": "",
+                    "template": "",
+                    "content": "Some additional content"
+                }
+            }
+        },
+        "community": {
+            "title": "Community engagement",
+            "section": {
+                "001": {
+                    "date": "",
+                    "template": "",
+                    "content": "This is everything you need to know about community development"
+                }
+            }
         }
     }
 }

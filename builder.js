@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const pageTitle = document.querySelector('.page-name');
     const params = {
       page: document.querySelector('.header').dataset.page,
-      title: pageTitle.innerText
+      title: pageTitle.innerText,
+      sort: document.querySelector('.header').dataset.sort,
     }
     pageTitle.addEventListener('click', () => editPage(params));
 
@@ -85,6 +86,11 @@ function editPage(page) {
   <input type="text" id="page" name="page" value="${page.page || ''}">
   <label for="title">Title</label>
   <input type="text" id="title" name="title" value="${page.title || ''}">
+  <label for="sort">Sort sections</label>
+  <select id="sort" name="sort">
+   <option value="">Oldest first</option>
+   <option value="desc" ${page.sort == 'desc' ? 'selected' : ''}>Newest first</option>
+  <select>
   </form>`;
 
   showDialog(html);

@@ -40,7 +40,12 @@ function outputPage($data, $templates, $page) {
     $thisPage['title'] = empty($thisPage['title']) ? "&nbsp;" : $thisPage['title'];
 
     $pageContent = $templates['page'];
-   
+    if ($thisPage['sort'] == "desc") {
+        krsort($thisPage['section']);
+    } else {
+        ksort($thisPage['section']);
+    }
+
     $nextSection = 0;
     $content = "";
     foreach ($thisPage['section'] as $section => $sectionData) {
@@ -73,6 +78,7 @@ function outputPage($data, $templates, $page) {
             "{{siteName}}", 
             "{{pageName}}",
             "{{page}}",
+            "{{sort}}",
             "{{footer}}",
             "{{nav}}",
             "{{content}}",
@@ -83,6 +89,7 @@ function outputPage($data, $templates, $page) {
             $data['site-name'],
             $thisPage['title'],
             $page,
+            $thisPage['sort'],
             $data['footer'],
             buildNav($data),
             $content,
@@ -195,6 +202,7 @@ function saveContent($new) {
     $title = $new['title'] ?? '';
     $section = cleanString($new['section'] ?? '');
     $template = cleanString($new['template'] ?? '');
+    $sort = cleanString($new['sort'] ?? '');
     $date = $new['date'] ?? '';
     $content = $new['content'] ?? '';
     $siteName = $new['siteName'] ?? '';
@@ -215,6 +223,7 @@ function saveContent($new) {
           logIt("saving {$page} {$title}");
           $data = loadJson();
           $data['page'][$page]['title'] = $title;
+          $data['page'][$page]['sort'] = $sort;
         }
     } elseif (!empty($siteName)) {
         $data['site-name'] = $siteName;
