@@ -177,7 +177,14 @@ async function setEditor() {
   const result = await response.json();
   if (result.code == params.code) {
     window.localStorage.setItem('code', params.code);
+    window.location.replace('/');
+  } else {
+    alert(result.error);
   }
+}
+
+function clearEditor() {
+  window.localStorage.clear('code');
   window.location.replace('/');
 }
 

@@ -48,7 +48,7 @@ function outputPage($data, $templates, $page) {
             "{{content}}"
         ], [
             $section,
-            $sectionData['date'],
+            $sectionData['date'] ?? '',
             $Parsedown->text($sectionData['content'])
         ], $thisTemplate);
     }
@@ -219,12 +219,15 @@ function buildNav($navItems) {
 }
 
 function setEditor($newCode) {
-    $code = file_get_contents("_code");
+    $code = file_get_contents("_code.txt");
+
     if ($newCode == $code) {
         $valid = loadJson("_editors.json") ?? [];
         $valid[$_SERVER['REMOTE_ADDR']] = true;
         saveJson($valid, "_editors.json");
         return ["code" => $code];
+    } else {
+        return array("error" => "Code [${newCode}] is not quite right. Think about your favourite thing to eat.");
     }
 }
 
