@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const siteName = document.querySelector('.site-name');
     siteName.addEventListener('click', () => editSite());
+
+  } else {
+    document.querySelector('.header h1').style.display = "none";
   }
 });
 

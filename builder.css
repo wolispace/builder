@@ -1,7 +1,7 @@
 :root {
     --font-color: rgba(200, 255, 255, 0.85);
     --font-color-bold: rgba(200, 192, 229, 1);
-    --background-color: #1a1621;
+    --background-color: #13423a;
 }
 
 
@@ -115,15 +115,17 @@ body {
 
 .nav {
     display: flex;
-    gap: 1rem;
+    gap: 0.2rem;
 }
 
 .nav-item {
     padding: 0.5rem;
     background-color: rgb(0, 0, 0, .45);
-
-    border-top-left-radius: .5rem;
-    border-top-right-radius: 0.5rem;
+    border-radius: .5rem;
+    width: 6rem;
+}
+.nav-item:first-child {
+     width: 1.1rem;
 }
 .nav-item a {
     color: white;
@@ -169,6 +171,11 @@ a:hover {
 .rounded {
     border-radius: 1rem;
 }
+
+.logo {
+    height: 6rem;
+}
+
 
 
 /* Tablet and up */
