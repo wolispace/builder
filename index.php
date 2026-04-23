@@ -1,9 +1,14 @@
 <?php
 
 // send recieve json data
-$jsonData = $_REQUEST['j'] ?? '';
-if (!empty($jsonData)) {
-    $data = json_decode($jsonData, true);
+if (!empty($_REQUEST)) {
+    $data = $_REQUEST;
+    if (!empty($_REQUEST['j'])) {
+        $data = json_decode($_REQUEST['j'], true);
+    }
+    if (!empty($_FILES)) {
+        handleFiles($data);
+    }
     outputJson(handleData($data));
     exit;
 }
@@ -102,6 +107,17 @@ function emptyPage() {
             ]
         ]
     ];
+}
+
+function handleFiles($data) {
+    if (isset($_FILES['image'])) {
+        $tmpPath = $_FILES['image']['tmp_name'];
+        $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+        // $filename = basename($_FILES['image']['name']);
+        $destination = "image/_{$data['page']}_{$data['section']}.{$ext}";
+        // $destination = 'image/' . $filename;
+        move_uploaded_file($tmpPath, $destination);
+    }
 }
 
 // $data is a json object with enough info so we know if its loading or saving

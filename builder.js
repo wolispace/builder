@@ -51,22 +51,23 @@ async function editContent(element) {
 }
 
 function editSection(section) {
-  let html = `<div class="form">
+  let html = `<form method="post" class="form">
   <label for="section">Section</label>
-  <input type="text" id="section" value="${section.section || ''}">
+  <input type="text" id="section" name="section" value="${section.section || ''}">
   <label for="date">Date</label>
-  <input type="text" id="date" value="${section.date || ''}">
+  <input type="text" id="date" name="date" value="${section.date || ''}">
   <label for="content">Content</label>
-  <textarea id="content">${section.content || ''}</textarea>
-  <input type="hidden" id="section" value="${section.section}">
-  <input type="hidden" id="page" value="${section.page}">
-  </div>`;
+  <textarea id="content" name="content">${section.content || ''}</textarea>
+  <label for="image">Image</label>
+  <input type="file" id="image" name="image" accept="image/*">
+  <input type="hidden" id="section" name="section" value="${section.section}">
+  <input type="hidden" id="page" name="page" value="${section.page}">
+  </form>`;
 
   showDialog(html);
 }
 
 function editPage(params) {
-  console.log(params);
   editPage(parma);
 }
 
@@ -78,14 +79,13 @@ function addPage() {
   editPage(newPage);
 }
 
-
 function editPage(page) {
-  let html = `<div class="form">
+  let html = `<form class="form">
   <label for="page">Page</label>
-  <input type="text" id="page" value="${page.page || ''}">
+  <input type="text" id="page" name="page" value="${page.page || ''}">
   <label for="title">Title</label>
-  <input type="text" id="title" value="${page.title || ''}">
-  </div>`;
+  <input type="text" id="title" name="title" value="${page.title || ''}">
+  </form>`;
 
   showDialog(html);
 }
@@ -93,24 +93,28 @@ function editPage(page) {
 async function editSite() {
   const params = {edit: 'site'};
   const json = JSON.stringify(params);
-  console.log({json})
   const result = await fetch(`?j=${json}`);
-  console.log({result})
   const site = await result.json();
 
-  let html = `<div class="form">
+  let html = `<form class="form">
   <label for="site-name">Site name</label>
-  <input type="text" id="site-name" value="${site.siteName || ''}">
+  <input type="text" id="site-name" name="siteName" value="${site.siteName || ''}">
   <label for="nav">Menu</label>
-  <textarea id="nav">${site.nav || ''}</textarea>
+  <textarea id="nav" name="nav">${site.nav || ''}</textarea>
   <label for="footer">Footer</label>
-  <textarea id="footer">${site.footer || ''}</textarea>
-  </div>`;
+  <textarea id="footer" name="footer">${site.footer || ''}</textarea>
+  </form>`;
   showDialog(html);
 }
 
 
 async function saveForm() {
+
+  const form = document.querySelector('form.form');
+  const formData = new FormData(form);
+  await fetch('', { method: 'POST', body: formData });
+  window.location.reload();
+/*
   // TODO: need to work out why foem we are saving, currently its assuming section
   const formData = {};
   if (document.querySelector('#page')) {
@@ -133,10 +137,17 @@ async function saveForm() {
     formData.footer = document.querySelector('#footer').value;
   } 
   
-  const json = JSON.stringify(formData);
-  const response = await fetch(`?j=${json}`);
-  const result = await response.json();
+  const imageInput = document.querySelector('#image');
+  if (imageInput && imageInput.files[0]) {
+    formData.append('image', imageInput.files[0]);
+  }
+
+  const response = await fetch('', {
+    method: 'POST',
+    body: formData   // no Content-Type header — browser sets multipart/form-data automatically
+  });
   window.location.reload();
+  */
 }
 
 function addSection(page, section) {
