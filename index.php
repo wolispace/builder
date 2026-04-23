@@ -25,7 +25,7 @@ outputPage($data, $templates, $page);
 function outputPage($data, $templates, $page) {
     require_once 'Parsedown.php';
     $Parsedown = new Parsedown();
-    $hasCode = isset($_GET['code']) && $_GET['code'] == file_get_contents("_code");
+    $version = rand(100000, 999999);
     
     $thisPage = $data['page'][$page];
     if (!isset($thisPage)) {
@@ -62,16 +62,18 @@ function outputPage($data, $templates, $page) {
             "{{footer}}",
             "{{nav}}",
             "{{content}}",
-            "{{nextSection}}"
+            "{{nextSection}}",
+            "{{v}}"
         ],
         [
             $data['site-name'],
             $thisPage['title'],
             $page,
             $data['footer'],
-            buildNav($data['nav']),
+            buildNav($data),
             $content,
-            $nextSection
+            $nextSection,
+            $version
         ], 
         $pageContent);
 
@@ -214,14 +216,17 @@ function loadTemplates($folder) {
 
 // manipulate data ---
 
-function buildNav($navItems) {
+function buildNav($data) {
     $html = '';
-    foreach($navItems as $item ) {
-        $caption = prettyText($item);
+    $icons = array("home" => '<i class="fas fa-home"></i>');
+    foreach($data['nav'] as $item ) {
+        $item = trim($item);
+        $caption = $icons[$item] ?? "";
+        if (empty($caption)) {
+            $caption = $data['page'][$item]['title'] ?? prettyText($item);
+        }
         $html .= "<div class='nav-item'><a href='?{$item}'>{$caption}</a></div>";
     }
-    $html .= "";
-
     return $html;
 }
 
