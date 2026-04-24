@@ -2,10 +2,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
   $editor = isEditor();
   if ($editor) {
-    // find all sections and attach a click handler to editSection(this)
-    document.querySelectorAll('section').forEach(section => {
-      section.addEventListener('click', () => editContent(section));
+    // add universal edit button to editable
+    document.querySelectorAll('.editable').forEach(section => {
+      section.insertAdjacentHTML('beforeend',`<div class="editButton" onclick="editable(this.parentElement)"><i class="fas fa-pencil"></i></div>`);
     });
+
+
     const page = document.querySelector('.header').dataset.page;
     const addSectionButton = document.querySelector('.add-section');
     if (addSectionButton) {
@@ -39,10 +41,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-async function editContent(element) {
-  const params = {
-    page: document.querySelector('.header').dataset.page,
-    section: element.getAttribute('data-section')
+async function editable(element) {
+    const params = {
+    page: element.dataset.page,
+    section: element.dataset.section
   };
 
   const jsonData = encodeURIComponent(JSON.stringify(params));

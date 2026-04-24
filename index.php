@@ -1,6 +1,4 @@
 <?php
-logIt("GET: " . json_encode($_GET));
-logIt("_REQUEST: " . json_encode($_REQUEST));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = $_REQUEST;
@@ -47,7 +45,7 @@ function outputPage($data, $templates, $page) {
     }
 
     $nextSection = 0;
-    $content = "";
+    $sections = "";
     foreach ($thisPage['section'] as $section => $sectionData) {
  
         $nextSection++;
@@ -59,12 +57,14 @@ function outputPage($data, $templates, $page) {
         } elseif (file_exists("image/_{$page}_{$section}.png")) {
             $imageHtml = "<img class='section-image' src='image/_{$page}_{$section}.png' />";
         }
-        $content .= str_replace([
+        $sections .= str_replace([
+            "{{page}}",
             "{{section}}",
             "{{date}}",
             "{{content}}",
             "{{image}}"
         ], [
+            $page,
             $section,
             $sectionData['date'] ?? '',
             $Parsedown->text($sectionData['content']),
@@ -81,7 +81,7 @@ function outputPage($data, $templates, $page) {
             "{{sort}}",
             "{{footer}}",
             "{{nav}}",
-            "{{content}}",
+            "{{sections}}",
             "{{nextSection}}",
             "{{v}}"
         ],
@@ -92,7 +92,7 @@ function outputPage($data, $templates, $page) {
             $thisPage['sort'],
             $data['footer'],
             buildNav($data),
-            $content,
+            $sections,
             $nextSection,
             $version
         ], 
