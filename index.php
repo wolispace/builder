@@ -51,24 +51,20 @@ function outputPage($data, $templates, $page) {
         $nextSection++;
         $thisTemplate = empty($sectionData['template']) ? $templates['section'] : $templates[$sectionData['template']];
 
-        $imageHtml = "";
-        if (file_exists("image/_{$page}_{$section}.jpg")) {
-            $imageHtml = "<img class='section-image' src='image/_{$page}_{$section}.jpg' />";
-        } elseif (file_exists("image/_{$page}_{$section}.png")) {
-            $imageHtml = "<img class='section-image' src='image/_{$page}_{$section}.png' />";
-        }
         $sections .= str_replace([
             "{{page}}",
             "{{section}}",
+            "{{template}}",
             "{{date}}",
             "{{content}}",
             "{{image}}"
         ], [
             $page,
             $section,
+            $sectionData['template'] ?? 'section',
             $sectionData['date'] ?? '',
             $Parsedown->text($sectionData['content']),
-            $imageHtml
+            buildImage($page, $section)
         ], $thisTemplate);
     }
     $nextSection = sprintf("%03d", ++$nextSection);
@@ -101,7 +97,15 @@ function outputPage($data, $templates, $page) {
     echo $pageContent;
 }
 
-
+function buildImage($page, $section) {
+    $html ="";
+        if (file_exists("image/_{$page}_{$section}.jpg")) {
+            $html = "<img class='section-image' src='image/_{$page}_{$section}.jpg' />";
+        } elseif (file_exists("image/_{$page}_{$section}.png")) {
+            $html = "<img class='section-image' src='image/_{$page}_{$section}.png' />";
+        }
+    return $html;
+}
 // TODO: thiss should just be another page in json like login and other hidden but editable using a sspecific template if needed
 function errorPage($page) {
     return [

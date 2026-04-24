@@ -57,6 +57,11 @@ function editSection(section) {
   let html = `<form method="post" class="form">
   <label for="section">Section</label>
   <input type="text" id="section" name="section" value="${section.section || ''}">
+  <label for="template">Template</label>
+  <select id="template" name="template">
+   <option value="">With background</option>
+   <option value="section_nb" ${section.template == 'section_nb' ? 'selected' : ''}>Without background</option>
+  </select>
   <label for="date">Date</label>
   <input type="text" id="date" name="date" value="${section.date || ''}">
   <label for="content">Content</label>
