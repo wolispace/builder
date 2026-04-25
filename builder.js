@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       addPageButton.innerHTML = "+ Add a new page";
     }
 
-    const pageTitle = document.querySelector('.page-name');
+    const pageTitle = document.querySelector('.title');
     const params = {
       page: document.querySelector('.header').dataset.page,
       title: pageTitle.innerText,
