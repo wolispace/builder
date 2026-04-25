@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       section.insertAdjacentHTML('beforeend',`<div class="editButton" onclick="editable(this.parentElement)"><i class="fas fa-pencil"></i></div>`);
     });
 
-
     const page = document.querySelector('.header').dataset.page;
     const addSectionButton = document.querySelector('.add-section');
     if (addSectionButton) {
@@ -24,33 +23,37 @@ document.addEventListener('DOMContentLoaded', async () => {
       addPageButton.style.display = 'block';
       addPageButton.innerHTML = "+ Add a new page";
     }
-
-    const pageTitle = document.querySelector('.title');
-    const params = {
-      page: document.querySelector('.header').dataset.page,
-      title: pageTitle.innerText,
-      sort: document.querySelector('.header').dataset.sort,
-    }
-    pageTitle.addEventListener('click', () => editPage(params));
-
-    const siteName = document.querySelector('.site-name');
-    siteName.addEventListener('click', () => editSite());
-
   } else {
     document.querySelector('.header h1').style.display = "none";
   }
 });
 
 async function editable(element) {
-    const params = {
-    page: element.dataset.page,
-    section: element.dataset.section
-  };
+  const params = {};
+
+  if (element.dataset.load == "site") {
+     params.load = 'site';
+  }
+  
+  if (['section','page'].includes(element.dataset.load)) {
+    params.load = 'page';
+    params.page = element.dataset.page;
+  } 
+  if (['section'].includes(element.dataset.load)) {
+    params.load = 'section';
+    params.section = element.dataset.section;
+  } 
 
   const jsonData = encodeURIComponent(JSON.stringify(params));
   const response = await fetch(`?j=${jsonData}`);
   const result = await response.json();
-  editSection(result);
+  if (element.dataset.load == "site") {
+    editSite(result);
+  } else if(element.dataset.load == 'page') {
+    editPage(result);
+  } else {
+    editSection(result);
+  };
 }
 
 function editSection(section) {
@@ -97,21 +100,16 @@ function editPage(page) {
   <select id="sort" name="sort">
    <option value="">Oldest first</option>
    <option value="desc" ${page.sort == 'desc' ? 'selected' : ''}>Newest first</option>
-  <select>
+  </select>
   </form>`;
 
   showDialog(html);
 }
 
-async function editSite() {
-  const params = {edit: 'site'};
-  const json = JSON.stringify(params);
-  const result = await fetch(`?j=${json}`);
-  const site = await result.json();
-
+async function editSite(site) {
   let html = `<form class="form">
   <label for="site-name">Site name</label>
-  <input type="text" id="site-name" name="siteName" value="${site.siteName || ''}">
+  <input type="text" id="name" name="name" value="${site.name || ''}">
   <label for="nav">Menu</label>
   <textarea id="nav" name="nav">${site.nav || ''}</textarea>
   <label for="footer">Footer</label>

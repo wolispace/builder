@@ -1,11 +1,12 @@
 {
-    "site-name": "Edit site",
+    "name": "Edit site",
     "footer": "Something interesting here.",
     "nav": [
         "home\r",
         "about\r",
         "community\r",
         "green\r",
+        "leadership\r",
         "development\r",
         "blog"
     ],
@@ -119,6 +120,11 @@
                     "date": "",
                     "template": "",
                     "content": "Cities should be green. Full stop."
+                },
+                "002": {
+                    "date": "",
+                    "template": "",
+                    "content": "This is more.."
                 }
             }
         },
@@ -145,6 +151,32 @@
                     "date": "",
                     "template": "",
                     "content": "This is everything you need to know about community development"
+                }
+            }
+        },
+        "leadership": {
+            "title": "Leadership",
+            "sort": "",
+            "section": {
+                "001": {
+                    "date": "",
+                    "template": "",
+                    "content": "I like leading things\r\n\r\nSomething else\r\n\r\n- something\r\n- another thing\r\n\r\n## Sub heqading\r\n\r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n\r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n"
+                },
+                "002": {
+                    "date": "",
+                    "template": "section_nb",
+                    "content": "New thing"
+                },
+                "003": {
+                    "date": "",
+                    "template": "section_nb",
+                    "content": ""
+                },
+                "004": {
+                    "date": "",
+                    "template": "section_nb",
+                    "content": "Some more content here"
                 }
             }
         }

@@ -71,8 +71,8 @@ function outputPage($data, $templates, $page) {
 
     $pageContent = str_replace(
         [
-            "{{siteName}}", 
-            "{{pageName}}",
+            "{{name}}", 
+            "{{title}}",
             "{{page}}",
             "{{sort}}",
             "{{footer}}",
@@ -82,7 +82,7 @@ function outputPage($data, $templates, $page) {
             "{{v}}"
         ],
         [
-            $data['site-name'],
+            $data['name'],
             $thisPage['title'],
             $page,
             $thisPage['sort'],
@@ -145,14 +145,13 @@ function handleFiles($data) {
 function handleData($data) {
     logIt("handling data: " . json_encode($data));
     $json = array();
-    if (isset($data['content']) || isset($data['title']) || isset($data['nav'])) {
-        $json = saveContent($data);
+    // load data for editing
+    if (isset($data['load'])) {
+        $json = loadContent($data);   
     } elseif (isset($data['code'])) {
         $json = setEditor($data['code']);
-    } elseif (isset($data['edit'])) {
-        $json = editSite();        
     } else {
-        $json = loadContent($data['page'], $data['section']);
+        $json = saveContent($data);
     }
     return $json;
 }
@@ -162,28 +161,31 @@ function validEditor() {
     return isset($valid[$_SERVER['REMOTE_ADDR']]);
 }
 
-function editSite() {
-    $data = loadJson();
-    return [
-        "siteName" => $data['site-name'],
-        "nav" => implode("\n", $data['nav']),
-        "footer" => $data['footer']
-    ];
-}
-
 // read either a page or a pages section (even the whole site?) and fed the data to the front end as json
-function loadContent($page, $section) {
+function loadContent($params) {
     if (!validEditor()) {
         return ["error" => "Unauthorized"];
     }
     $data = loadJson();
-    $content = array();
-    if (empty($data['page'][$page])) {
-        $content = emptyPage();
+    $content = $params;
+
+    if ($params['load'] == 'page') {
+        if (empty($data['page'][$page])) {
+            $content = array_merge($content, emptyPage());
+        } else {
+            $content = array_merge($content, $data['page'][$params['page']]);
+            // dont need to send the sections
+            unset($content['section']);
+        }
+    } elseif ($params['load'] == 'section') {
+        $content = array_merge($content, $data['page'][$params['page']]['section'][$params['section']] ?? []);
+    } else {
+        $content = $data;
+        $content['nav'] = implode("\n", $content['nav']);
+        // dont need to send the pages
+        unset($content['page']);
     }
-    $content = $data['page'][$page]['section'][$section] ?? null;
-    $content['page'] = $page;
-    $content['section'] = $section;
+
     return $content;
 }
 
@@ -202,17 +204,17 @@ function saveContent($new) {
         return ["error" => "Unauthorized"];
     }
     $json = array();
-    $page = cleanString($new['page']);
+    $page = cleanString($new['page']) ?? '';
     $title = $new['title'] ?? '';
     $section = cleanString($new['section'] ?? '');
     $template = cleanString($new['template'] ?? '');
     $sort = cleanString($new['sort'] ?? '');
     $date = $new['date'] ?? '';
     $content = $new['content'] ?? '';
-    $siteName = $new['siteName'] ?? '';
-        $nav = $new['nav'] ?? '';
-            $footer = $new['footer'] ?? '';
-    logIt("saving {$siteName}, {$nav}, {$footer}, {$page}, {$title}, {$section}, {$template}, {$date}, {$content}");
+    $name = $new['name'] ?? '';
+    $nav = $new['nav'] ?? '';
+    $footer = $new['footer'] ?? '';
+    logIt("saving {$name}, {$nav}, {$footer}, {$page}, {$title}, {$section}, {$template}, {$date}, {$content}");
     // saving a page and a section
     $data = loadJson();
     if (!empty($page)) {
@@ -229,9 +231,9 @@ function saveContent($new) {
           $data['page'][$page]['title'] = $title;
           $data['page'][$page]['sort'] = $sort;
         }
-    } elseif (!empty($siteName)) {
-        $data['site-name'] = $siteName;
-        $data['nav'] = explode("\n", trim($nav));
+    } elseif (!empty($name)) {
+        $data['name'] = $name;
+        $data['nav'] = explode("\n", trim($nav.replace('\r', '')));
         $data['footer'] = $footer;
     }
 
