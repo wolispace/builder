@@ -157,18 +157,35 @@ body {
 }
 
 .nav {
-  display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem;
+    display: none;
+    flex-direction: column;
 }
+
+.nav-button {
+    display: flex;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    z-index: 1;
+}
+
 
 .nav-item {
     padding: 0.5rem;
     background-color: rgb(0, 0, 0, .45);
-    border-radius: .5rem;
-    width: 6rem;
+    width: 10rem;
+    font-size: 85%;
 }
+
 .nav-item:first-child {
      width: 1.1rem;
 }
+
 .nav-item a {
     color: white;
     text-decoration: none;
@@ -221,7 +238,7 @@ a:hover {
 
 
 /* Tablet and up */
-@media (min-width: 768px) {
+@media (min-width: 725px) {
     body {
         grid-template-areas:
             "header"
@@ -233,8 +250,22 @@ a:hover {
     }
     .nav {
         display: flex;
+        flex-direction: row;
         gap: 0.2rem;
-
+        position: relative;
+        padding: 0;
     }
+
+    .nav-button {
+        display: none;
+    }
+    .nav-item {
+        padding: 0.5rem;
+        background-color: rgb(0, 0, 0, .45);
+        border-radius: .5rem;
+        width: 5.5rem;
+        font-size: 85%;
+    }
+
 }
 

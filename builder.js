@@ -219,3 +219,9 @@ function isEditor() {
   const code = window.localStorage.getItem('code');
   return code !== null && code.length > 0;
 }
+
+function toggleNav() {
+  const nav = document.querySelector('.nav');
+  // eve though css appears to set 'none' its initially blank
+  nav.style.display = (!nav.style.display || nav.style.display == 'none') ? 'flex' : 'none';
+}
