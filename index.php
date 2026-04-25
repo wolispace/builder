@@ -189,31 +189,18 @@ function loadContent($params) {
     return $content;
 }
 
-// manipulating files on disk ----
-
-function loadJson($file = "_data.json") {
-    return json_decode(file_get_contents($file), true);
-}
-
-function saveJson($data, $file = "_data.json") {
-    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
-}
-
 function saveContent($new) {
     if (!validEditor()) {
         return ["error" => "Unauthorized"];
     }
-    logIt('saving ' . json_encode($new['save']));
     $data = loadJson();
     $page = cleanString($new['page']) ?? '';
     $section = cleanString($new['section'] ?? '');
     $template = cleanString($new['template'] ?? '');
     if ($new['save'] == 'site') {
-        logIt('We are saving site data');
         $data['name'] = $new['name'] ?? '';
-        $data['nav'] = explode("\n", trim($new['nav'].replace('\r', '')));
+        $data['nav'] = stringToArray($new[nav]);
         $data['footer'] = $new['footer'] ?? '';
-        logIt(`saved site `. json_encode($data));
     } elseif ($new['save'] == 'page') {
         if (empty($data['page'][$page])) {
             $data['page'][$page] = array();
@@ -297,7 +284,23 @@ function cleanString($str) {
   return substr($str, 0, 30);
 }
 
+function stringToArray($nlString) {
+    $nlString = str_replace("\r", '', $nlString);
+    $bits = explode("\n", $nlString);
+    return array_map('trim', $bits);
+}
+
 function outputJson($data) {
     header('Content-Type: application/json');
     echo json_encode($data);
+}
+
+// manipulating files on disk ----
+
+function loadJson($file = "_data.json") {
+    return json_decode(file_get_contents($file), true);
+}
+
+function saveJson($data, $file = "_data.json") {
+    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
 }
