@@ -170,22 +170,22 @@ function loadContent($params) {
     $content = $params;
 
     if ($params['load'] == 'page') {
-        if (empty($data['page'][$page])) {
-            $content = array_merge($content, emptyPage());
+        if (empty($data['page'][$params['page']])) {
+            $content = array_merge(emptyPage(), $content);
         } else {
-            $content = array_merge($content, $data['page'][$params['page']]);
+            $content = array_merge($data['page'][$params['page']], $content);
             // dont need to send the sections
             unset($content['section']);
         }
     } elseif ($params['load'] == 'section') {
-        $content = array_merge($content, $data['page'][$params['page']]['section'][$params['section']] ?? []);
+        $content = array_merge($data['page'][$params['page']]['section'][$params['section']], $content);
     } else {
         $content = $data;
         $content['nav'] = implode("\n", $content['nav']);
         // dont need to send the pages
         unset($content['page']);
     }
-
+    logIt('returning ' . json_encode($content));
     return $content;
 }
 
@@ -203,38 +203,35 @@ function saveContent($new) {
     if (!validEditor()) {
         return ["error" => "Unauthorized"];
     }
-    $json = array();
+    logIt('saving ' . json_encode($new['save']));
+    $data = loadJson();
     $page = cleanString($new['page']) ?? '';
-    $title = $new['title'] ?? '';
     $section = cleanString($new['section'] ?? '');
     $template = cleanString($new['template'] ?? '');
-    $sort = cleanString($new['sort'] ?? '');
-    $date = $new['date'] ?? '';
-    $content = $new['content'] ?? '';
-    $name = $new['name'] ?? '';
-    $nav = $new['nav'] ?? '';
-    $footer = $new['footer'] ?? '';
-    logIt("saving {$name}, {$nav}, {$footer}, {$page}, {$title}, {$section}, {$template}, {$date}, {$content}");
-    // saving a page and a section
-    $data = loadJson();
-    if (!empty($page)) {
-        if (!empty($section)) {
-            logIt("saving {$page}:{$section} with {$date}, {$content}");
-            $data['page'][$page]['section'][$section] = [
-                "date" => $date,
-                "template" => $template,
-                "content" => $content
-            ];
-        } else {
-          logIt("saving {$page} {$title}");
-          $data = loadJson();
-          $data['page'][$page]['title'] = $title;
-          $data['page'][$page]['sort'] = $sort;
+    if ($new['save'] == 'site') {
+        logIt('We are saving site data');
+        $data['name'] = $new['name'] ?? '';
+        $data['nav'] = explode("\n", trim($new['nav'].replace('\r', '')));
+        $data['footer'] = $new['footer'] ?? '';
+        logIt(`saved site `. json_encode($data));
+    } elseif ($new['save'] == 'page') {
+        if (empty($data['page'][$page])) {
+            $data['page'][$page] = array();
         }
-    } elseif (!empty($name)) {
-        $data['name'] = $name;
-        $data['nav'] = explode("\n", trim($nav.replace('\r', '')));
-        $data['footer'] = $footer;
+        $data['page'][$page]['title'] = $new['title'] ?? '';
+        $data['page'][$page]['template'] = $template;
+        $data['page'][$page]['sort'] = cleanString($new['sort'] ?? '');
+    } elseif ($new['save'] == 'section') {
+        if (empty($data['page'][$page]['section'][$section])) {
+            $data['page'][$page]['section'][$section] = array();
+        }
+        $data['page'][$page]['section'][$section]['date'] = $new['date'] ?? '';
+        $data['page'][$page]['section'][$section]['template'] = $template; 
+        $data['page'][$page]['section'][$section]['content'] = $new['content'] ?? '';
+    } else {
+        // no idea wat we are saving
+        logIt('No ideal how to save ' . json_encode($new));
+        return array("status" => "Dont know what to save");
     }
 
     saveJson($data);

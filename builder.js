@@ -57,7 +57,8 @@ async function editable(element) {
 }
 
 function editSection(section) {
-  let html = `<form method="post" class="form">
+  let html = `<form class="form">
+  <input type="hidden" name="save" value="section" />
   <label for="section">Section</label>
   <input type="text" id="section" name="section" value="${section.section || ''}">
   <label for="template">Template</label>
@@ -92,10 +93,16 @@ function addPage() {
 
 function editPage(page) {
   let html = `<form class="form">
+  <input type="hidden" name="save" value="page" />
   <label for="page">Page</label>
   <input type="text" id="page" name="page" value="${page.page || ''}">
   <label for="title">Title</label>
   <input type="text" id="title" name="title" value="${page.title || ''}">
+  <label for="template">Template</label>
+  <select id="template" name="template">
+   <option value="">Stndard page layout</option>
+   <option value="home" ${page.template == 'home' ? 'selected' : ''}>Home page layout</option>
+  </select> 
   <label for="sort">Sort sections</label>
   <select id="sort" name="sort">
    <option value="">Oldest first</option>
@@ -108,7 +115,8 @@ function editPage(page) {
 
 async function editSite(site) {
   let html = `<form class="form">
-  <label for="site-name">Site name</label>
+  <input type="hidden" name="save" value="site" />
+  <label for="name">Site name</label>
   <input type="text" id="name" name="name" value="${site.name || ''}">
   <label for="nav">Menu</label>
   <textarea id="nav" name="nav">${site.nav || ''}</textarea>
@@ -120,45 +128,10 @@ async function editSite(site) {
 
 
 async function saveForm() {
-
   const form = document.querySelector('form.form');
   const formData = new FormData(form);
   await fetch('', { method: 'POST', body: formData });
   window.location.reload();
-/*
-  // TODO: need to work out why foem we are saving, currently its assuming section
-  const formData = {};
-  if (document.querySelector('#page')) {
-    formData.page = document.querySelector('#page').value;
-  }
-
-  if (document.querySelector('#title')) {
-    formData.title = document.querySelector('#title').value;
-  } 
-
-  if (formData.content = document.querySelector('#content')) {
-    formData.date = document.querySelector('#date').value;
-    formData.content = document.querySelector('#content').value;
-    formData.section = document.querySelector('#section').value;
-  }
-
-  if (document.querySelector('#nav')) {
-    formData.siteName = document.querySelector('#site-name').value;
-    formData.nav = document.querySelector('#nav').value;
-    formData.footer = document.querySelector('#footer').value;
-  } 
-  
-  const imageInput = document.querySelector('#image');
-  if (imageInput && imageInput.files[0]) {
-    formData.append('image', imageInput.files[0]);
-  }
-
-  const response = await fetch('', {
-    method: 'POST',
-    body: formData   // no Content-Type header — browser sets multipart/form-data automatically
-  });
-  window.location.reload();
-  */
 }
 
 function addSection(page, section) {

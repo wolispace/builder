@@ -1,13 +1,13 @@
 {
     "name": "Edit site",
-    "footer": "Something interesting here.",
+    "footer": "Something interesting here.  About Link",
     "nav": [
-        "home\r",
-        "about\r",
-        "community\r",
-        "green\r",
-        "leadership\r",
-        "development\r",
+        "home",
+        "about",
+        "community",
+        "green",
+        "leadership",
+        "development",
         "blog"
     ],
     "page": {
@@ -46,7 +46,9 @@
                     "template": "",
                     "content": "This is some basic content.\n\nJust press enter for a new paragraph\n\nUse double asterisks around text to bold \\*\\*This\\*\\*\n"
                 }
-            }
+            },
+            "sort": "",
+            "template": "home"
         },
         "about": {
             "title": "About",
@@ -129,8 +131,8 @@
             }
         },
         "development": {
-            "title": "Modelling and Development",
-            "sort": "desc",
+            "title": "Development",
+            "sort": "",
             "section": {
                 "001": {
                     "date": "",
@@ -140,7 +142,7 @@
                 "002": {
                     "date": "",
                     "template": "",
-                    "content": "Some additional content"
+                    "content": "Some additional content\r\n\r\nAnd line two"
                 }
             }
         },
