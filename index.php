@@ -56,6 +56,11 @@ function outputPage($data, $templates, $page) {
         $nextSection++;
         $thisTemplate = empty($sectionData['template']) ? $templates['section'] : $templates[$sectionData['template']];
 
+        $content = $sectionData['content'];
+        if ($sectionData['template'] != "section_yt") {
+            $content = $Parsedown->text($sectionData['content']);
+        }
+
         $sections .= str_replace([
             "{{page}}",
             "{{section}}",
@@ -68,7 +73,7 @@ function outputPage($data, $templates, $page) {
             $section,
             $sectionData['template'] ?? 'section',
             $sectionData['date'] ?? '',
-            $Parsedown->text($sectionData['content']),
+            $content,
             buildImage($page, $section)
         ], $thisTemplate);
     }

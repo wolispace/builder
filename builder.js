@@ -65,6 +65,7 @@ function editSection(params) {
   <select id="template" name="template">
    <option value="">With background</option>
    <option value="section_nb" ${params.template == 'section_nb' ? 'selected' : ''}>Without background</option>
+   <option value="section_yt" ${params.template == 'section_yt' ? 'selected' : ''}>Embedded YouTube</option>
   </select>
   <label for="date">Date</label>
   <input type="text" id="date" name="date" value="${params.date || ''}">
