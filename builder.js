@@ -120,6 +120,8 @@ async function editSite(params) {
   <input type="hidden" name="save" value="site" />
   <label for="name">Site name</label>
   <input type="text" id="name" name="name" value="${params.name || ''}">
+  <label for="logotext">Logo sub-text</label>
+  <input type="text" id="logotext" name="logotext" value="${params.logotext || ''}">
   <label for="tagline">Tag line</label>
   <input type="text" id="tagline" name="tagline" value="${params.tagline || ''}">
   <label for="nav">Menu</label>

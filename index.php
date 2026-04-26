@@ -87,6 +87,7 @@ function outputPage($data, $templates, $page) {
     $pageContent = str_replace(
         [
             "{{name}}", 
+            "{{logotext}}",
             "{{title}}",
             "{{tagline}}",
             "{{page}}",
@@ -100,6 +101,7 @@ function outputPage($data, $templates, $page) {
         ],
         [
             $data['name'],
+            $data['logotext'],
             $thisPage['title'],
             $tagline,
             $page,
@@ -217,6 +219,7 @@ function saveContent($new) {
     $template = cleanString($new['template'] ?? '');
     if ($new['save'] == 'site') {
         $data['name'] = $new['name'] ?? '';
+        $data['logotext'] = $new['logotext'] ?? '';
         $data['tagline'] = $new['tagline'] ?? '';
         $data['nav'] = stringToArray($new[nav]);
         $data['footer'] = $new['footer'] ?? '';
