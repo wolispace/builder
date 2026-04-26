@@ -72,7 +72,7 @@ function editSection(params) {
   <textarea id="content" name="content">${params.content || ''}</textarea>
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
-  
+  <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}" />
   <input type="hidden" id="section" name="section" value="${params.section}">
   <input type="hidden" id="page" name="page" value="${params.page}">
   </form>`;

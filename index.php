@@ -14,6 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode($_REQUEST['j'], true);
     outputJson(handleData($data));
     exit;
+} elseif (isset($_GET['image'])) {
+    outputImage();
+    exit;    
 } else {
     // regular page load, e.g. /?about-us
     $urlKeys = array_keys($_GET);
@@ -323,6 +326,26 @@ function stringToArray($nlString) {
 function outputJson($data) {
     header('Content-Type: application/json');
     echo json_encode($data);
+}
+
+function outputImage() {
+    $page = $_GET['image'];
+    $section = $_GET['section'] ?? '';
+    $extTypes = array('jpg', 'png');
+    $fileName = "image/_{$page}.{$ext}";
+    foreach ($extTypes as $ext) {
+        if (!empty($section)) {
+            $fileName = "image/_{$page}_{$section}.{$ext}"; 
+        }
+       if (file_exists($fileName)) {
+            header("Content-Type: image/{$ext}");
+            readfile($fileName);
+            return;
+       }
+    }
+    header("Content-Type: image/png");
+    readfile('image/blank.png');
+
 }
 
 // manipulating files on disk ----

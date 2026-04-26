@@ -10,14 +10,10 @@ body {
     font-family: Tahoma, Verdana, Geneva, sans-serif;
     padding: 0;
     margin: 0;
-    body {
     background-color: var(--background-color);
     background-image: url('image/_brand_spiral_001.png');
     background-repeat: no-repeat;
     background-position: 0 -600px;
-
-}
-
 }
 
 body {
@@ -89,8 +85,16 @@ body {
     height: 10rem;
     border-radius: .5rem;
     object-fit: cover;
-    object-position: center; /* or: top, bottom, 50% 20%, etc. */
+    object-position: center;
     padding-top: 1rem;
+}
+
+.image-thumbnail {
+    width: 10rem;
+    height: 3rem;
+    object-fit: cover;
+    object-position: center;
+    
 }
 
 .section-column {
