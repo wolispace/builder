@@ -1,6 +1,5 @@
 :root {
-    --font-color: rgba(200, 255, 255, 0.85);
-    --font-color-bold: rgba(200, 192, 229, 1);
+    --font-color: rgba(255, 255, 255, 0.75);
     --background-color: #13423a;
     --max-width: 800px;
 }
@@ -45,7 +44,6 @@ body {
 
 .section {
     position: relative;
-    max-width: var(--max-width);
     padding: 0 1rem 1rem 1rem;
     border-radius: 1rem;
     margin: 1rem 0;
@@ -53,7 +51,6 @@ body {
 
 .section-nb {
     position: relative;
-    max-width: var(--max-width);
     padding: 0 1rem;
     margin: 0;
 }
@@ -64,7 +61,6 @@ body {
 
 .section-image {
     width: 100%;
-    max-width: var(--max-width);
     height: 10rem;
     border-radius: .5rem;
     object-fit: cover;
@@ -84,14 +80,6 @@ body {
     text-align: center;
     padding: 1rem 0;
     box-sizing: border-box;
-}
-
-.site-name {
-    display: relative;
-}
-
-.page-name {
-    display: relative;
 }
 
 .section-date {
