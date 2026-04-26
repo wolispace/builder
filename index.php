@@ -37,7 +37,9 @@ function outputPage($data, $templates, $page) {
     }
     $thisPage['title'] = empty($thisPage['title']) ? "&nbsp;" : $thisPage['title'];
 
-    $pageContent = $templates['page'];
+    $pageTemplate = empty($thisPage['template']) ? 'page' : $thisPage['template'];
+    $pageContent = $templates[$pageTemplate];
+
     if ($thisPage['sort'] == "desc") {
         krsort($thisPage['section']);
     } else {
@@ -78,6 +80,7 @@ function outputPage($data, $templates, $page) {
             "{{footer}}",
             "{{nav}}",
             "{{sections}}",
+            "{{cards}}",
             "{{nextSection}}",
             "{{v}}"
         ],
@@ -89,6 +92,7 @@ function outputPage($data, $templates, $page) {
             $data['footer'],
             buildNav($data),
             $sections,
+            buildCards($data),
             $nextSection,
             $version
         ], 
@@ -185,7 +189,6 @@ function loadContent($params) {
         // dont need to send the pages
         unset($content['page']);
     }
-    logIt('returning ' . json_encode($content));
     return $content;
 }
 
@@ -251,6 +254,25 @@ function buildNav($data) {
         }
         $html .= "<div class='nav-item'><a href='?{$item}'>{$caption}</a></div>";
     }
+    return $html;
+}
+
+function buildCards($data) {
+    $html = '<div class="cards">';
+    foreach($data['nav'] as $item ) {
+        $item = trim($item);
+        if ($item == 'home') {
+            continue;
+        }
+        $title = $data['page'][$item]['title'] ?? prettyText($item);
+        $intro = $data['page'][$item]['intro'] ?? '';
+        
+        $html .= "<div class='card'><a href='?{$item}'>";
+        $html .= "<div class='card-title'>{$title}</div>";
+        $html .= "<div class='card-intro'>{$intro}</div>";
+        $html .= "</div>";
+    }
+    $html .= "</a></div>";
     return $html;
 }
 

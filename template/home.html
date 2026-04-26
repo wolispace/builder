@@ -14,18 +14,13 @@
 </head>
 
 <body>
-    <div class="header editable" data-load="site" data-page="{{page}}" data-sort="{{sort}}">
-        <img class="logo" src="image/_logo_name_only.png" />
-        <div class="site-name" >{{name}}</div>
-    </div>
-    <div class="title editable" data-load="page" data-page="{{page}}">{{title}}</div>
-    <div class="nav-button" onclick="toggleNav()"><i class="fas fa-bars"></i></div>
-    <div class="nav">{{nav}}</div>
-    <div class="sections">
-        {{sections}}
-        <div class="dialogbuttons">
-            <div class="add-section button rounded">{{nextSection}}</div>
-            <div class="add-page button rounded"></div>
+    <div class="container">
+        <div class="header editable" data-load="site" data-page="{{page}}" data-sort="{{sort}}">
+            <img class="logo" src="image/_logo_name_only.png" />
+            <div class="site-name" >{{name}}</div>
+        </div>
+        <div class="sections">
+            {{cards}}
         </div>
     </div>
     <div class="footer">{{footer}}</div>
