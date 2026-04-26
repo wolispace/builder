@@ -71,10 +71,16 @@ function outputPage($data, $templates, $page) {
     }
     $nextSection = sprintf("%03d", ++$nextSection);
 
+    $tagline = '';
+    if (!empty($data['tagline'])) {
+        $tagline = "<div class='tagline'>{$data['tagline']}</div>";
+    }
+
     $pageContent = str_replace(
         [
             "{{name}}", 
             "{{title}}",
+            "{{tagline}}",
             "{{page}}",
             "{{sort}}",
             "{{footer}}",
@@ -87,9 +93,10 @@ function outputPage($data, $templates, $page) {
         [
             $data['name'],
             $thisPage['title'],
+            $tagline,
             $page,
             $thisPage['sort'],
-            $data['footer'],
+            $Parsedown->text($data['footer']),
             buildNav($data),
             $sections,
             buildCards($data),
@@ -202,6 +209,7 @@ function saveContent($new) {
     $template = cleanString($new['template'] ?? '');
     if ($new['save'] == 'site') {
         $data['name'] = $new['name'] ?? '';
+        $data['tagline'] = $new['tagline'] ?? '';
         $data['nav'] = stringToArray($new[nav]);
         $data['footer'] = $new['footer'] ?? '';
     } elseif ($new['save'] == 'page') {

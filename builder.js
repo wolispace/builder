@@ -118,6 +118,8 @@ async function editSite(site) {
   <input type="hidden" name="save" value="site" />
   <label for="name">Site name</label>
   <input type="text" id="name" name="name" value="${site.name || ''}">
+  <label for="tagline">Tag line</label>
+  <input type="text" id="tagline" name="tagline" value="${site.tagline || ''}">
   <label for="nav">Menu</label>
   <textarea id="nav" name="nav">${site.nav || ''}</textarea>
   <label for="footer">Footer</label>
