@@ -300,7 +300,7 @@ a:hover {
 }
 
 .logo {
-    height: 6rem;
+    height: 10rem;
 }
 .home-header {
     display: flex;
@@ -309,7 +309,7 @@ a:hover {
 }
 
 .home-logo {
-    height: 15rem;
+    height: 10rem;
 }
 
 
@@ -325,6 +325,14 @@ a:hover {
         width: 100%;
     }
 
+    .logo {
+        height: 6rem;
+    }
+
+    .home-logo {
+        height: 15rem;
+    }
+
     .nav {
         display: flex;
         flex-direction: row;
@@ -336,6 +344,7 @@ a:hover {
     .nav-button {
         display: none;
     }
+
     .nav-item {
         padding: 0.5rem;
         background-color: rgb(0, 0, 0, .45);
