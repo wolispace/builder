@@ -11,16 +11,15 @@ body {
     padding: 0;
     margin: 0;
     background-color: var(--background-color);
-    background-image: url('image/_brand_spiral_001.png');
-    background-repeat: no-repeat;
-    background-position: 0 -600px;
 }
 
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-image: url("images/_brand_spiral_001.png");
+    background-image: url('image/_brand_spiral_001.png');
+    background-repeat: no-repeat;
+    background-position: 0 -600px;
 }
 
 .container {
