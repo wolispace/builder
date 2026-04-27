@@ -305,8 +305,9 @@ a:hover {
 }
 
 .logo {
-    height: 10rem;
+    height: 8rem;
 }
+
 .home-header {
     display: flex;
     flex-direction: column;
@@ -314,7 +315,7 @@ a:hover {
 }
 
 .home-logo {
-    height: 10rem;
+    height: 8rem;
 }
 
 

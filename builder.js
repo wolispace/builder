@@ -7,11 +7,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       section.insertAdjacentHTML('beforeend',`<div class="editButton" onclick="editable(this.parentElement)"><i class="fas fa-pencil"></i></div>`);
     });
 
-    const page = document.querySelector('.header').dataset.page;
     const addSectionButton = document.querySelector('.add-section');
     if (addSectionButton) {
+      const page = document.querySelector('.header').dataset.page;
       const newSection = addSectionButton.innerHTML;
-      
       addSectionButton.addEventListener('click', () => addSection(page, newSection));
       addSectionButton.style.display = 'block';
       addSectionButton.innerHTML = "+ Add a new section";
