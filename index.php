@@ -43,10 +43,13 @@ function outputPage($data, $templates, $page) {
     $pageTemplate = empty($thisPage['template']) ? 'page' : $thisPage['template'];
     $pageContent = $templates[$pageTemplate];
 
-    if ($thisPage['sort'] == "desc") {
-        krsort($thisPage['section']);
-    } else {
-        ksort($thisPage['section']);
+    if (isset($thisPage['sort'])) {
+
+        if ($thisPage['sort'] == "desc") {
+            krsort($thisPage['section']);
+        } else {
+            ksort($thisPage['section']);
+        }
     }
 
     $nextSection = 0;
@@ -105,7 +108,7 @@ function outputPage($data, $templates, $page) {
             $thisPage['title'],
             $tagline,
             $page,
-            $thisPage['sort'],
+            $thisPage['sort'] ?? '',
             $Parsedown->text($data['footer']),
             buildNav($data),
             $sections,
@@ -340,8 +343,8 @@ function outputImage() {
     $page = $_GET['image'];
     $section = $_GET['section'] ?? '';
     $extTypes = array('jpg', 'png');
-    $fileName = "image/_{$page}.{$ext}";
     foreach ($extTypes as $ext) {
+        $fileName = "image/_{$page}.{$ext}";
         if (!empty($section)) {
             $fileName = "image/_{$page}_{$section}.{$ext}"; 
         }

@@ -101,7 +101,7 @@ function editPage(params) {
   <input type="text" id="title" name="title" value="${params.title || ''}">
   <label for="template">Template</label>
   <select id="template" name="template">
-   <option value="">Stndard page layout</option>
+   <option value="">Standard page layout</option>
    <option value="home" ${params.template == 'home' ? 'selected' : ''}>Home page layout</option>
   </select> 
   <label for="sort">Sort sections</label>
