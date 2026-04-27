@@ -21,15 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // regular page load, e.g. /?about-us
     $urlKeys = array_keys($_GET);
     $page = $urlKeys[0] ?? 'home';
-    $templateFolder = "template/";
-    $data = loadJson();
-    $templates = loadTemplates("template");
-    outputPage($data, $templates, $page);
+    $dataFile = !empty($_GET['d']) ? "_backups/_{$_GET['d']}_data.json" : '_data.json';
+    $data = loadJson($dataFile);
+    outputPage($data, $page);
 }
 
 // end of request handler -----
 
-function outputPage($data, $templates, $page) {
+function outputPage($data, $page) {
+    $templates = loadTemplates("template");
     require_once 'Parsedown.php';
     $Parsedown = new Parsedown();
     $version = rand(100000, 999999);
@@ -85,6 +85,11 @@ function outputPage($data, $templates, $page) {
     $tagline = '';
     if (!empty($data['tagline'])) {
         $tagline = "<div class='tagline'>{$data['tagline']}</div>";
+    }
+    logIt($pageTemplate);
+    if ($pageTemplate == 'revisions') {
+        $sections = buildRevisions();
+        logIt($sections);
     }
 
     $pageContent = str_replace(
@@ -153,6 +158,23 @@ function emptyPage() {
     ];
 }
 
+function buildRevisions() {
+    $html = '';
+    $files = scandir('_backups');
+    foreach ($files as $file) {
+        if (in_array($file, [".", ".."])) {
+            continue;
+        }
+        preg_match('/(\d+)/', $file, $matches);
+        $YmdHis = $matches[1];
+        $date = DateTime::createFromFormat('YmdHis', $YmdHis);
+        $dateString = $date->format('D d M Y H:i:s');
+
+        $html .= "<div class='revision'><a href='?&d={$YmdHis}'>{$dateString}</a></div>";
+    }
+    return $html;
+}
+
 function handleFiles($data) {
     if (isset($_FILES['image'])) {
         $tmpPath = $_FILES['image']['tmp_name'];
@@ -217,6 +239,7 @@ function saveContent($new) {
         return ["error" => "Unauthorized"];
     }
     $data = loadJson();
+    backup($data);
     $page = cleanString($new['page']) ?? '';
     $section = cleanString($new['section'] ?? '');
     $template = cleanString($new['template'] ?? '');
@@ -245,9 +268,14 @@ function saveContent($new) {
         logIt('No ideal how to save ' . json_encode($new));
         return array("status" => "Dont know what to save");
     }
-
     saveJson($data);
     return array("status" => "success");
+}
+
+function backup($data) {
+    $YmdHis = date('YmdHis');
+    saveJson($data, "_backups/_{$YmdHis}_data.json");
+    // roll off old backups
 }
 
 function loadTemplates($folder) {
