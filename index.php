@@ -311,7 +311,7 @@ function buildNav($data) {
         if (empty($caption)) {
             $caption = $data['page'][$item]['title'] ?? prettyText($item);
         }
-        $html .= "<div class='nav-item'><a href='?{$item}'>{$caption}</a></div>";
+        $html .= "<a class='nav-item' href='?{$item}'>{$caption}</a>";
     }
     return $html;
 }
@@ -326,12 +326,12 @@ function buildCards($data) {
         $title = $data['page'][$item]['title'] ?? prettyText($item);
         $intro = $data['page'][$item]['intro'] ?? '';
         
-        $html .= "<div class='card'><a href='?{$item}'>";
+        $html .= "<a class='card' href='?{$item}'>";
         $html .= "<div class='card-title'>{$title}</div>";
         $html .= "<div class='card-intro'>{$intro}</div>";
-        $html .= "</div>";
+        $html .= "</a>";
     }
-    $html .= "</a></div>";
+    $html .= "</div>";
     return $html;
 }
 

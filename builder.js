@@ -112,6 +112,11 @@ function editPage(params) {
    <option value="">Oldest first</option>
    <option value="desc" ${params.sort == 'desc' ? 'selected' : ''}>Newest first</option>
   </select>
+  <label for="image">Image</label>
+  <input type="file" id="image" name="image" accept="image/*">
+  <img class="image-thumbnail" src="?image=${params.page}" />
+  <label for="imagedesc">Image description</label>
+  <input type="text" id="imagedesc" name="imagedesc" value="${params.imagedesc || ''}">
   </form>`;
 
   showDialog(html);
