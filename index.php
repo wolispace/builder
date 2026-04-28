@@ -133,6 +133,10 @@ function buildImage($page, $section, $template, $imagedesc) {
             $filename = "image/_{$page}_{$section}.jpg";
         } elseif (file_exists("image/_{$page}_{$section}.png")) {
             $filename = "image/_{$page}_{$section}.png";
+        } elseif (file_exists("image/_{$page}.jpg")) {
+            $filename = "image/_{$page}.jpg";
+        } elseif (file_exists("image/_{$page}.png")) {
+            $filename = "image/_{$page}.png";
         }
         if (empty($filename)) {
             return '';
@@ -186,9 +190,11 @@ function handleFiles($data) {
     if (isset($_FILES['image'])) {
         $tmpPath = $_FILES['image']['tmp_name'];
         $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-        // $filename = basename($_FILES['image']['name']);
-        $destination = "image/_{$data['page']}_{$data['section']}.{$ext}";
-        // $destination = 'image/' . $filename;
+        if(!empty($data['section'])) {
+            $destination = "image/_{$data['page']}.{$ext}";
+        } else {
+            $destination = "image/_{$data['page']}_{$data['section']}.{$ext}";
+        }
         move_uploaded_file($tmpPath, $destination);
     }
 }
@@ -263,6 +269,7 @@ function saveContent($new) {
         $data['page'][$page]['title'] = $new['title'] ?? '';
         $data['page'][$page]['template'] = $template;
         $data['page'][$page]['sort'] = cleanString($new['sort'] ?? '');
+        $data['page'][$page]['imagedesc'] = $new['imagedesc'] ?? '';
     } elseif ($new['save'] == 'section') {
         if (empty($data['page'][$page]['section'][$section])) {
             $data['page'][$page]['section'][$section] = array();
@@ -323,12 +330,15 @@ function buildCards($data) {
         if ($item == 'home') {
             continue;
         }
+
+        $imageHtml = buildImage($item, null, null, $data['page'][$item]['imagedesc']);
         $title = $data['page'][$item]['title'] ?? prettyText($item);
         $intro = $data['page'][$item]['intro'] ?? '';
         
         $html .= "<a class='card' href='?{$item}'>";
         $html .= "<div class='card-title'>{$title}</div>";
         $html .= "<div class='card-intro'>{$intro}</div>";
+        $html .= $imageHtml;
         $html .= "</a>";
     }
     $html .= "</div>";
@@ -381,7 +391,7 @@ function outputImage() {
     $section = $_GET['section'] ?? '';
     $extTypes = array('jpg', 'png');
     foreach ($extTypes as $ext) {
-        $fileName = "image/_{$page}.{$ext}";
+        $fileName = "image/_{$page}_.{$ext}";
         if (!empty($section)) {
             $fileName = "image/_{$page}_{$section}.{$ext}"; 
         }
