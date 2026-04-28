@@ -44,13 +44,16 @@ body {
 
 .site-name {
     position: relative;
-    font-style: italics;
     padding-bottom: 1rem;
+    font-style: italic;
+    white-space: nowrap;
 }
 
 .tagline {
     font-weight: bold;
     font-size: 110%;
+    font-style: italic;
+    color: white;
 }
 
 .title {
