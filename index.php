@@ -77,7 +77,7 @@ function outputPage($data, $page) {
             $sectionData['template'] ?? 'section',
             $sectionData['date'] ?? '',
             $content,
-            buildImage($page, $section, $sectionData['template'])
+            buildImage($page, $section, $sectionData['template'], $sectionData['imagedesc'])
         ], $thisTemplate);
     }
     $nextSection = sprintf("%03d", ++$nextSection);
@@ -126,7 +126,7 @@ function outputPage($data, $page) {
     echo $pageContent;
 }
 
-function buildImage($page, $section, $template) {
+function buildImage($page, $section, $template, $imagedesc) {
     $html = '';
     $filename = '';
         if (file_exists("image/_{$page}_{$section}.jpg")) {
@@ -138,7 +138,7 @@ function buildImage($page, $section, $template) {
             return '';
         }
 
-        $html = "<img class='image_{$template}' src='{$filename}' />";
+        $html = "<img class='image_{$template}' src='{$filename}' alt='{$imagedesc}' />";
         
     return $html;
 }
@@ -270,6 +270,8 @@ function saveContent($new) {
         $data['page'][$page]['section'][$section]['date'] = $new['date'] ?? '';
         $data['page'][$page]['section'][$section]['template'] = $template; 
         $data['page'][$page]['section'][$section]['content'] = $new['content'] ?? '';
+        $data['page'][$page]['section'][$section]['imagedesc'] = $new['imagedesc'] ?? '';
+        
     } else {
         // no idea wat we are saving
         logIt('No ideal how to save ' . json_encode($new));

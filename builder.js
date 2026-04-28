@@ -74,6 +74,8 @@ function editSection(params) {
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
   <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}" />
+  <label for="imagedesc">Image description</label>
+  <input type="text" id="imagedesc" name="imagedesc" value="${params.imagedesc || ''}">
   <input type="hidden" id="section" name="section" value="${params.section}">
   <input type="hidden" id="page" name="page" value="${params.page}">
   </form>`;
