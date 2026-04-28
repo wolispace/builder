@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if ($editor) {
     // add universal edit button to editable
     document.querySelectorAll('.editable').forEach(section => {
-      section.insertAdjacentHTML('beforeend',`<div class="editButton" onclick="editable(this.parentElement)"><i class="fas fa-pencil"></i></div>`);
+      section.insertAdjacentHTML('beforeend',`<span class="editButton button rounded" onclick="editable(this.parentElement)"><i class="fas fa-pencil"></i></span>`);
     });
 
     const addSectionButton = document.querySelector('.add-section');
@@ -64,6 +64,7 @@ function editSection(params) {
   <select id="template" name="template">
    <option value="">With background</option>
    <option value="section_nb" ${params.template == 'section_nb' ? 'selected' : ''}>Without background</option>
+   <option value="section_nb_wrap" ${params.template == 'section_nb_wrap' ? 'selected' : ''}>Wrapped image without background</option>
    <option value="section_yt" ${params.template == 'section_yt' ? 'selected' : ''}>Embedded YouTube</option>
   </select>
   <label for="date">Date</label>

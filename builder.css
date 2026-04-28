@@ -60,6 +60,10 @@ body {
     padding: 1rem 0;
 }
 
+.editable:hover .editButton {
+    background-color: rgb(119, 142, 189);
+}
+
 .section {
     position: relative;
     padding: 0 1rem 1rem 1rem;
@@ -73,6 +77,17 @@ body {
     margin: 0;
 }
 
+.section-nb-wrap {
+    position: relative;
+    margin: 0;
+}
+
+.section_nb_wrap::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 .section-yt {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -83,13 +98,30 @@ body {
     background-color: rgba(0, 0, 0, 0.25);
 }
 
-.section-image {
+.image_ {
     width: 100%;
     height: 10rem;
     border-radius: .5rem;
     object-fit: cover;
     object-position: center;
-    padding-top: 1rem;
+}
+
+.image_section_nb {
+    width: 100%;
+    height: 10rem;
+    border-radius: 1rem;
+    object-fit: cover;
+    object-position: center;
+}
+
+.image_section_nb_wrap {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 1rem;
+    object-fit: cover;
+    object-position: center;    
+    float: left; 
+    margin-right: 1rem;
 }
 
 .image-thumbnail {
@@ -120,14 +152,16 @@ body {
 
 .editButton {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  cursor: pointer;
-  opacity: 0.6;
+  top: -0.5rem;
+  left: -1rem;
+  z-index: 1;
+  padding: 0 1rem !important;
 }
 
-.editButton:hover {
-    opacity: 1;
+.header .editButton {
+    top: 0rem;
+    left: 0rem;
+
 }
 
 .dialog {
@@ -141,7 +175,7 @@ body {
     box-shadow: 1rem 1rem 2rem rgba(0,0,0,0.5);
     padding: 1rem;
     margin: 1rem;
-    z-index: 1;
+    z-index: 3;
     max-width: 500px;
 }
 
@@ -162,6 +196,7 @@ body {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.5);
+    z-index: 2;
 }
 .overlay.visible { display: block; }
 
@@ -181,7 +216,7 @@ body {
     border-right: 3px solid rgb(0, 0, 0, .45);
     border-bottom: 3px solid rgb(0, 0, 0, .45);
     border-left: 3px solid rgb(255, 255, 255, .25);
-    font-size: 110%;
+    font-size: 1rem;
     cursor: pointer;
 }
 
@@ -216,12 +251,16 @@ body {
     right: 1rem;
     cursor: pointer;
     z-index: 2;
+    font-size: 150%;
+}
+.nav-button:hover {
+    color: white;
 }
 
 
 .nav-item {
     padding: 0.5rem;
-    background-color: rgb(0, 0, 0, .45);
+    background-color: #0a2420;
     width: 10rem;
     font-size: 85%;
 }

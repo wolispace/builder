@@ -77,7 +77,7 @@ function outputPage($data, $page) {
             $sectionData['template'] ?? 'section',
             $sectionData['date'] ?? '',
             $content,
-            buildImage($page, $section)
+            buildImage($page, $section, $sectionData['template'])
         ], $thisTemplate);
     }
     $nextSection = sprintf("%03d", ++$nextSection);
@@ -126,13 +126,20 @@ function outputPage($data, $page) {
     echo $pageContent;
 }
 
-function buildImage($page, $section) {
-    $html ="";
+function buildImage($page, $section, $template) {
+    $html = '';
+    $filename = '';
         if (file_exists("image/_{$page}_{$section}.jpg")) {
-            $html = "<img class='section-image' src='image/_{$page}_{$section}.jpg' />";
+            $filename = "image/_{$page}_{$section}.jpg";
         } elseif (file_exists("image/_{$page}_{$section}.png")) {
-            $html = "<img class='section-image' src='image/_{$page}_{$section}.png' />";
+            $filename = "image/_{$page}_{$section}.png";
         }
+        if (empty($filename)) {
+            return '';
+        }
+
+        $html = "<img class='image_{$template}' src='{$filename}' />";
+        
     return $html;
 }
 // TODO: thiss should just be another page in json like login and other hidden but editable using a sspecific template if needed
