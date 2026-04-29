@@ -86,11 +86,11 @@ function outputPage($data, $page) {
     if (!empty($data['tagline'])) {
         $tagline = "<div class='tagline'>{$data['tagline']}</div>";
     }
-    logIt($pageTemplate);
     if ($pageTemplate == 'revisions') {
         $sections = buildRevisions();
-        logIt($sections);
     }
+
+    $revisions = buildRevisions($page);
 
     $pageContent = str_replace(
         [
@@ -105,6 +105,7 @@ function outputPage($data, $page) {
             "{{sections}}",
             "{{cards}}",
             "{{nextSection}}",
+            "{{revisions}}",
             "{{v}}"
         ],
         [
@@ -119,6 +120,7 @@ function outputPage($data, $page) {
             $sections,
             buildCards($data),
             $nextSection,
+            $revisions,
             $version
         ], 
         $pageContent);
@@ -169,21 +171,35 @@ function emptyPage() {
     ];
 }
 
-function buildRevisions() {
+function buildRevisions($page = '') {
     $html = '';
     $files = scandir('_backups');
+    $count = 0;
     foreach ($files as $file) {
         if (in_array($file, [".", ".."])) {
             continue;
         }
+        if (!empty($page) && !strpos($file, $page)) {
+            continue;
+        }
+        $count++;
         preg_match('/(\d+)/', $file, $matches);
         $YmdHis = $matches[1];
         $date = DateTime::createFromFormat('YmdHis', $YmdHis);
         $dateString = $date->format('D d M Y H:i:s');
-
-        $html .= "<div class='revision'><a href='?&d={$YmdHis}'>{$dateString}</a></div>";
+        preg_match('/\d_(\w+)_/', $file, $matches);
+        $thisPage = $matches[1];
+        if(!empty($thisPage)) {
+            $html .= "<div class='revision'><a href='?{$thisPage}&d={$YmdHis}_{$thisPage}'>{$dateString} {$thisPage}</a></div>";
+        } else {
+            $html .= "<div class='revision'><a href='?home&d={$YmdHis}'>{$dateString} homepage</a></div>";
+            
+        }
     }
-    return $html;
+    if ($count > 0) {
+        return "<fieldset class='revisions'><legend>Revisions</legend>{$html}</fieldset>";
+    }
+    return '';
 }
 
 function handleFiles($data) {
@@ -252,8 +268,8 @@ function saveContent($new) {
         return ["error" => "Unauthorized"];
     }
     $data = loadJson();
-    backup($data);
     $page = cleanString($new['page']) ?? '';
+    backup($data, $page);
     $section = cleanString($new['section'] ?? '');
     $template = cleanString($new['template'] ?? '');
     if ($new['save'] == 'site') {
@@ -288,9 +304,19 @@ function saveContent($new) {
     return array("status" => "success");
 }
 
-function backup($data) {
+function backup($data, $page = '') {
     $YmdHis = date('YmdHis');
-    saveJson($data, "_backups/_{$YmdHis}_data.json");
+    $filename = "_backups/_{$YmdHis}_data.json";
+    if (!empty($page)) {
+        $filename = "_backups/_{$YmdHis}_{$page}_data.json";
+        $pageData = $data['page'][$page];
+        // wipe all other pages as they were not part of this save
+        if (!empty($page)) {
+            $data['page'] = [];
+            $data['page'][$page] = $pageData;
+        }
+    }
+    saveJson($data, $filename);
     // roll off old backups
 }
 

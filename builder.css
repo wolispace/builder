@@ -142,6 +142,21 @@ body {
     gap: 0.5rem;
 }
 
+.revisions {
+    font-size: 65%;
+    background-color: rgba(0, 0, 0, .5);
+    height: 3rem;
+    overflow-y: scroll;
+    width: 15rem;
+    border-radius: 0.5rem;
+    border-color: rgba(0, 0, 0, .8);
+    margin: 1rem 0;
+}
+
+.sections .revisions {
+    height: auto;
+}
+
 .footer {
     width: 100%;
     background-color: rgb(13, 11, 17);
@@ -350,11 +365,13 @@ textarea {
 }
 
 a {
-    color: cornflowerblue;
+    color: #aab036;
     text-decoration: none;
+    font-weight: bold;
 }
 a:hover {
     color: white;
+    text-decoration: underline;
 }
 
 .rounded {
