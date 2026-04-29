@@ -62,9 +62,10 @@ function editSection(params) {
   <input type="text" id="section" name="section" value="${params.section || ''}">
   <label for="template">Template</label>
   <select id="template" name="template">
-   <option value="">With background</option>
-   <option value="section_nb" ${params.template == 'section_nb' ? 'selected' : ''}>Without background</option>
+   <option value="">Banner image with background</option>
+   <option value="section_nb" ${params.template == 'section_nb' ? 'selected' : ''}>Banner image without background</option>
    <option value="section_nb_wrap" ${params.template == 'section_nb_wrap' ? 'selected' : ''}>Wrapped image without background</option>
+   <option value="section_big_image" ${params.template == 'section_big_image' ? 'selected' : ''}>Full size image without background</option>
    <option value="section_yt" ${params.template == 'section_yt' ? 'selected' : ''}>Embedded YouTube</option>
   </select>
   <label for="date">Date</label>

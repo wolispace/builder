@@ -190,9 +190,9 @@ function buildRevisions($page = '') {
         preg_match('/\d_(\w+)_/', $file, $matches);
         $thisPage = $matches[1];
         if(!empty($thisPage)) {
-            $html .= "<div class='revision'><a href='?{$thisPage}&d={$YmdHis}_{$thisPage}'>{$dateString} {$thisPage}</a></div>";
+            $html .= "<div class='revision'><a href='?{$thisPage}&d={$YmdHis}_{$thisPage}' target='_blank'>{$dateString} {$thisPage}</a></div>";
         } else {
-            $html .= "<div class='revision'><a href='?home&d={$YmdHis}'>{$dateString} homepage</a></div>";
+            $html .= "<div class='revision'><a href='?home&d={$YmdHis}' target='_blank'>{$dateString} homepage</a></div>";
             
         }
     }
