@@ -142,6 +142,15 @@ body {
     gap: 0.5rem;
 }
 
+.section-yt {
+    position: relative;
+}
+.yt-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+
 .revisions {
     font-size: 65%;
     background-color: rgba(0, 0, 0, .5);
