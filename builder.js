@@ -66,13 +66,18 @@ function editSection(params) {
   <label for="section">Section</label>
   <input type="text" id="section" name="section" value="${params.section || ''}">
   <label for="template">Template</label>
+  <div class="row">
   <select id="template" name="template">
-   <option value="">Banner image with background</option>
-   <option value="section_nb" ${params.template == 'section_nb' ? 'selected' : ''}>Banner image without background</option>
-   <option value="section_nb_wrap" ${params.template == 'section_nb_wrap' ? 'selected' : ''}>Wrapped image without background</option>
-   <option value="section_big_image" ${params.template == 'section_big_image' ? 'selected' : ''}>Full size image without background</option>
+   <option value="">Banner image</option>
+   <option value="section_wrap_square" ${params.template == 'section_wrap_square' ? 'selected' : ''}>Wrapped square image</option>
+   <option value="section_big_image" ${params.template == 'section_big_image' ? 'selected' : ''}>Full size image</option>
    <option value="section_yt" ${params.template == 'section_yt' ? 'selected' : ''}>Embedded YouTube</option>
   </select>
+  <div class="checkbox">
+  <label for="background">Background</label>
+  <input type="checkbox" name="background" id="background" data-v='${params.background}' ${params.background == 'on' ? 'checked' : ''} </input>
+  </div>
+  </div>
   <label for="date">Date</label>
   <input type="text" id="date" name="date" value="${params.date || ''}">
   <label for="content">Content</label>

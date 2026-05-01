@@ -103,7 +103,7 @@ body {
     border: none;
 }
 
-.section-background {
+.section-background-on {
     background-color: rgba(0, 0, 0, 0.25);
 }
 
@@ -275,6 +275,17 @@ body {
     height: 10rem;
 }
 
+.form .row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.form .checkbox {
+    display: flex;
+    flex-direction: row;
+}
+
 .nav {
     position: absolute;
     top: 0;
@@ -369,7 +380,7 @@ body {
     display: none;
 }
 
-input, select, textarea{
+input, select, textarea {
     background-color: rgb(251, 245, 161);
     color: rgb(0, 0, 0, .85);
     padding: 0.25rem;
@@ -377,6 +388,7 @@ input, select, textarea{
     width: 95%;
     font-size: 110%;
 }
+
 select{
      width: 99%;
 }
@@ -384,6 +396,10 @@ select{
 textarea {
     height: 5rem;
     resize: vertical;
+}
+
+iframe {
+    border-radius: 1rem;
 }
 
 a {

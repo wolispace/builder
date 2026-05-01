@@ -68,6 +68,7 @@ function outputPage($data, $page) {
             "{{page}}",
             "{{section}}",
             "{{template}}",
+            "{{background}}",
             "{{date}}",
             "{{content}}",
             "{{image}}"
@@ -75,6 +76,7 @@ function outputPage($data, $page) {
             $page,
             $section,
             $sectionData['template'] ?? 'section',
+            $sectionData['background'] ?? '',
             $sectionData['date'] ?? '',
             $content,
             buildImage($page, $section, $sectionData['template'], $sectionData['imagedesc'] ?? '')
@@ -293,6 +295,7 @@ function saveContent($new) {
         }
         $data['page'][$page]['section'][$section]['date'] = $new['date'] ?? '';
         $data['page'][$page]['section'][$section]['template'] = $template; 
+        $data['page'][$page]['section'][$section]['background'] = $new['background'] ?? ''; 
         $data['page'][$page]['section'][$section]['content'] = $new['content'] ?? '';
         $data['page'][$page]['section'][$section]['imagedesc'] = $new['imagedesc'] ?? '';
         
