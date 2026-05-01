@@ -70,6 +70,7 @@ function editSection(params) {
   <select id="template" name="template">
    <option value="">Banner image</option>
    <option value="section_wrap_square" ${params.template == 'section_wrap_square' ? 'selected' : ''}>Wrapped square image</option>
+  <option value="section_wrap_vertical" ${params.template == 'section_wrap_vertical' ? 'selected' : ''}>Wrapped vertical image</option>
    <option value="section_big_image" ${params.template == 'section_big_image' ? 'selected' : ''}>Full size image</option>
    <option value="section_yt" ${params.template == 'section_yt' ? 'selected' : ''}>Embedded YouTube</option>
   </select>
