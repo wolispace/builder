@@ -77,7 +77,7 @@ function outputPage($data, $page) {
             $sectionData['template'] ?? 'section',
             $sectionData['date'] ?? '',
             $content,
-            buildImage($page, $section, $sectionData['template'], $sectionData['imagedesc'])
+            buildImage($page, $section, $sectionData['template'], $sectionData['imagedesc'] ?? '')
         ], $thisTemplate);
     }
     $nextSection = sprintf("%03d", ++$nextSection);
@@ -241,7 +241,8 @@ function loadContent($params) {
     if (!validEditor()) {
         return ["error" => "Unauthorized"];
     }
-    $data = loadJson();
+    $dataFile = !empty($_GET['d']) ? "_backups/_{$_GET['d']}_data.json" : '_data.json';
+    $data = loadJson($dataFile);
     $content = $params;
 
     if ($params['load'] == 'page') {
@@ -357,7 +358,7 @@ function buildCards($data) {
             continue;
         }
 
-        $imageHtml = buildImage($item, null, null, $data['page'][$item]['imagedesc']);
+        $imageHtml = buildImage($item, null, null, $data['page'][$item]['imagedesc'] ?? '');
         $title = $data['page'][$item]['title'] ?? prettyText($item);
         $intro = $data['page'][$item]['intro'] ?? '';
         

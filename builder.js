@@ -28,6 +28,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function editable(element) {
+  // extrat the d= param from the url and includ it in the json requests
+  const urlParams = new URLSearchParams(window.location.search);
+  let d = (urlParams.get('d') || '').match(/^\d+.*/)?.[0];
+  
   const params = {};
 
   if (element.dataset.load == "site") {
@@ -44,7 +48,8 @@ async function editable(element) {
   } 
 
   const jsonData = encodeURIComponent(JSON.stringify(params));
-  const response = await fetch(`?j=${jsonData}`);
+  d = d ? `&d=${d}` : '';
+  const response = await fetch(`?j=${jsonData}${d}`);
   const result = await response.json();
   if (element.dataset.load == "site") {
     editSite(result);
@@ -145,7 +150,9 @@ async function saveForm() {
   const form = document.querySelector('form.form');
   const formData = new FormData(form);
   await fetch('', { method: 'POST', body: formData });
-  window.location.reload();
+  // strip off the d= param before reloading
+  const search = window.location.search.replace(/&d=[^&]*/,'');
+  window.location.replace(window.location.pathname + search);
 }
 
 function addSection(page, section) {
