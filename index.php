@@ -64,6 +64,8 @@ function outputPage($data, $page) {
             $content = $Parsedown->text($sectionData['content']);
         }
 
+        $hidable = empty($sectionData['date']) ? '' : 'hidable';
+
         $sections .= str_replace([
             "{{page}}",
             "{{intro}}",
@@ -72,7 +74,8 @@ function outputPage($data, $page) {
             "{{background}}",
             "{{date}}",
             "{{content}}",
-            "{{image}}"
+            "{{image}}",
+            "{{hidable}}",
         ], [
             $page,
             $sectionData['intro'] ?? '',
@@ -81,7 +84,8 @@ function outputPage($data, $page) {
             $sectionData['background'] ?? '',
             $sectionData['date'] ?? '',
             $content,
-            buildImage($page, $section, $sectionData['template'], $sectionData['imagedesc'] ?? '')
+            buildImage($page, $section, $sectionData['template'], $sectionData['imagedesc'] ?? ''),
+            $hidable,
         ], $thisTemplate);
     }
     $nextSection = sprintf("%03d", ++$nextSection);

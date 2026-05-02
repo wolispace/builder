@@ -22,10 +22,31 @@ document.addEventListener('DOMContentLoaded', async () => {
       addPageButton.style.display = 'block';
       addPageButton.innerHTML = "+ Add a new page";
     }
+
+    // hide blog content
+    document.querySelectorAll('.hidable').forEach(hidable => {
+
+    });
+
+    // hide blog content
+    document.querySelectorAll('.date').forEach(date => {
+        if (!date.textContent.trim()) return;
+        const hidable = date.parentElement.querySelector('.hidable');
+        if (!hidable) return;
+        hidable.insertAdjacentHTML('beforebegin', `<div class="more" onclick="expandMe(this)">More ▾</div>`);
+    });
+
+
+
   } else {
     document.querySelector('.header h1').style.display = "none";
   }
 });
+
+function expandMe(btn) {
+    btn.nextElementSibling.classList.toggle('expanded');
+}
+
 
 async function editable(element) {
   // extrat the d= param from the url and includ it in the json requests

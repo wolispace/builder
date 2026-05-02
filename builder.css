@@ -102,12 +102,6 @@ body {
     clear: both;
 }
 
-.section-yt {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border: none;
-}
-
 .section-background-on {
     background-color: rgba(0, 0, 0, 0.25);
 }
@@ -165,13 +159,41 @@ body {
 
 .section-yt {
     position: relative;
+    aspect-ratio: 16 / 9;
 }
 
 .yt-wrapper {
-    width: 100%;
+    width: 95%;
     height: 100%;
+    margin: 1rem;
 }
 
+.hidable {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+}
+
+.hidable.expanded {
+    max-height: 100%;
+}
+
+.more {
+    cursor: pointer;
+    position:relative;
+    right: 0;
+    color: #aab036;
+    text-align: right;
+}
+
+.date {
+    font-size: 110%;
+}
+
+.intro {
+    font-weight: bold;
+    font-size: 120%;
+}
 
 .revisions {
     font-size: 65%;
