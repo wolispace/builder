@@ -67,20 +67,22 @@ function editSection(params) {
   <input type="text" id="section" name="section" value="${params.section || ''}">
   <label for="template">Template</label>
   <div class="row">
-  <select id="template" name="template">
-   <option value="">Banner image</option>
-   <option value="section_wrap_square" ${params.template == 'section_wrap_square' ? 'selected' : ''}>Wrapped square image</option>
-  <option value="section_wrap_vertical" ${params.template == 'section_wrap_vertical' ? 'selected' : ''}>Wrapped vertical image</option>
-   <option value="section_big_image" ${params.template == 'section_big_image' ? 'selected' : ''}>Full size image</option>
-   <option value="section_yt" ${params.template == 'section_yt' ? 'selected' : ''}>Embedded YouTube</option>
-  </select>
-  <div class="checkbox">
-  <label for="background">Background</label>
-  <input type="checkbox" name="background" id="background" data-v='${params.background}' ${params.background == 'on' ? 'checked' : ''} </input>
-  </div>
+    <select id="template" name="template">
+    <option value="">Banner image</option>
+    <option value="section_wrap_square" ${params.template == 'section_wrap_square' ? 'selected' : ''}>Wrapped square image</option>
+    <option value="section_wrap_vertical" ${params.template == 'section_wrap_vertical' ? 'selected' : ''}>Wrapped vertical image</option>
+    <option value="section_big_image" ${params.template == 'section_big_image' ? 'selected' : ''}>Full size image</option>
+    <option value="section_yt" ${params.template == 'section_yt' ? 'selected' : ''}>Embedded YouTube</option>
+    </select>
+    <div class="checkbox">
+      <label for="background">Background</label>
+      <input type="checkbox" name="background" id="background" data-v='${params.background}' ${params.background == 'on' ? 'checked' : ''} </input>
+    </div>
   </div>
   <label for="date">Date</label>
   <input type="text" id="date" name="date" value="${params.date || ''}">
+  <label for="intro">Intro</label>
+  <input type="text" id="intro" name="intro" value="${params.intro || ''}">
   <label for="content">Content</label>
   <textarea id="content" name="content">${params.content || ''}</textarea>
   <label for="image">Image</label>
@@ -114,6 +116,8 @@ function editPage(params) {
   <input type="text" id="page" name="page" value="${params.page || ''}">
   <label for="title">Title</label>
   <input type="text" id="title" name="title" value="${params.title || ''}">
+  <label for="intro">Intro</label>
+  <input type="text" id="intro" name="intro" value="${params.intro || ''}">
   <label for="template">Template</label>
   <select id="template" name="template">
    <option value="">Standard page layout</option>

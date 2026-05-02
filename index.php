@@ -66,6 +66,7 @@ function outputPage($data, $page) {
 
         $sections .= str_replace([
             "{{page}}",
+            "{{intro}}",
             "{{section}}",
             "{{template}}",
             "{{background}}",
@@ -74,6 +75,7 @@ function outputPage($data, $page) {
             "{{image}}"
         ], [
             $page,
+            $sectionData['intro'] ?? '',
             $section,
             $sectionData['template'] ?? 'section',
             $sectionData['background'] ?? '',
@@ -293,6 +295,7 @@ function saveContent($new) {
             $data['page'][$page] = array();
         }
         $data['page'][$page]['title'] = $new['title'] ?? '';
+        $data['page'][$page]['intro'] = $new['intro'] ?? '';
         $data['page'][$page]['template'] = $template;
         $data['page'][$page]['sort'] = cleanString($new['sort'] ?? '');
         $data['page'][$page]['imagedesc'] = $new['imagedesc'] ?? '';
@@ -301,6 +304,7 @@ function saveContent($new) {
             $data['page'][$page]['section'][$section] = array();
         }
         $data['page'][$page]['section'][$section]['date'] = $new['date'] ?? '';
+        $data['page'][$page]['section'][$section]['intro'] = $new['intro'] ?? '';
         $data['page'][$page]['section'][$section]['template'] = $template; 
         $data['page'][$page]['section'][$section]['background'] = $new['background'] ?? ''; 
         $data['page'][$page]['section'][$section]['content'] = $new['content'] ?? '';
