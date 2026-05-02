@@ -131,25 +131,31 @@ function outputPage($data, $page) {
 }
 
 function buildImage($page, $section, $template, $imagedesc) {
-    $html = '';
     $filename = '';
-        if (file_exists("image/_{$page}_{$section}.jpg")) {
-            $filename = "image/_{$page}_{$section}.jpg";
-        } elseif (file_exists("image/_{$page}_{$section}.png")) {
-            $filename = "image/_{$page}_{$section}.png";
-        } elseif (file_exists("image/_{$page}.jpg")) {
-            $filename = "image/_{$page}.jpg";
-        } elseif (file_exists("image/_{$page}.png")) {
-            $filename = "image/_{$page}.png";
-        }
-        if (empty($filename)) {
-            return '';
-        }
+    if (!empty($section)) {
+      $filename = imageFileExists("_{$page}_{$section}");
+    } else {
+        $filename = imageFileExists("_{$page}");
+    }
 
-        $html = "<img class='image_{$template}' src='{$filename}' alt='{$imagedesc}' />";
-        
-    return $html;
+    if (empty($filename)) {
+        return '';
+    } else {
+        return "<img class='image_{$template}' src='{$filename}' alt='{$imagedesc}' />";
+    }
 }
+
+function imageFileExists($filePrefix) {
+    $extensions = ["jpg", "png"];
+    foreach ($extensions as $ext) {
+        $filename = "image/${filePrefix}.${ext}";
+        if (file_exists($filename)) {
+            return $filename;
+        }
+    }
+    return '';
+}
+
 // TODO: thiss should just be another page in json like login and other hidden but editable using a sspecific template if needed
 function errorPage($page) {
     return [
@@ -205,10 +211,11 @@ function buildRevisions($page = '') {
 }
 
 function handleFiles($data) {
+    logIt('saving image '. json_encode($data));
     if (isset($_FILES['image'])) {
         $tmpPath = $_FILES['image']['tmp_name'];
         $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-        if(!empty($data['section'])) {
+        if(empty($data['section'])) {
             $destination = "image/_{$data['page']}.{$ext}";
         } else {
             $destination = "image/_{$data['page']}_{$data['section']}.{$ext}";
