@@ -380,11 +380,15 @@ function buildCards($data) {
         $title = $data['page'][$item]['title'] ?? prettyText($item);
         $intro = $data['page'][$item]['intro'] ?? '';
         
-        $html .= "<a class='card' href='?{$item}'>";
-        $html .= "<div class='card-title'>{$title}</div>";
-        $html .= "<div class='card-intro'>{$intro}</div>";
-        $html .= $imageHtml;
-        $html .= "</a>";
+        $html .= "<a class='card' href='?{$item}'>
+        <div class='card-top'>
+         <div class='card-title'>{$title}</div>
+         <div class='card-intro'>{$intro}</div>
+        </div>
+        <div class='card-bottom'>
+         $imageHtml
+        </div> 
+        </a>";
     }
     $html .= "</div>";
     return $html;
