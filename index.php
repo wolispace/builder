@@ -241,7 +241,7 @@ function handleData($data) {
     } elseif (isset($data['code'])) {
         $json = setEditor($data['code']);
     } elseif (isset($data['publish'])) {
-        $json = pubish();        
+        $json = publish();        
     } elseif (isset($data['export'])) {
         $json = loadJson();
     } elseif (isset($data['delete'])) {
@@ -464,12 +464,14 @@ function outputImage() {
     $page = $_GET['image'];
     $section = $_GET['section'] ?? '';
     $extTypes = array('jpg', 'png');
+    logIt("Finding image {$page} {$section}");
     foreach ($extTypes as $ext) {
-        $fileName = "image/_{$page}_.{$ext}";
+        $fileName = "image/_{$page}.{$ext}";
         if (!empty($section)) {
             $fileName = "image/_{$page}_{$section}.{$ext}"; 
         }
        if (file_exists($fileName)) {
+        logIt($fileName);
             header("Content-Type: image/{$ext}");
             readfile($fileName);
             return;

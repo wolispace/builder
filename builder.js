@@ -55,7 +55,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function publishSite() {
-  console.log('publish site');
+  if (!confirm('Are you ready to publish these changes to the live site for the world to see?')) {
+    return;
+  }
+  const json = JSON.stringify({publish: 1});
+  const response = await fetch(`?j=${json}`);
+  const result = await response.json();
+  alert('Done');
 }
 
 async function exportData() {
