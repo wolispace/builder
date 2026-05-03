@@ -15,15 +15,15 @@
 
 <body>
     <div class="container">
-        <div class="home-header editable" data-load="site" data-page="{{page}}" data-sort="{{sort}}">
-            <img class="home-logo" src="image/_logo_name_only.png" />
+        <header class="home-header editable" data-load="site" data-page="{{page}}" data-sort="{{sort}}">
+            <img class="home-logo" src="image/_logo_name_only.png" alt="{{name}}" />
             <div class="site-name" >{{logotext}}</div>
-        </div>
-        <div class="sections card-background">
+        </header>
+        <main class="sections card-background">
             {{cards}}
-        </div>
+        </main>
     </div>
-    <div class="footer">{{footer}}</div>
+    <footer class="footer">{{footer}}</footer>
     <div class="overlay"></div>
     <div class="dialog"></div>
 </body>
