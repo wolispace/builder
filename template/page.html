@@ -5,6 +5,7 @@
     <title>{{name}}</title>
     <meta charset='utf-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0, interactive-widget=resizes-visual' />
+    <meta name='description' content='{{name}}' />
     <link rel='icon' href='icon-192.png' type='image/png' />
     <link rel='stylesheet' href='builder.css?{{v}}' />
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -15,19 +16,19 @@
 
 <body>
     <div class="container">
-        <div class="header editable" data-load="site" data-page="{{page}}" data-sort="{{sort}}">
+        <header class="header editable" data-load="site" data-page="{{page}}" data-sort="{{sort}}">
             <div class="header-left">
-                <img class="logo" src="image/_logo_name_only.png" />
+                <img class="logo" src="image/_logo_name_only.png" alt="{{name}}" />
                 <div class="site-name" >{{logotext}}</div>
             </div> 
             <div class="header-right">
               {{tagline}}
             </div>
-        </div>
+        </header>
         <div class="nav-button" onclick="toggleNav()"><i class="fas fa-bars"></i></div>
-        <div class="nav">{{nav}}</div>
+        <nav class="nav">{{nav}}</nav>
         <div class="title editable" data-load="page" data-page="{{page}}">{{title}}</div>
-        <div class="sections">
+        <main class="sections">
             {{sections}}
             <div class="dialogbuttons">
                 <div class="publish button rounded"></div>
@@ -35,10 +36,10 @@
                 <div class="add-section button rounded">{{nextSection}}</div>
                 <div class="add-page button rounded"></div>
             </div>
-        </div>
+        </mainS>
         {{revisions}}
     </div>
-    <div class="footer">{{footer}}</div>
+    <footer class="footer">{{footer}}</footer>
     <div class="overlay"></div>
     <div class="dialog"></div>
 </body>

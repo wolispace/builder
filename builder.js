@@ -50,7 +50,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         hidable.insertAdjacentHTML('beforebegin', `<div class="more" onclick="expandMe(this)">More ▾</div>`);
     });
   } else {
-    document.querySelector('.header h1').style.display = "none";
+    const h1 = document.querySelector('.header h1');
+    if (h1) {
+      h1.style.display = "none";
+    }
   }
 });
 
@@ -138,7 +141,7 @@ function editSection(params) {
   <textarea id="content" name="content">${params.content || ''}</textarea>
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
-  <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}" />
+  <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}" alt="Thumbail" />
   <label for="imagedesc">Image description</label>
   <input type="text" id="imagedesc" name="imagedesc" value="${params.imagedesc || ''}">
   <input type="hidden" id="section" name="section" value="${params.section}">
@@ -181,7 +184,7 @@ function editPage(params) {
   </select>
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
-  <img class="image-thumbnail" src="?image=${params.page}" />
+  <img class="image-thumbnail" src="?image=${params.page}" alt="Thumbanil" />
   <label for="imagedesc">Image description</label>
   <input type="text" id="imagedesc" name="imagedesc" value="${params.imagedesc || ''}">
   </form>`;
