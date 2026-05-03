@@ -7,6 +7,20 @@ document.addEventListener('DOMContentLoaded', async () => {
       section.insertAdjacentHTML('beforeend',`<span class="editButton button rounded" onclick="editable(this.parentElement)"><i class="fas fa-pencil"></i></span>`);
     });
 
+    const publishButton = document.querySelector('.publish');
+    if (publishButton) {
+      publishButton.addEventListener('click', () => publishSite());
+      publishButton.style.display = 'block';
+      publishButton.innerHTML = "Publish";
+    }
+
+    const exportButton = document.querySelector('.export');
+    if (exportButton) {
+      exportButton.addEventListener('click', () => exportData());
+      exportButton.style.display = 'block';
+      exportButton.innerHTML = "Export";
+    }
+
     const addSectionButton = document.querySelector('.add-section');
     if (addSectionButton) {
       const page = document.querySelector('.header').dataset.page;
@@ -35,13 +49,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!hidable) return;
         hidable.insertAdjacentHTML('beforebegin', `<div class="more" onclick="expandMe(this)">More ▾</div>`);
     });
-
-
-
   } else {
     document.querySelector('.header h1').style.display = "none";
   }
 });
+
+async function publishSite() {
+  console.log('publish site');
+}
+
+async function exportData() {
+  const json = JSON.stringify({export: 1});
+  const response = await fetch(`?j=${json}`);
+  const result = await response.json();
+
+  const $html = `<textarea class="export">${JSON.stringify(result, null, 2)}</textarea>`;
+  showDialog($html, {save:0, delete:0, close:1});
+}
 
 function expandMe(btn) {
     btn.nextElementSibling.classList.toggle('expanded');
@@ -115,7 +139,7 @@ function editSection(params) {
   <input type="hidden" id="page" name="page" value="${params.page}">
   </form>`;
 
-  showDialog(html);
+  showDialog(html, {delete:1});
 }
 
 function editPage(params) {
@@ -176,7 +200,6 @@ async function editSite(params) {
   showDialog(html);
 }
 
-
 async function saveForm() {
   const form = document.querySelector('form.form');
   const formData = new FormData(form);
@@ -184,6 +207,22 @@ async function saveForm() {
   // strip off the d= param before reloading
   const search = window.location.search.replace(/&d=[^&]*/,'');
   window.location.replace(window.location.pathname + search);
+}
+
+async function deleteForm() {
+  const page = document.querySelector('#page').value;
+  const section = document.querySelector('#section').value;
+  if (confirm(`Are you sure you want to delete section ${section} from ${page}`)) {
+    const params = {
+      delete: 1,
+      page: page,
+      section: section
+    }
+    const json = JSON.stringify(params);
+    const response = await fetch(`?j=${json}`);
+    const result = await response.json();
+  }
+  window.location.reload(); 
 }
 
 function addSection(page, section) {
@@ -197,20 +236,29 @@ function addSection(page, section) {
   editSection(newSection);
 }
 
-function showDialog(html) {
+function showDialog(html, params) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   document.querySelector('.overlay').classList.add('visible');
   const dialog = document.querySelector('.dialog');
-  dialog.innerHTML = `<div class="dialog-close" onclick="closeDialog()"><i class="fas fa-close"></i></div>${html}`;
+
+  let buttons = `<div class="dialogbuttons">`;
+  if (params?.delete == 1) {
+    buttons += `<div class="button" onclick="deleteForm()">Delete</div>`;
+  }
+  if (params?.close == 1) {
+    buttons += `<div class="button" onclick="closeDialog()">Close</div>`;
+  } else {
+    buttons += `<div class="button" onclick="closeDialog()">Cancel</div>`;
+  }
+  if (params?.save != 0) {
+    buttons += `<div class="button" onclick="saveForm()">Save</div>`;
+  }
+  buttons += '</div>';
+
+  dialog.innerHTML = `<div class="dialog-close" onclick="closeDialog()"><i class="fas fa-close"></i></div>
+  ${html}${buttons}`;
   dialog.classList.add('visible');
 
-  let deleteButton = html.includes('name="date"') ? `<div class="button" onclick="deleteEvent()">Delete</div>` : '';
-
-  dialog.innerHTML +=`<div class="dialogbuttons">
-    ${deleteButton}
-    <div class="button" onclick="closeDialog()">Cancel</div>
-    <div class="button" onclick="saveForm()">Save</div>
-    </div>`;
 }
 
 function closeDialog() {

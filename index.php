@@ -240,6 +240,12 @@ function handleData($data) {
         $json = loadContent($data);   
     } elseif (isset($data['code'])) {
         $json = setEditor($data['code']);
+    } elseif (isset($data['publish'])) {
+        $json = pubish();        
+    } elseif (isset($data['export'])) {
+        $json = loadJson();
+    } elseif (isset($data['delete'])) {
+        $json = deleteContent($data);                
     } else {
         $json = saveContent($data);
     }
@@ -321,6 +327,25 @@ function saveContent($new) {
     }
     saveJson($data);
     return array("status" => "success");
+}
+
+function deleteContent($data) {
+    if (!validEditor()) {
+        return ["error" => "Unauthorized"];
+    }
+    $page = cleanString($data['page']) ?? '';
+    if (empty($page)) {
+        return;
+    }
+    $section = cleanString($data['section'] ?? '');
+    if (empty($section)) {
+        return;
+    }    
+    backup($data, $page);
+    $data = loadJson();
+    unset($data['page'][$page]['section'][$section]);
+    saveJson($data);
+    return json_encode(["status" => "success"]);
 }
 
 function backup($data, $page = '') {
@@ -463,4 +488,20 @@ function loadJson($file = "_data.json") {
 
 function saveJson($data, $file = "_data.json") {
     file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
+}
+
+function publish() {
+    $pairs = [
+        'image/*'     => '../image/',
+        'templates/*' => '../templates/',
+        '*.json'      => '../',
+        'builder.*'   => '../',
+        '*.php'       => '../',
+    ];
+    foreach ($pairs as $src => $dest) {
+        foreach (glob($src) as $file) {
+            copy($file, $dest . basename($file));
+        }
+    }
+    return ["status" => "published"];
 }

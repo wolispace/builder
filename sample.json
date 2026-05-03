@@ -1,11 +1,11 @@
 {
-    "name": "Edit site",
-    "footer": "Something interesting here.  About Link",
+    "name": "Jennifer Bonham - Running for Mayor of Unley",
+    "footer": "Authorised by Dr Jennifer Bonham. \r\n\r\nPO Box 555.  [Read more about me](?about) ",
     "nav": [
         "home",
         "about",
-        "community",
         "green",
+        "community",
         "leadership",
         "development",
         "blog"
@@ -28,6 +28,10 @@
                 }
             }
         },
+        "revisions": {
+            "title": "Previous revisions",
+            "template": "revisions"
+        },
         "home": {
             "title": "Home",
             "section": {
@@ -39,7 +43,7 @@
                 "fish": {
                     "date": "",
                     "template": "",
-                    "content": "This is some fishy content\n\n"
+                    "content": "This is some fishy content\r\n\r\nLine two\r\n\r\n"
                 },
                 "003": {
                     "date": "",
@@ -55,15 +59,23 @@
             "section": {
                 "001": {
                     "date": "",
-                    "template": "",
-                    "content": "Everything you want to know about me"
+                    "template": "section_wrap_vertical",
+                    "content": "### Everything you want to know about me\r\n\r\nThis is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this \r\n\r\nis something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this \r\n\r\nis something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this \r\n\r\nis something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this \r\n\r\nis something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this \r\n\r\nis something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this \r\n",
+                    "background": "on",
+                    "imagedesc": "Nature"
                 },
                 "green": {
                     "date": "",
-                    "template": "",
-                    "content": "More interesting facts"
+                    "template": "section_wrap_square",
+                    "content": "### More interesting facts about me.\r\n\r\nis something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this \r\n\r\nis something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this \r\n\r\nis something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this \r\n\r\nis something intersting and this is something intersting and this v\r\n\r\nis something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this is something intersting and this \r\n",
+                    "imagedesc": "",
+                    "background": "on"
                 }
-            }
+            },
+            "intro": "Learn things about me you didn't know",
+            "template": "",
+            "sort": "",
+            "imagedesc": ""
         },
         "blog": {
             "title": "Blog",
@@ -72,27 +84,42 @@
                 "001": {
                     "date": "12 Feb 2026",
                     "template": "",
-                    "content": "Something interesting happened"
+                    "content": "Something interesting happened",
+                    "intro": "",
+                    "background": "on",
+                    "imagedesc": ""
                 },
                 "002": {
                     "date": "12 Feb 2026",
                     "template": "",
-                    "content": "Something interesting happened\n\nAnd __this__ is another *line*\n\nAnd this is **more** content"
+                    "content": "Something interesting happened\r\n\r\n###This is big\r\n\r\nAnd __this__ is another *line*\r\n\r\nAnd this is **more** content",
+                    "imagedesc": "",
+                    "intro": "Some formatted text to follow",
+                    "background": "on"
                 },
                 "003": {
-                    "date": "",
+                    "date": "22 Dec 2026",
                     "template": "",
-                    "content": "This is not a pipe"
+                    "content": "This is not a pipe",
+                    "intro": "I went walking, and what did I see?",
+                    "background": "on",
+                    "imagedesc": ""
                 },
                 "004": {
                     "date": "17 Sep 2026",
-                    "template": "",
-                    "content": "Something"
+                    "template": "section_yt",
+                    "content": "https:\/\/wolipspace.com",
+                    "intro": "Good thing some to those who wait",
+                    "background": "on",
+                    "imagedesc": ""
                 },
                 "005": {
                     "date": "02 Aug 2026",
                     "template": "",
-                    "content": "This is some content...."
+                    "content": "This is some content....",
+                    "background": "on",
+                    "imagedesc": "",
+                    "intro": "Things about me you really wanted to know"
                 }
             }
         },
@@ -116,19 +143,34 @@
             }
         },
         "green": {
-            "title": "City greening",
+            "title": "City greening VVVV",
             "section": {
                 "001": {
                     "date": "",
                     "template": "",
-                    "content": "Cities should be green. Full stop."
+                    "content": "A sample embedded youtube below.\r\n\r\nThis is another line.\r\n\r\nAnd another.",
+                    "imagedesc": ""
                 },
                 "002": {
+                    "date": "17 Sep 2026",
+                    "template": "section_yt",
+                    "content": "https:\/\/www.youtube.com\/embed\/-kb9aaX7BZ0?si=5kJkSVXbS1iq-aSO",
+                    "background": "on",
+                    "imagedesc": "",
+                    "intro": "Good thing some to those who wait"
+                },
+                "003": {
                     "date": "",
                     "template": "",
-                    "content": "This is more.."
+                    "content": "This is some text",
+                    "imagedesc": "",
+                    "intro": "",
+                    "background": "on"
                 }
-            }
+            },
+            "template": "",
+            "sort": "desc",
+            "imagedesc": ""
         },
         "development": {
             "title": "Development",
@@ -136,15 +178,20 @@
             "section": {
                 "001": {
                     "date": "",
-                    "template": "",
-                    "content": "A fine balsa wood model of a vilage"
+                    "template": "section_wrap_square",
+                    "content": "A fine balsa wood model of a vilage",
+                    "imagedesc": ""
                 },
                 "002": {
                     "date": "",
                     "template": "",
-                    "content": "Some additional content\r\n\r\nAnd line two"
+                    "content": "Some additional content\r\n\r\nAnd line two",
+                    "imagedesc": "Some people"
                 }
-            }
+            },
+            "intro": "Developing things that are really interesting",
+            "template": "",
+            "imagedesc": ""
         },
         "community": {
             "title": "Community engagement",
@@ -152,7 +199,8 @@
                 "001": {
                     "date": "",
                     "template": "",
-                    "content": "This is everything you need to know about community development"
+                    "content": "\r\nThis is everything you need to know about community engagement\r\nThis is everything you need to know about community engagement\r\n\r\nThis is everything you need to know about community engagement\r\n\r\nThis is everything you need to know about community engagement\r\nThis is everything you need to know about community engagement\r\n\r\nThis is everything you need to know about community engagement\r\n",
+                    "imagedesc": ""
                 }
             }
         },
@@ -162,25 +210,35 @@
             "section": {
                 "001": {
                     "date": "",
-                    "template": "",
-                    "content": "I like leading things\r\n\r\nSomething else\r\n\r\n- something\r\n- another thing\r\n\r\n## Sub heqading\r\n\r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\nBlah \r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n\r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n"
+                    "template": "section_wrap_square",
+                    "content": "Information about leadership\r\n\r\nSomething else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else and something else \r\n\r\nand something else and something else and something else and something else and something else and something else and something else and something else and something else \r\n\r\n\r\n- something\r\n- another thing\r\n\r\n## Sub heading\r\n\r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n\r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n\r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\nOnce upon a time \r\n",
+                    "imagedesc": "Black and white print of a beach"
                 },
                 "002": {
                     "date": "",
-                    "template": "section_nb",
-                    "content": "New thing"
+                    "template": "",
+                    "content": "New thing",
+                    "background": "on",
+                    "imagedesc": ""
                 },
                 "003": {
                     "date": "",
-                    "template": "section_nb",
-                    "content": ""
+                    "template": "",
+                    "content": "",
+                    "background": "on",
+                    "imagedesc": ""
                 },
                 "004": {
                     "date": "",
-                    "template": "section_nb",
-                    "content": "Some more content here"
+                    "template": "",
+                    "content": "Some more content here\r\n\r\nAnd more text here.\r\n\r\nLine three.",
+                    "imagedesc": ""
                 }
-            }
+            },
+            "template": "",
+            "imagedesc": "Beach at sunset"
         }
-    }
+    },
+    "tagline": "Working together. Working for Unley",
+    "logotext": "Running for Mayor of Unley"
 }

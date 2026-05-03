@@ -463,6 +463,10 @@ a:hover {
     text-decoration: underline;
 }
 
+textarea.export {
+    height: 27rem;
+}
+
 .rounded {
     border-radius: 1rem;
 }
