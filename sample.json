@@ -143,14 +143,8 @@
             }
         },
         "green": {
-            "title": "City greening VVVV",
+            "title": "City greening",
             "section": {
-                "001": {
-                    "date": "",
-                    "template": "",
-                    "content": "A sample embedded youtube below.\r\n\r\nThis is another line.\r\n\r\nAnd another.",
-                    "imagedesc": ""
-                },
                 "002": {
                     "date": "17 Sep 2026",
                     "template": "section_yt",
@@ -158,19 +152,12 @@
                     "background": "on",
                     "imagedesc": "",
                     "intro": "Good thing some to those who wait"
-                },
-                "003": {
-                    "date": "",
-                    "template": "",
-                    "content": "This is some text",
-                    "imagedesc": "",
-                    "intro": "",
-                    "background": "on"
                 }
             },
             "template": "",
             "sort": "desc",
-            "imagedesc": ""
+            "imagedesc": "Dark picture",
+            "intro": ""
         },
         "development": {
             "title": "Development",
@@ -202,7 +189,11 @@
                     "content": "\r\nThis is everything you need to know about community engagement\r\nThis is everything you need to know about community engagement\r\n\r\nThis is everything you need to know about community engagement\r\n\r\nThis is everything you need to know about community engagement\r\nThis is everything you need to know about community engagement\r\n\r\nThis is everything you need to know about community engagement\r\n",
                     "imagedesc": ""
                 }
-            }
+            },
+            "intro": "When I went walking I found an apple and a banana",
+            "template": "",
+            "sort": "",
+            "imagedesc": "Leading into the sunset"
         },
         "leadership": {
             "title": "Leadership",
@@ -236,7 +227,8 @@
                 }
             },
             "template": "",
-            "imagedesc": "Beach at sunset"
+            "imagedesc": "Beach at sunset",
+            "intro": ""
         }
     },
     "tagline": "Working together. Working for Unley",

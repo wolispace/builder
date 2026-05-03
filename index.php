@@ -287,18 +287,20 @@ function loadContent($params) {
 
 function saveContent($new) {
     if (!validEditor()) {
+        logIt("Unauthorized save " . json_encode($new));
         return ["error" => "Unauthorized"];
     }
+    logIt("saving " . json_encode($new));
     $data = loadJson();
-    $page = cleanString($new['page']) ?? '';
+    $page = cleanString($new['page']);
     backup($data, $page);
-    $section = cleanString($new['section'] ?? '');
-    $template = cleanString($new['template'] ?? '');
+    $section = cleanString($new['section']);
+    $template = cleanString($new['template']);
     if ($new['save'] == 'site') {
         $data['name'] = $new['name'] ?? '';
         $data['logotext'] = $new['logotext'] ?? '';
         $data['tagline'] = $new['tagline'] ?? '';
-        $data['nav'] = stringToArray($new[nav]);
+        $data['nav'] = stringToArray($new['nav']);
         $data['footer'] = $new['footer'] ?? '';
     } elseif ($new['save'] == 'page') {
         if (empty($data['page'][$page])) {
@@ -307,7 +309,7 @@ function saveContent($new) {
         $data['page'][$page]['title'] = $new['title'] ?? '';
         $data['page'][$page]['intro'] = $new['intro'] ?? '';
         $data['page'][$page]['template'] = $template;
-        $data['page'][$page]['sort'] = cleanString($new['sort'] ?? '');
+        $data['page'][$page]['sort'] = cleanString($new['sort']);
         $data['page'][$page]['imagedesc'] = $new['imagedesc'] ?? '';
     } elseif ($new['save'] == 'section') {
         if (empty($data['page'][$page]['section'][$section])) {
@@ -333,11 +335,11 @@ function deleteContent($data) {
     if (!validEditor()) {
         return ["error" => "Unauthorized"];
     }
-    $page = cleanString($data['page']) ?? '';
+    $page = cleanString($data['page']);
     if (empty($page)) {
         return;
     }
-    $section = cleanString($data['section'] ?? '');
+    $section = cleanString($data['section']);
     if (empty($section)) {
         return;
     }    
@@ -445,6 +447,7 @@ function logIt($str) {
 }
 
 function cleanString($str) {
+  if (empty($str) || !is_string($str)) return '';
   $str = preg_replace('/[^a-z0-9-_]/i', '', $str);
   return substr($str, 0, 30);
 }
