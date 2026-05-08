@@ -36,6 +36,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       addPageButton.style.display = 'block';
       addPageButton.innerHTML = "+ Add a new page";
     }
+    const revisions = document.querySelector('.revisions');
+    if (revisions) {
+      revisions.style.display = 'block';
+    }
 
     // hide blog content
     document.querySelectorAll('.hidable').forEach(hidable => {
@@ -50,6 +54,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         hidable.insertAdjacentHTML('beforebegin', `<div class="more" onclick="expandMe(this)">More ▾</div>`);
     });
   } else {
+
+
     const h1 = document.querySelector('.header h1');
     if (h1) {
       h1.style.display = "none";

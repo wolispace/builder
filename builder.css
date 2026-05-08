@@ -203,6 +203,7 @@ body {
     border-radius: 0.5rem;
     border-color: rgba(0, 0, 0, .8);
     margin: 1rem 0;
+    display: none;
 }
 
 .sections .revisions {
@@ -428,6 +429,14 @@ body {
 }
 
 .add-section {
+    display: none;
+}
+
+.publish {
+    display: none;
+}
+
+.export {
     display: none;
 }
 

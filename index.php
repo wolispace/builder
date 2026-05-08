@@ -98,7 +98,7 @@ function outputPage($data, $page) {
         $sections = buildRevisions();
     }
 
-    $revisions = buildRevisions($page);
+    $revisions = validEditor() ? buildRevisions($page) : '';
 
     $pageContent = str_replace(
         [
