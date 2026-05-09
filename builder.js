@@ -235,7 +235,8 @@ async function saveForm() {
   await fetch('', { method: 'POST', body: formData });
   // strip off the d= param before reloading
   const search = window.location.search.replace(/&d=[^&]*/,'');
-  window.location.replace(window.location.pathname + search);
+  const url  = window.location.pathname + search;
+  window.location.replace(url);
 }
 
 async function deleteForm() {

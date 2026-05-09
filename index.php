@@ -151,7 +151,7 @@ function buildImage($page, $section, $template, $imagedesc) {
     }
 }
 
-function deleteImage($page, $section) {
+function deleteImage($page, $section = '') {
     $filename = '';
     if (!empty($section)) {
       $filename = imageFileExists("_{$page}_{$section}");
