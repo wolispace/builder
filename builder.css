@@ -475,10 +475,6 @@ a:hover {
     text-decoration: underline;
 }
 
-textarea.export {
-    height: 27rem;
-}
-
 .rounded {
     border-radius: 1rem;
 }
@@ -494,10 +490,20 @@ textarea.export {
     align-items: center;
 }
 
+.home-header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
 .home-logo {
     height: 8rem;
 }
 
+.home-tagline {
+  padding-bottom: 2rem;
+}
 
 /* Tablet and up */
 @media (min-width: 725px) {
@@ -523,6 +529,14 @@ textarea.export {
     .home-logo {
         height: 15rem;
         padding-top: 1rem;
+    }
+
+    .home-header {
+      flex-direction: row;
+    }
+
+    .home-tagline {
+      width: 6rem;
     }
 
     .nav {

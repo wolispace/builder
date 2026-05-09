@@ -16,8 +16,13 @@
 <body>
     <div class="container">
         <header class="home-header editable" data-load="site" data-page="{{page}}" data-sort="{{sort}}">
+          <div class="home-header-left">
             <img class="home-logo" src="image/_logo_name_only.png" alt="{{name}}" />
             <div class="site-name" >{{logotext}}</div>
+          </div>
+          <div class="home-tagline">
+             {{tagline}}
+          </div>
         </header>
         <main class="sections card-background">
             {{cards}}
