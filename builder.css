@@ -127,7 +127,7 @@ body {
 
 .image_section_wrap_vertical {
     width:10rem;
-    height: 10rem;
+    height: 30rem;
     border-radius: 1rem;
     object-fit: cover;
     object-position: center;    

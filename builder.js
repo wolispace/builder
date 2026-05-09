@@ -143,7 +143,7 @@ function editSection(params) {
   <textarea id="content" name="content">${params.content || ''}</textarea>
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
-  <div class="row">
+  <div class="row thumbnailrow">
     <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}" alt="Thumbail" />
     <div class="check">
       <label for="deleteimage">Delete image</label>
@@ -192,7 +192,7 @@ function editPage(params) {
   </select>
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
-  <div class="row">
+  <div class="row thumbnailrow">
     <img class="image-thumbnail" src="?image=${params.page}" alt="Thumbail" />
     <div class="check">
       <label for="deleteimage">Delete image</label>
@@ -288,6 +288,15 @@ function showDialog(html, params) {
   dialog.innerHTML = `<div class="dialog-close" onclick="closeDialog()"><i class="fas fa-close"></i></div>
   ${html}${buttons}`;
   dialog.classList.add('visible');
+  const thumbnail = document.querySelector('.image-thumbnail');
+
+  thumbnail.addEventListener('load', () => {
+    if (thumbnail.naturalWidth < 10) {
+      const deleteImageButton = document.querySelector('.thumbnailrow');
+      deleteImageButton.style.display = 'none';
+    }
+  });
+
 
 }
 
