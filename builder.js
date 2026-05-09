@@ -74,12 +74,8 @@ async function publishSite() {
 }
 
 async function exportData() {
-  const json = JSON.stringify({export: 1});
-  const response = await fetch(`?j=${json}`);
-  const result = await response.json();
-
-  const $html = `<textarea class="export">${JSON.stringify(result, null, 2)}</textarea>`;
-  showDialog($html, {save:0, delete:0, close:1});
+  const url = '?j=' + JSON.stringify({export: 1});
+  window.open(url, '_blank');
 }
 
 function expandMe(btn) {

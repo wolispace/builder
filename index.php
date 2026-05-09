@@ -244,6 +244,11 @@ function handleData($data) {
         $json = publish();        
     } elseif (isset($data['export'])) {
         $json = loadJson();
+        //header('Content-Type: application/json');
+        header('Content-Disposition: attachment; filename="_data.json"');
+        echo json_encode($json, JSON_PRETTY_PRINT);
+        exit;
+
     } elseif (isset($data['delete'])) {
         $json = deleteContent($data);                
     } else {
