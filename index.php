@@ -313,7 +313,7 @@ function saveContent($new) {
     $data = loadJson();
     $page = cleanString($new['page']);
     backup($data, $page);
-    $section = cleanString($new['section']);
+    $section = cleanString($new['section'] ?? '');
     $template = cleanString($new['template']);
     if ($new['save'] == 'site') {
         $data['name'] = $new['name'] ?? '';
