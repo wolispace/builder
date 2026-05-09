@@ -141,13 +141,29 @@ function buildImage($page, $section, $template, $imagedesc) {
     if (!empty($section)) {
       $filename = imageFileExists("_{$page}_{$section}");
     } else {
-        $filename = imageFileExists("_{$page}");
+      $filename = imageFileExists("_{$page}");
     }
 
     if (empty($filename)) {
         return '';
     } else {
         return "<img class='image_{$template}' src='{$filename}' alt='{$imagedesc}' />";
+    }
+}
+
+function deleteImage($page, $section) {
+    $filename = '';
+    if (!empty($section)) {
+      $filename = imageFileExists("_{$page}_{$section}");
+    } else {
+      $filename = imageFileExists("_{$page}");
+    }
+
+    if (empty($filename)) {
+        return '';
+    } else {
+      logIt("deleting file {$filename}");
+       unlink($filename);
     }
 }
 
@@ -217,7 +233,6 @@ function buildRevisions($page = '') {
 }
 
 function handleFiles($data) {
-    logIt('saving image '. json_encode($data));
     if (isset($_FILES['image'])) {
         $tmpPath = $_FILES['image']['tmp_name'];
         $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
@@ -248,7 +263,6 @@ function handleData($data) {
         header('Content-Disposition: attachment; filename="_data.json"');
         echo json_encode($json, JSON_PRETTY_PRINT);
         exit;
-
     } elseif (isset($data['delete'])) {
         $json = deleteContent($data);                
     } else {
@@ -316,6 +330,9 @@ function saveContent($new) {
         $data['page'][$page]['template'] = $template;
         $data['page'][$page]['sort'] = cleanString($new['sort']);
         $data['page'][$page]['imagedesc'] = $new['imagedesc'] ?? '';
+        if ($new['deleteimage'] == "on") {
+          deleteImage($page);
+        }
     } elseif ($new['save'] == 'section') {
         if (empty($data['page'][$page]['section'][$section])) {
             $data['page'][$page]['section'][$section] = array();
@@ -326,7 +343,9 @@ function saveContent($new) {
         $data['page'][$page]['section'][$section]['background'] = $new['background'] ?? ''; 
         $data['page'][$page]['section'][$section]['content'] = $new['content'] ?? '';
         $data['page'][$page]['section'][$section]['imagedesc'] = $new['imagedesc'] ?? '';
-        
+        if ($new['deleteimage'] == "on") {
+          deleteImage($page, $section);
+        }        
     } else {
         // no idea wat we are saving
         logIt('No ideal how to save ' . json_encode($new));

@@ -130,9 +130,9 @@ function editSection(params) {
     <option value="section_big_image" ${params.template == 'section_big_image' ? 'selected' : ''}>Full size image</option>
     <option value="section_yt" ${params.template == 'section_yt' ? 'selected' : ''}>Embedded YouTube</option>
     </select>
-    <div class="checkbox">
+    <div class="check">
       <label for="background">Background</label>
-      <input type="checkbox" name="background" id="background" data-v='${params.background}' ${params.background == 'on' ? 'checked' : ''} </input>
+      <input type="checkbox" class="checkbox" name="background" id="background" data-v='${params.background}' ${params.background == 'on' ? 'checked' : ''} </input>
     </div>
   </div>
   <label for="date">Date</label>
@@ -143,7 +143,13 @@ function editSection(params) {
   <textarea id="content" name="content">${params.content || ''}</textarea>
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
-  <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}" alt="Thumbail" />
+  <div class="row">
+    <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}" alt="Thumbail" />
+    <div class="check">
+      <label for="deleteimage">Delete image</label>
+      <input type="checkbox" class="checkbox" name="deleteimage" id="deleteimage" data-v='${params.deleteimage}' ${params.deleteimage == 'on' ? 'checked' : ''} </input>
+    </div>
+  </div>
   <label for="imagedesc">Image description</label>
   <input type="text" id="imagedesc" name="imagedesc" value="${params.imagedesc || ''}">
   <input type="hidden" id="section" name="section" value="${params.section}">
@@ -186,7 +192,13 @@ function editPage(params) {
   </select>
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
-  <img class="image-thumbnail" src="?image=${params.page}" alt="Thumbanil" />
+  <div class="row">
+    <img class="image-thumbnail" src="?image=${params.page}" alt="Thumbail" />
+    <div class="check">
+      <label for="deleteimage">Delete image</label>
+      <input type="checkbox" class="checkbox" name="deleteimage" id="deleteimage"></input>
+    </div>
+  </div>
   <label for="imagedesc">Image description</label>
   <input type="text" id="imagedesc" name="imagedesc" value="${params.imagedesc || ''}">
   </form>`;
@@ -214,6 +226,12 @@ async function editSite(params) {
 async function saveForm() {
   const form = document.querySelector('form.form');
   const formData = new FormData(form);
+  if (formData.get('deleteimage')) {
+    if (!confirm('Are you sure you want to delete this image?')) {
+      return;
+    }
+  }
+
   await fetch('', { method: 'POST', body: formData });
   // strip off the d= param before reloading
   const search = window.location.search.replace(/&d=[^&]*/,'');
