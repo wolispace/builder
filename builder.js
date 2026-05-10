@@ -1,5 +1,14 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+  // hide hidable content
+  document.querySelectorAll('.date').forEach(date => {
+      if (!date.textContent.trim()) return;
+      const hidable = date.parentElement.querySelector('.hidable');
+      if (!hidable) return;
+      hidable.insertAdjacentHTML('beforebegin', `<div class="more" onclick="expandMe(this)">More ▾</div>`);
+  });
+
   $editor = isEditor();
   if ($editor) {
     // add universal edit button to editable
@@ -30,32 +39,26 @@ document.addEventListener('DOMContentLoaded', async () => {
       addSectionButton.innerHTML = "+ Add a new section";
       
     }
+
     const addPageButton = document.querySelector('.add-page');
     if (addPageButton) {
       addPageButton.addEventListener('click', () => addPage());
       addPageButton.style.display = 'block';
       addPageButton.innerHTML = "+ Add a new page";
     }
+
+    const revisionsButton = document.querySelector('.revisions');
+    if (revisionsButton) {
+      revisionsButton.addEventListener('click', () => getRevisions());
+      revisionsButton.style.display = 'block';
+      revisionsButton.innerHTML = "Revisions";
+    }
+
     const revisions = document.querySelector('.revisions');
     if (revisions) {
       revisions.style.display = 'block';
     }
-
-    // hide blog content
-    document.querySelectorAll('.hidable').forEach(hidable => {
-
-    });
-
-    // hide blog content
-    document.querySelectorAll('.date').forEach(date => {
-        if (!date.textContent.trim()) return;
-        const hidable = date.parentElement.querySelector('.hidable');
-        if (!hidable) return;
-        hidable.insertAdjacentHTML('beforebegin', `<div class="more" onclick="expandMe(this)">More ▾</div>`);
-    });
   } else {
-
-
     const h1 = document.querySelector('.header h1');
     if (h1) {
       h1.style.display = "none";
@@ -77,6 +80,16 @@ async function exportData() {
   const url = '?j=' + JSON.stringify({export: 1});
   window.open(url, '_blank');
 }
+
+async function getRevisions() {
+  const page = document.querySelector('.header').dataset.page;
+  const url = '?j=' + JSON.stringify({revisions: 1, page: page});
+  const response = await fetch(url);
+  const result = await response.json();
+  const sections = document.querySelector('.sections');
+  sections.innerHTML += result;
+}
+
 
 function expandMe(btn) {
     btn.nextElementSibling.classList.toggle('expanded');

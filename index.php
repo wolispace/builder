@@ -98,7 +98,7 @@ function outputPage($data, $page) {
         $sections = buildRevisions();
     }
 
-    $revisions = validEditor() ? buildRevisions($page) : '';
+    $revisions = '';
 
     $pageContent = str_replace(
         [
@@ -257,7 +257,9 @@ function handleData($data) {
     } elseif (isset($data['code'])) {
         $json = setEditor($data['code']);
     } elseif (isset($data['publish'])) {
-        $json = publish();        
+        $json = publish(); 
+    } elseif (isset($data['revisions'])) {
+        $json = buildRevisions($data['page']);               
     } elseif (isset($data['export'])) {
         $json = loadJson();
         //header('Content-Type: application/json');
@@ -379,6 +381,10 @@ function deleteContent($data) {
     unset($json['page'][$page]['section'][$section]);
     saveJson($json);
     return json_encode(["status" => "success"]);
+}
+
+function loadRevisions($params) {
+  validEditor() ? buildRevisions($page) : '';
 }
 
 function backup($data, $page = '') {

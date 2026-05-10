@@ -190,7 +190,7 @@ body {
     font-size: 120%;
 }
 
-.revisions {
+.revisionList {
     font-size: 65%;
     background-color: rgba(0, 0, 0, .5);
     height: 3rem;
@@ -440,6 +440,10 @@ body {
 }
 
 .export {
+    display: none;
+}
+
+.revisions {
     display: none;
 }
 
