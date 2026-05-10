@@ -34,8 +34,8 @@ function outputPage($data, $page) {
     $Parsedown = new Parsedown();
     $version = rand(100000, 999999);
     
-    $thisPage = $data['page'][$page];
-    if (!isset($thisPage)) {
+    $thisPage = $data['page'][$page] ?? '';
+    if (empty($thisPage)) {
         $thisPage = errorPage($page);
     }
     $thisPage['title'] = empty($thisPage['title']) ? "&nbsp;" : $thisPage['title'];
@@ -60,7 +60,7 @@ function outputPage($data, $page) {
         $thisTemplate = empty($sectionData['template']) ? $templates['section'] : $templates[$sectionData['template']];
 
         $content = $sectionData['content'];
-        if ($sectionData['template'] != "section_yt") {
+        if ($sectionData['template'] ?? '' != "section_yt") {
             $content = $Parsedown->text($sectionData['content']);
         }
 
@@ -84,7 +84,7 @@ function outputPage($data, $page) {
             $sectionData['background'] ?? '',
             $sectionData['date'] ?? '',
             $content,
-            buildImage($page, $section, $sectionData['template'], $sectionData['imagedesc'] ?? ''),
+            buildImage($page, $section, $sectionData['template'] ?? '', $sectionData['imagedesc'] ?? ''),
             $hidable,
         ], $thisTemplate);
     }
@@ -326,6 +326,12 @@ function saveContent($new) {
         if (empty($data['page'][$page])) {
             $data['page'][$page] = array();
         }
+        $oldPage = cleanString($new['oldpage']);
+        if ($oldPage != $page) {
+          logIt("renaming $oldPage to $page");
+          $data['page'][$page] = $data['page'][$oldPage];
+          unset($data['page'][$oldPage]);
+        }
         $data['page'][$page]['title'] = $new['title'] ?? '';
         $data['page'][$page]['intro'] = $new['intro'] ?? '';
         $data['page'][$page]['template'] = $template;
@@ -489,25 +495,22 @@ function outputJson($data) {
 }
 
 function outputImage() {
-    $page = $_GET['image'];
-    $section = $_GET['section'] ?? '';
-    $extTypes = array('jpg', 'png');
-    logIt("Finding image {$page} {$section}");
-    foreach ($extTypes as $ext) {
-        $fileName = "image/_{$page}.{$ext}";
-        if (!empty($section)) {
-            $fileName = "image/_{$page}_{$section}.{$ext}"; 
-        }
-       if (file_exists($fileName)) {
-        logIt($fileName);
-            header("Content-Type: image/{$ext}");
-            readfile($fileName);
-            return;
-       }
-    }
-    header("Content-Type: image/png");
-    readfile('image/blank.png');
-
+  $page = $_GET['image'];
+  $section = $_GET['section'] ?? '';
+  $extTypes = array('jpg', 'png');
+  foreach ($extTypes as $ext) {
+      $fileName = "image/_{$page}.{$ext}";
+      if (!empty($section)) {
+        $fileName = "image/_{$page}_{$section}.{$ext}"; 
+      }
+      if (file_exists($fileName)) {
+        header("Content-Type: image/{$ext}");
+        readfile($fileName);
+        return;
+      }
+  }
+  header("Content-Type: image/png");
+  readfile('image/blank.png');
 }
 
 // manipulating files on disk ----
