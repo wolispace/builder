@@ -138,6 +138,7 @@ function outputPage($data, $page) {
 
 function buildImage($page, $section, $template, $imagedesc) {
     $filename = '';
+    $version = rand(100000, 999999);
     if (!empty($section)) {
       $filename = imageFileExists("_{$page}_{$section}");
     } else {
@@ -147,7 +148,7 @@ function buildImage($page, $section, $template, $imagedesc) {
     if (empty($filename)) {
         return '';
     } else {
-        return "<img class='image_{$template}' src='{$filename}' alt='{$imagedesc}' />";
+        return "<img class='image_{$template}' src='{$filename}?v={$version}' alt='{$imagedesc}' />";
     }
 }
 

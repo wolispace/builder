@@ -107,6 +107,7 @@ async function editable(element) {
   d = d ? `&d=${d}` : '';
   const response = await fetch(`?j=${jsonData}${d}`);
   const result = await response.json();
+  result.version = Math.floor(Math.random() * 9000) + 1000
   if (element.dataset.load == "site") {
     editSite(result);
   } else if(element.dataset.load == 'page') {
@@ -144,7 +145,7 @@ function editSection(params) {
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
   <div class="row thumbnailrow">
-    <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}" alt="Thumbail" />
+    <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}&v=${params.version}" alt="Thumbail" />
     <div class="check">
       <label for="deleteimage">Delete image</label>
       <input type="checkbox" class="checkbox" name="deleteimage" id="deleteimage" data-v='${params.deleteimage}' ${params.deleteimage == 'on' ? 'checked' : ''} </input>
@@ -159,10 +160,6 @@ function editSection(params) {
   showDialog(html, {delete:1});
 }
 
-function editPage(params) {
-  editPage(parma);
-}
-
 function addPage() {
   const newPage = {
     page: '',
@@ -174,6 +171,7 @@ function addPage() {
 function editPage(params) {
   let html = `<form class="form">
   <input type="hidden" name="save" value="page" />
+  <input type="hidden" name="oldpage" value="${params.page || ''}" />
   <label for="page">Page</label>
   <input type="text" id="page" name="page" value="${params.page || ''}">
   <label for="title">Title</label>
@@ -193,7 +191,7 @@ function editPage(params) {
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
   <div class="row thumbnailrow">
-    <img class="image-thumbnail" src="?image=${params.page}" alt="Thumbail" />
+    <img class="image-thumbnail" src="?image=${params.page}&v=${params.version}" alt="Thumbail" />
     <div class="check">
       <label for="deleteimage">Delete image</label>
       <input type="checkbox" class="checkbox" name="deleteimage" id="deleteimage"></input>

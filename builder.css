@@ -237,14 +237,13 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 80%;
+    width: 90%;
     background-color: rgb(53 51 64);
     border-radius: 1rem;
     box-shadow: 1rem 1rem 2rem rgba(0,0,0,0.5);
     padding: 1rem;
     margin: 1rem;
     z-index: 3;
-    max-width: 500px;
 }
 
 .dialog.visible {
@@ -391,10 +390,11 @@ body {
     text-shadow: 0 0 .5rem black;
     background-color: rgba(0, 0, 0, 0.25);
     border-radius: .5rem;
-}
-
-.card:hover {
+  }
+  
+  .card:hover {
     background-color: #1f7a6c;
+    box-shadow: .1rem .1rem 1rem black;
 }
 
 .card-top {
