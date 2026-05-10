@@ -374,10 +374,10 @@ function deleteContent($data) {
     if (empty($section)) {
         return;
     }    
-    backup($data, $page);
-    $data = loadJson();
-    unset($data['page'][$page]['section'][$section]);
-    saveJson($data);
+    $json = loadJson();
+    backup($json, $page);
+    unset($json['page'][$page]['section'][$section]);
+    saveJson($json);
     return json_encode(["status" => "success"]);
 }
 
