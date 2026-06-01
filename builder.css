@@ -190,17 +190,6 @@ body {
     font-size: 120%;
 }
 
-.revisionList {
-    font-size: 65%;
-    background-color: rgba(0, 0, 0, .5);
-    height: 3rem;
-    overflow-y: scroll;
-    width: 15rem;
-    border-radius: 0.5rem;
-    border-color: rgba(0, 0, 0, .8);
-    margin: 1rem 0;
-    display: none;
-}
 
 .sections .revisions {
     height: auto;
@@ -264,8 +253,27 @@ body {
     inset: 0;
     background: rgba(0,0,0,0.5);
     z-index: 2;
+    align-items: center;
+    justify-content: center;
 }
-.overlay.visible { display: block; }
+
+.overlay.visible { display: flex; }
+
+.spinner {
+  width: 3rem;
+  height: 3rem;
+  border: .5rem solid rgba(255, 255, 255, 0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 .dialogbuttons {
     display: flex;

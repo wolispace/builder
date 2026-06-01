@@ -70,9 +70,13 @@ async function publishSite() {
   if (!confirm('Are you ready to publish these changes to the live site for the world to see?')) {
     return;
   }
+  moveOverlay(4);
   const json = JSON.stringify({publish: 1});
   const response = await fetch(`?j=${json}`);
   const result = await response.json();
+  moveOverlay(0);
+  // small pause to let rendering of dom hide the overlay
+  await new Promise(resolve => setTimeout(resolve, 50));
   alert('Done');
 }
 
@@ -185,7 +189,7 @@ function editPage(params) {
   let html = `<form class="form">
   <input type="hidden" name="save" value="page" />
   <input type="hidden" name="oldpage" value="${params.page || ''}" />
-  <label for="page">Page</label>
+  <label for="page">Page handle must be in Site menu (user sees /?${params.page || 'about'})</label>
   <input type="text" id="page" name="page" value="${params.page || ''}">
   <label for="title">Title</label>
   <input type="text" id="title" name="title" value="${params.title || ''}">
@@ -242,7 +246,8 @@ async function saveForm() {
       return;
     }
   }
-
+  
+  moveOverlay(4);
   await fetch('', { method: 'POST', body: formData });
   // strip off the d= param before reloading
   const search = window.location.search.replace(/&d=[^&]*/,'');
@@ -279,7 +284,7 @@ function addSection(page, section) {
 
 function showDialog(html, params) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  document.querySelector('.overlay').classList.add('visible');
+  moveOverlay(2);
   const dialog = document.querySelector('.dialog');
 
   let buttons = `<div class="dialogbuttons">`;
@@ -300,6 +305,9 @@ function showDialog(html, params) {
   ${html}${buttons}`;
   dialog.classList.add('visible');
   const thumbnail = document.querySelector('.image-thumbnail');
+  if (!thumbnail) {
+    return;
+  }
 
   thumbnail.addEventListener('load', () => {
     if (thumbnail.naturalWidth < 10) {
@@ -307,8 +315,6 @@ function showDialog(html, params) {
       deleteImageButton.style.display = 'none';
     }
   });
-
-
 }
 
 function closeDialog() {
@@ -316,10 +322,21 @@ function closeDialog() {
   document.querySelector('.dialog').classList.remove('visible');
 }
 
+function moveOverlay(zIndex) {
+  const overlay = document.querySelector('.overlay');
+  if (zIndex == 0) {
+     overlay.classList.remove('visible');
+  } else {
+    overlay.classList.add('visible');
+    overlay.style.zIndex = zIndex;
+  }
+}
+
 async function setEditor() {
  const params = {
     code: prompt("Enter your code")
   }
+  moveOverlay(4);
   const json = JSON.stringify(params);
   const response = await fetch(`?j=${json}`);
   const result = await response.json();
@@ -338,6 +355,9 @@ function clearEditor() {
 
 function isEditor() {
   const code = window.localStorage.getItem('code');
+  if (!window.location.pathname.includes('/__test')) {
+    return false;
+  }
   return code !== null && code.length > 0;
 }
 

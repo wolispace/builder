@@ -60,7 +60,7 @@ function outputPage($data, $page) {
         $thisTemplate = empty($sectionData['template']) ? $templates['section'] : $templates[$sectionData['template']];
 
         $content = $sectionData['content'];
-        if ($sectionData['template'] ?? '' != "section_yt") {
+        if (($sectionData['template'] ?? '') != "section_yt") {
             $content = $Parsedown->text($sectionData['content']);
         }
 
@@ -219,16 +219,17 @@ function buildRevisions($page = '') {
         $date = DateTime::createFromFormat('YmdHis', $YmdHis);
         $dateString = $date->format('D d M Y H:i:s');
         preg_match('/\d_(\w+)_/', $file, $matches);
-        $thisPage = $matches[1];
-        if(!empty($thisPage)) {
+      
+        if(count($matches) > 0) {
+          $thisPage = $matches[1];
             $html .= "<div class='revision'><a href='?{$thisPage}&d={$YmdHis}_{$thisPage}' target='_blank'>{$dateString} {$thisPage}</a></div>";
         } else {
             $html .= "<div class='revision'><a href='?home&d={$YmdHis}' target='_blank'>{$dateString} homepage</a></div>";
             
         }
     }
-    if ($count > 0) {
-        return "<fieldset class='revisions'><legend>Revisions</legend>{$html}</fieldset>";
+    if (!empty($html)) {
+        return "<fieldset class='revisionList'><legend>Revisions</legend>{$html}</fieldset>";
     }
     return '';
 }
@@ -339,7 +340,7 @@ function saveContent($new) {
         $data['page'][$page]['template'] = $template;
         $data['page'][$page]['sort'] = cleanString($new['sort']);
         $data['page'][$page]['imagedesc'] = $new['imagedesc'] ?? '';
-        if ($new['deleteimage'] == "on") {
+        if (($new['deleteimage'] ?? '') == "on") {
           deleteImage($page);
         }
     } elseif ($new['save'] == 'section') {
@@ -352,7 +353,7 @@ function saveContent($new) {
         $data['page'][$page]['section'][$section]['background'] = $new['background'] ?? ''; 
         $data['page'][$page]['section'][$section]['content'] = $new['content'] ?? '';
         $data['page'][$page]['section'][$section]['imagedesc'] = $new['imagedesc'] ?? '';
-        if ($new['deleteimage'] == "on") {
+        if (($new['deleteimage'] ?? '') == "on") {
           deleteImage($page, $section);
         }        
     } else {
@@ -532,7 +533,7 @@ function saveJson($data, $file = "_data.json") {
 function publish() {
     $pairs = [
         'image/*'     => '../image/',
-        'templates/*' => '../templates/',
+        'template/*' => '../template/',
         '*.json'      => '../',
         'builder.*'   => '../',
         '*.php'       => '../',
