@@ -97,6 +97,9 @@ function outputPage($data, $page) {
     if ($pageTemplate == 'revisions') {
         $sections = buildRevisions();
     }
+    if ($page == 'images') {
+        $sections = buildImages($data);
+    }
 
     $revisions = '';
 
@@ -232,6 +235,50 @@ function buildRevisions($page = '') {
         return "<fieldset class='revisionList'><legend>Revisions</legend>{$html}</fieldset>";
     }
     return '';
+}
+
+function buildImages($data) {
+  // scans the images and makes a thumbnail and button to delete for each
+  // checks a matching page and section exists so it can show if each is in use
+  $html = '';
+  $files = scandir('image');
+  $count = 0;
+  foreach ($files as $file) {
+    if (in_array($file, [".", "..", 'blank.png', '_logo_name_only.png',  '_brand_spiral_001.png'])) {
+      continue;
+    }
+    $count++;
+    $parts = explode('_', $file);
+    $page = $parts[1];
+    $section = $parts[2];
+    if (strpos('.', $page) < 0 && strpos('.', $page) < 0) {
+      continue;
+    }
+    $bits = explode('.', $page);
+    $page = $bits[0];
+
+    $bits = explode('.', $section);
+    $section = $bits[0];
+    
+    $html .= "<section class='section section-background-on'>";
+    $html .= "<div><a href='?{$page}'>{$page}</a>";
+    $inUse = !empty($data[page][$page]);
+    if (!empty($section)) {
+      $html .= " in section <a href='?{$page}#{$section}'>{$section}</a>";
+      $inUse = !empty($data[page][$page]['section'][$section]);
+    } else {
+      $html .= " on home page";
+    }
+    $inUseText = !$inUse ? "NOT IN USE" : "";
+    $html .= "</div><div><a href='image/{$file}' target='_blank' title='View image in a new tab'>
+     <img src='image/{$file}' class='image-thumbnail' />
+     </a>{$inUseText}</div>";
+
+    
+    $html .= "</section>";
+
+  }
+  return $html;
 }
 
 function handleFiles($data) {
