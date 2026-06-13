@@ -139,6 +139,7 @@ function editSection(params) {
   <input type="hidden" name="save" value="section" />
   <label for="section">Section</label>
   <input type="text" id="section" name="section" value="${params.section || ''}">
+  <input type="hidden" id="oldsection" name="oldsection" value="${params.section}">
   <label for="template">Template</label>
   <div class="row">
     <select id="template" name="template">

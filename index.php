@@ -391,6 +391,7 @@ function saveContent($new) {
           deleteImage($page);
         }
     } elseif ($new['save'] == 'section') {
+        unset($data['page'][$page]['section'][$oldsection]);
         if (empty($data['page'][$page]['section'][$section])) {
             $data['page'][$page]['section'][$section] = array();
         }
