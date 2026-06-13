@@ -5,6 +5,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_REQUEST['j'])) {
         $data = json_decode($_REQUEST['j'], true);
     }
+    if (!empty($_REQUEST['do'])) {
+      handleImage($data);
+      $data = loadJson('_data.json');
+      outputPage($data, 'images'); 
+      exit;
+    }
     if (!empty($_FILES)) {
         handleFiles($data);
     }
@@ -16,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 } elseif (isset($_GET['image'])) {
     outputImage();
-    exit;    
+    exit;
 } else {
     // regular page load, e.g. /?about-us
     $urlKeys = array_keys($_GET);
@@ -156,12 +162,7 @@ function buildImage($page, $section, $template, $imagedesc) {
 }
 
 function deleteImage($page, $section = '') {
-    $filename = '';
-    if (!empty($section)) {
-      $filename = imageFileExists("_{$page}_{$section}");
-    } else {
-      $filename = imageFileExists("_{$page}");
-    }
+    $filename = buildImageName($page, $section);
 
     if (empty($filename)) {
         return '';
@@ -169,6 +170,16 @@ function deleteImage($page, $section = '') {
       logIt("deleting file {$filename}");
        unlink($filename);
     }
+}
+
+function buildImageName($page, $section = '') {
+  $filename = '';
+  if (!empty($section)) {
+    $filename = imageFileExists("_{$page}_{$section}");
+  } else {
+    $filename = imageFileExists("_{$page}");
+  }
+  return $filename;
 }
 
 function imageFileExists($filePrefix) {
@@ -249,8 +260,8 @@ function buildImages($data) {
     }
     $count++;
     $parts = explode('_', $file);
-    $page = $parts[1];
-    $section = $parts[2];
+    $page = $parts[1] ?? '';
+    $section = $parts[2] ?? '';
     if (strpos('.', $page) < 0 && strpos('.', $page) < 0) {
       continue;
     }
@@ -260,25 +271,86 @@ function buildImages($data) {
     $bits = explode('.', $section);
     $section = $bits[0];
     
-    $html .= "<section class='section section-background-on'>";
-    $html .= "<div><a href='?{$page}'>{$page}</a>";
-    $inUse = !empty($data[page][$page]);
+    $heading = "<div><a href='?{$page}' target='_blank' title='View this page in a new tab'>{$page}</a>";
+    $inUse = !empty($data['page'][$page]);
     if (!empty($section)) {
-      $html .= " in section <a href='?{$page}#{$section}'>{$section}</a>";
-      $inUse = !empty($data[page][$page]['section'][$section]);
+      $heading .= " in section <a href='?{$page}#{$section}' target='_blank' title='View this section in a new tab'>{$section}</a>";
+      $inUse = !empty($data['page'][$page]['section'][$section]);
     } else {
-      $html .= " on home page";
+      $heading .= " on home page";
     }
-    $inUseText = !$inUse ? "NOT IN USE" : "";
-    $html .= "</div><div><a href='image/{$file}' target='_blank' title='View image in a new tab'>
-     <img src='image/{$file}' class='image-thumbnail' />
-     </a>{$inUseText}</div>";
-
+    $inUseText = !$inUse ? "<b>Not visible</b>" : "";
     
-    $html .= "</section>";
+    $editImageForm = buildEditImageForm($data, $page, $section, $file);
+    
+    $html .= "<section class='section section-background-on'>
+        {$heading} {$inUseText}
+        <div class='image-row'>
+          <a href='image/{$file}' target='_blank' title='View image in a new tab'>
+            <img src='image/{$file}' class='image-thumbnail' />
+          </a>
+          {$editImageForm}
+        </div>
+      </div>
+    </section>";
 
   }
   return $html;
+}
+
+function buildEditImageForm($data, $page, $section = '', $file) {
+  $pageOptions = buildOptions($data['nav'], $page);
+  
+  $html = "<form method='post' class='edit-image-form'>
+    <input type='hidden' name='do' value='editImage' />
+    <input type='hidden' name='oldPage' value='{$page}' />
+    <input type='hidden' name='oldSection' value='{$section}' />
+    <input type='hidden' name='oldFile' value='{$file}' />
+
+    <label for='page' />
+    <select name='page' id='page' title='Leave blank to delete!'>
+      {$pageOptions}
+    </select>
+    <label for='section' />
+    <input type='text' name='section' id='section' value='{$section}' size='5' title='Leave blank to show for this page on the home screen' />
+    <button type='submit' class='button'>Save</button>
+  </form>  
+  ";
+  return $html;
+}
+
+function buildOptions($list, $current) {
+  $html = '<option></option>';
+  foreach( $list as $item) {
+    $selected = $item === $current ? 'selected' : '';
+    $html .= "<option value=\"{$item}\" {$selected}>{$item}</option>";
+  }
+  return $html;
+}
+
+// rename/move or delete an image
+function handleImage($params) {
+  $oldFile = "image/{$params['oldFile']}";
+  if (empty($oldFile)) {
+    return;
+  }
+  $page = $params['page'];
+  $section = $params['section'];
+  
+  if (empty($page)) {
+    logIt("deleting {$oldFile}");
+    
+    unlink($oldFile);
+    } else {
+      $ext = stripos($oldFile, '.png') ? 'png' : 'jpg';
+      $newFile = "image/_{$page}.{$ext}";
+      if (!empty($section)) {
+        $newFile = "image/_{$page}_{$section}.{$ext}";
+      }
+      logIt("renaming {$oldFile} > {$newFile} page={$page} section={$section}");
+    rename($oldFile, $newFile);
+  }
+
 }
 
 function handleFiles($data) {
@@ -365,6 +437,7 @@ function saveContent($new) {
     $page = cleanString($new['page']);
     backup($data, $page);
     $section = cleanString($new['section'] ?? '');
+    $oldsection = cleanString($new['oldsection'] ?? '');
     $template = cleanString($new['template']);
     if ($new['save'] == 'site') {
         $data['name'] = $new['name'] ?? '';

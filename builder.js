@@ -47,6 +47,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       addPageButton.innerHTML = "+ Add a new page";
     }
 
+    const imagesButton = document.querySelector('.images');
+    if (imagesButton) {
+      imagesButton.addEventListener('click', () => window.location = '?images');
+      imagesButton.style.display = 'block';
+      imagesButton.innerHTML = "images";
+    }
+
     const revisionsButton = document.querySelector('.revisions');
     if (revisionsButton) {
       revisionsButton.addEventListener('click', () => getRevisions());
@@ -86,12 +93,15 @@ async function exportData() {
 }
 
 async function getRevisions() {
+  const revisionsList = document.querySelector('.revisionList');
+  
   const page = document.querySelector('.header').dataset.page;
   const url = '?j=' + JSON.stringify({revisions: 1, page: page});
   const response = await fetch(url);
   const result = await response.json();
   const sections = document.querySelector('.sections');
-  sections.innerHTML += result;
+  revisionsList.innerHTML = result;
+  //sections.insertAdjacentHTML('beforeend', result);
 }
 
 
@@ -163,7 +173,9 @@ function editSection(params) {
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
   <div class="row thumbnailrow">
-    <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}&v=${params.version}" alt="Thumbail" />
+    <a href="?images" target="_blank" title="Manage all images in a new tab">
+      <img class="image-thumbnail" src="?image=${params.page}&section=${params.section}&v=${params.version}" alt="Thumbail" />
+    </a>
     <div class="check">
       <label for="deleteimage">Delete image</label>
       <input type="checkbox" class="checkbox" name="deleteimage" id="deleteimage" data-v='${params.deleteimage}' ${params.deleteimage == 'on' ? 'checked' : ''} </input>
@@ -209,7 +221,9 @@ function editPage(params) {
   <label for="image">Image</label>
   <input type="file" id="image" name="image" accept="image/*">
   <div class="row thumbnailrow">
-    <img class="image-thumbnail" src="?image=${params.page}&v=${params.version}" alt="Thumbail" />
+    <a href="?images" target="_blank" title="Manage all images in a new tab">
+      <img class="image-thumbnail" src="?image=${params.page}&v=${params.version}" alt="Thumbail" />
+    </a>  
     <div class="check">
       <label for="deleteimage">Delete image</label>
       <input type="checkbox" class="checkbox" name="deleteimage" id="deleteimage"></input>
