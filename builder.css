@@ -391,7 +391,7 @@ body {
 }
 
 .home-content-left .image_ {
-    height: 14rem;
+    height: auto;
 }
 
 .home-content-right {
@@ -399,7 +399,6 @@ body {
     width: 100%;
     border-radius: .5rem;
     padding: 1rem;
-    font-size: 1.3rem;
 }
 
 .cards {

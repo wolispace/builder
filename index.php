@@ -161,7 +161,7 @@ function buildImage($page, $section, $template, $imagedesc) {
     if (empty($filename)) {
         return '';
     } else {
-        return "<img class='image_{$template}' src='{$filename}?v={$version}' alt='{$imagedesc}' />";
+        return "<img class='image_{$template}' src='{$filename}?v={$version}' loading='lazy' alt='{$imagedesc}' />";
     }
 }
 
@@ -292,7 +292,7 @@ function buildImages($data) {
         {$heading} {$inUseText}
         <div class='image-row'>
           <a href='image/{$file}' target='_blank' title='View image in a new tab'>
-            <img src='image/{$file}' class='image-thumbnail' />
+            <img src='image/{$file}' loading='lazy' class='image-thumbnail' />
           </a>
           {$editImageForm}
         </div>
