@@ -457,6 +457,10 @@ body {
     display: none;
 }
 
+.images {
+    display: none;
+}
+
 .export {
     display: none;
 }
