@@ -469,6 +469,9 @@ body {
     display: none;
 }
 
+li {
+    padding-bottom: .75rem;
+}
 input, select, textarea {
     background-color: rgb(251, 245, 161);
     color: rgb(0, 0, 0, .85);
