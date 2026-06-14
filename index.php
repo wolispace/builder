@@ -120,6 +120,8 @@ function outputPage($data, $page) {
             "{{footer}}",
             "{{nav}}",
             "{{sections}}",
+            "{{homeimage}}",
+            "{{homecontent}}",
             "{{cards}}",
             "{{nextSection}}",
             "{{revisions}}",
@@ -135,6 +137,8 @@ function outputPage($data, $page) {
             $Parsedown->text($data['footer']),
             buildNav($data),
             $sections,
+            buildHomeImage($data),
+            $Parsedown->text($data['intro']),
             buildCards($data),
             $nextSection,
             $revisions,
@@ -267,17 +271,18 @@ function buildImages($data) {
     }
     $bits = explode('.', $page);
     $page = $bits[0];
+    $page = empty($page) ? 'home' : $page;
 
     $bits = explode('.', $section);
     $section = $bits[0];
     
     $heading = "<div><a href='?{$page}' target='_blank' title='View this page in a new tab'>{$page}</a>";
-    $inUse = !empty($data['page'][$page]);
+    $inUse = !empty($data['page'][$page]) || $page == 'home';
     if (!empty($section)) {
-      $heading .= " in section <a href='?{$page}#{$section}' target='_blank' title='View this section in a new tab'>{$section}</a>";
+      $heading .= " shown on section <a href='?{$page}#{$section}' target='_blank' title='View this section in a new tab'>{$section}</a>";
       $inUse = !empty($data['page'][$page]['section'][$section]);
     } else {
-      $heading .= " on home page";
+      $heading .= " shown on home page";
     }
     $inUseText = !$inUse ? "<b>Not visible</b>" : "";
     
@@ -444,6 +449,8 @@ function saveContent($new) {
         $data['logotext'] = $new['logotext'] ?? '';
         $data['tagline'] = $new['tagline'] ?? '';
         $data['nav'] = stringToArray($new['nav']);
+        $data['intro'] = $new['intro'] ?? '';
+        $data['imagedesc'] = $new['imagedesc'] ?? '';
         $data['footer'] = $new['footer'] ?? '';
     } elseif ($new['save'] == 'page') {
         if (empty($data['page'][$page])) {
@@ -552,6 +559,11 @@ function buildNav($data) {
         $html .= "<a class='nav-item' href='?{$item}'>{$caption}</a>";
     }
     return $html;
+}
+
+function buildHomeImage($data) {
+  $imageHtml = buildImage('', null, null, $data['imagedesc'] ?? '');
+  return $imageHtml;
 }
 
 function buildCards($data) {

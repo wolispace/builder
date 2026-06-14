@@ -245,10 +245,25 @@ async function editSite(params) {
   <input type="text" id="logotext" name="logotext" value="${params.logotext || ''}">
   <label for="tagline">Tag line</label>
   <input type="text" id="tagline" name="tagline" value="${params.tagline || ''}">
+  <label for="intro">Introduction</label>
+  <textarea id="intro" name="intro">${params.intro || ''}</textarea>
   <label for="nav">Menu</label>
   <textarea id="nav" name="nav">${params.nav || ''}</textarea>
   <label for="footer">Footer</label>
   <textarea id="footer" name="footer">${params.footer || ''}</textarea>
+  <label for="image">Image</label>
+  <input type="file" id="image" name="image" accept="image/*">
+  <div class="row thumbnailrow">
+    <a href="?images" target="_blank" title="Manage all images in a new tab">
+      <img class="image-thumbnail" src="?image=&v=${params.version}" alt="Thumbail" />
+    </a>  
+    <div class="check">
+      <label for="deleteimage">Delete image</label>
+      <input type="checkbox" class="checkbox" name="deleteimage" id="deleteimage"></input>
+    </div>
+  </div>
+  <label for="imagedesc">Image description</label>
+  <input type="text" id="imagedesc" name="imagedesc" value="${params.imagedesc || ''}">  
   </form>`;
   showDialog(html);
 }

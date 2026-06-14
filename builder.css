@@ -380,6 +380,28 @@ body {
     background-color: #1f7a6c;
 }
 
+.home-content {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+
+.home-content-left {
+    width: 14rem;
+}
+
+.home-content-left .image_ {
+    height: 14rem;
+}
+
+.home-content-right {
+    background-color: rgba(0, 0, 0, 0.25);
+    width: 100%;
+    border-radius: .5rem;
+    padding: 1rem;
+    font-size: 1.3rem;
+}
+
 .cards {
     display: grid;
     grid-template-columns: 1fr;
