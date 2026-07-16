@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!date.textContent.trim()) return;
       const hidable = date.parentElement.querySelector('.hidable');
       if (!hidable) return;
-      hidable.insertAdjacentHTML('beforebegin', `<div class="more" onclick="expandMe(this)">More ▾</div>`);
+      hidable.insertAdjacentHTML('beforebegin', `<div class="more" data-id="${date.textContent}" onclick="expandMe(this)">More ▾</div>`);
   });
 
   $editor = isEditor();
@@ -106,7 +106,9 @@ async function getRevisions() {
 
 
 function expandMe(btn) {
+    const date=btn.dataset.id.replace(' ','_');
     btn.nextElementSibling.classList.toggle('expanded');
+    fetch(`?blog=${date}`);
 }
 
 

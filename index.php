@@ -29,6 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $page = $urlKeys[0] ?? 'home';
     $dataFile = !empty($_GET['d']) ? "_backups/_{$_GET['d']}_data.json" : '_data.json';
     $data = loadJson($dataFile);
+    $dateTime = date('Ymd H:i:s');
+    $_GET['agent'] = $_SERVER['HTTP_USER_AGENT'];
+    $getStr = json_encode($_GET);
+    file_put_contents('_stats.txt', "{$dateTime},{$_SERVER['REMOTE_ADDR']},{$getStr}\n", FILE_APPEND | LOCK_EX);
     outputPage($data, $page);
 }
 
