@@ -30,9 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dataFile = !empty($_GET['d']) ? "_backups/_{$_GET['d']}_data.json" : '_data.json';
     $data = loadJson($dataFile);
     $dateTime = date('Ymd H:i:s');
-    $_GET['agent'] = $_SERVER['HTTP_USER_AGENT'];
-    $getStr = json_encode($_GET);
-    file_put_contents('_stats.txt', "{$dateTime},{$_SERVER['REMOTE_ADDR']},{$getStr}\n", FILE_APPEND | LOCK_EX);
+    // write out csv
+    $handle = fopen('_stats.txt', 'a');
+    $row = [$dateTime, $_SERVER['REMOTE_ADDR'], $page, $_GET[$page], $_SERVER['HTTP_USER_AGENT']];
+    fputcsv($handle, $row);
+    fclose($handle);
     outputPage($data, $page);
 }
 
@@ -109,6 +111,9 @@ function outputPage($data, $page) {
     }
     if ($page == 'images') {
         $sections = buildImages($data);
+    }
+    if ($page == 'stats') {
+        $sections = buildStats($data);
     }
 
     $revisions = '';
@@ -304,6 +309,46 @@ function buildImages($data) {
     </section>";
 
   }
+  return $html;
+}
+
+function buildStats($data) {
+  $rows = [];
+  $summary = [];
+  $summary['date'] = [];
+
+  
+  if (($handle = fopen('_stats.txt', 'r')) !== false) {
+    while (($row = fgetcsv($handle, 1000, ',')) !== false) {
+      $keys = array_keys($request);
+      $input = explode(' ', $row[0])[0];
+      $dateObj = DateTime::createFromFormat("Ymd", $input);
+      $date = $dateObj->format("D d M Y");
+      $rows[] = [$date, $row[1], $row[2], $row[3]];   // each row is an array of fields
+      $summary['date'][$date][$row[1]]++;
+    }
+    fclose($handle);
+  } 
+
+  $sumTable = '<table><thead><th>Date</th><th>IP</th><th>Pages</th></thead><tbody>';
+  foreach($summary['date'] as $day=>$ips) { 
+    foreach($ips as $ip=>$count) {
+      $sumTable .= "<tr><td>{$day}</td><td>${ip}</td><td>{$count}</td></tr>";
+    }
+  }
+  $sumTable .= '</table>';
+
+
+  $statsList = '<table><thead><th>Date</th><th>IP</th><th>Page</th><th>Blog</th></thead><tbody>';
+  foreach ($rows as $row) {
+    $statsList .= "<tr><td>{$row[0]}</td><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td></tr>";
+  }
+  $statsList .= '</table>';
+  $html = "<section class='section section-background-on'>
+    {$sumTable}
+    {$statsList}
+  </section>
+  ";
   return $html;
 }
 
