@@ -320,7 +320,6 @@ function buildStats($data) {
   
   if (($handle = fopen('_stats.txt', 'r')) !== false) {
     while (($row = fgetcsv($handle, 1000, ',')) !== false) {
-      $keys = array_keys($request);
       $input = explode(' ', $row[0])[0];
       $dateObj = DateTime::createFromFormat("Ymd", $input);
       $date = $dateObj->format("D d M Y");
